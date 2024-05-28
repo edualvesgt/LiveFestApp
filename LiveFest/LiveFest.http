@@ -1,0 +1,6 @@
+@LiveFest_HostAddress = http://localhost:5190
+
+GET {{LiveFest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
