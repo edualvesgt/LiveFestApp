@@ -134,3 +134,14 @@ C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\refint\Live
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\LiveFest.pdb
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\LiveFest.genruntimeconfig.cache
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\ref\LiveFest.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.csproj.AssemblyReference.cache
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.AssemblyInfoInputs.cache
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.AssemblyInfo.cs
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.csproj.CoreCompileInputs.cache
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.sourcelink.json
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\refint\LiveFest.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.pdb
