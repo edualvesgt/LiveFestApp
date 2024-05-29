@@ -1,8 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { SplashScreen } from "./src/screens/Splash/Splash";
 
 // Importe das Fontes
@@ -14,11 +12,11 @@ import {
 } from "@expo-google-fonts/montserrat-alternates";
 
 import {
-  useFonts,
   Raleway_500Medium,
   Raleway_600SemiBold,
   Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
+
 import { Home } from "./src/screens/Home/Home";
 
 const Stack = createNativeStackNavigator();

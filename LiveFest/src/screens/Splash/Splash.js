@@ -1,4 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import LottieView from "lottie-react-native";
+import { useNavigation } from "@react-navigation/native";
+//import components
+import splashjson from "./SplashFest.json";
+import { Logo } from "../../components/Logo/Logo";
 
 //import bibliotecas
 import {
@@ -8,12 +13,6 @@ import {
   ActivityIndicator,
   ProgressBarAndroid,
 } from "react-native";
-import LottieView from "lottie-react-native";
-import { useNavigation } from "@react-navigation/native";
-
-//import components
-import splashjson from "./SplashFest.json";
-import { Logo } from "../../components/Logo/Logo";
 
 export const SplashScreen = () => {
   const navigation = useNavigation();
@@ -23,7 +22,7 @@ export const SplashScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // Define isLoading como false após 3 segundos (3000 milissegundos)
-      navigation.navigate("Login");
+      navigation.navigate("Home");
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   txt: {
     color: "#60BFC5",
     fontSize: 24,
-    fontFamily: "Quicksand_600SemiBold",
+    fontFamily: "Raleway_700Bold",
     textAlign: "center",
     width: "70%",
   },
