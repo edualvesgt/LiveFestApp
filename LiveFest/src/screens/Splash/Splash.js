@@ -22,8 +22,8 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false); // Define isLoading como false após 3 segundos (3000 milissegundos)
-      navigation.navigate("Login");
+      setIsLoading(false); 
+      navigation.navigate("Onboarding1");
     }, 5000);
 
     return () => clearTimeout(timer);
