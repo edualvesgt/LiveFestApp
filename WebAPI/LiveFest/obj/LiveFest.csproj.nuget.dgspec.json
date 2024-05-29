@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\LiveFest.csproj": {}
+    "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\LiveFest.csproj": {
+    "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\LiveFest.csproj",
+        "projectUniqueName": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj",
         "projectName": "LiveFest",
-        "projectPath": "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\LiveFest.csproj",
+        "projectPath": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj",
         "packagesPath": "C:\\Users\\46291995867\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\obj\\",
+        "outputPath": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\46291995867\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.5, )"

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveFest", "LiveFest\LiveFest.csproj", "{94E706DB-2FA3-4CDD-9700-A13B40D6B30A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94E706DB-2FA3-4CDD-9700-A13B40D6B30A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94E706DB-2FA3-4CDD-9700-A13B40D6B30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94E706DB-2FA3-4CDD-9700-A13B40D6B30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94E706DB-2FA3-4CDD-9700-A13B40D6B30A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {922D19F8-4A60-4BDD-9EA3-009EB9528F38}
+	EndGlobalSection
+EndGlobal

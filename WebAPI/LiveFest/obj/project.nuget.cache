@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "PfKOaSkiSxHqu67PQ+ElCesJHGTgwtBLlzbZa3b62elSM/UJRkud+AkO/V9jPHIqVAYdOgYGInAIH8TdDvcDHg==",
+  "dgSpecHash": "mNKHzQUdBVqZ5lONtiLsPsyW0hLoH5Kh2UkbQ7UqpOMH56P1EAAMgvjwzoxYeJLHr+K0R3YMHUjrVmHyOo1Myg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\46291995867\\source\\repos\\LiveFest\\LiveFest\\LiveFest.csproj",
+  "projectFilePath": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\46291995867\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\46291995867\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\46291995867\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\46291995867\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\46291995867\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\46291995867\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
