@@ -1,6 +1,6 @@
-import { StyleSheet} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { Home } from "./src/screens/Home/Home";
 import { SplashScreen } from "./src/screens/Splash/Splash";
 
 // Importe das Fontes
@@ -17,7 +17,6 @@ import {
   Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
 
-import { Home } from "./src/screens/Home/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,12 +51,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
