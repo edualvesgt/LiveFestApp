@@ -13,7 +13,7 @@ namespace LiveFest.Repository
             _context = new LiveFestContext();
         }
 
-        public void CreateUser(Users newUser)
+        public void CreateUser(Users newUser) 
         {
             try
             {
@@ -51,7 +51,7 @@ namespace LiveFest.Repository
             throw new NotImplementedException();
         }
 
-        public Users Login(string email, string password)
+        public Users? Login(string email, string password)
         {
             try
             {
@@ -60,7 +60,8 @@ namespace LiveFest.Repository
                     ID = x.ID,
                     Email = x.Email,
                     UserName = x.UserName,
-                    CPF = x.CPF
+                    CPF = x.CPF, 
+                    Password = x.Password
                 }).FirstOrDefault(y => y.Email == email);
 
                 if (user == null)
@@ -69,7 +70,7 @@ namespace LiveFest.Repository
 
                 }
 
-                if (Criptografia.Compare(password, user.Password!)) return null!;
+                if (!Criptografia.Compare(password, user.Password!)) return null!;
 
                 return user;
             }
