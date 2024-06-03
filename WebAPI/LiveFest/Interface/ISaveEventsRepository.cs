@@ -9,6 +9,6 @@ namespace LiveFest.Interface
 
         //    public SaveEvents GetById(Guid id);
 
-        public List<SaveEvents> ListAll();
+        public List<SaveEvents> GetAll();
     }
 }
