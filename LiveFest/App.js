@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "./src/screens/Splash/Splash";
@@ -22,6 +22,10 @@ import { Onboarding1 } from "./src/screens/Onboarding1/Onboarding1";
 import { Onboarding2 } from "./src/screens/Onboarding2/Onboarding2";
 import { Onboarding3 } from "./src/screens/Onboarding3/Onboarding3";
 
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Main } from "./src/screens/Main/Main";
+import { Map } from "./src/components/Logo/Map/Map";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -40,7 +44,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="Home">
+  
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
@@ -63,7 +68,17 @@ export default function App() {
         />
         <Stack.Screen
           name="Home"
-          component={Home}
+          component={Main}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Map"
+          component={Map}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -22,7 +22,7 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false); 
+      setIsLoading(false);
       navigation.navigate("Onboarding1");
     }, 5000);
 
@@ -30,20 +30,20 @@ export const SplashScreen = () => {
   }, [navigation]);
 
   return (
-      <View style={styles.container}>
-          <Logo/>
-
-          {/* Exibe a animação de splash */}
-          <LottieView
-              source={splashjson}
-              autoPlay
-              loop={false}
-              resizeMode="contain"
-              style={styles.animation}
-              onAnimationFinish={() => setIsLoading(false)} // Define isLoading como false quando a animação terminar
-          />
-          <Text style={styles.txt}>Centralize todos os seus eventos em um único lugar!</Text>
-      </View>
+    <View style={styles.container}>
+      {/* Exibe a animação de splash */}
+      <LottieView
+        source={splashjson}
+        autoPlay
+        loop={false}
+        resizeMode="contain"
+        style={styles.animation}
+        onAnimationFinish={() => setIsLoading(false)} // Define isLoading como false quando a animação terminar
+      />
+      <Text style={styles.txt}>
+        Centralize todos os seus eventos em um único lugar!
+      </Text>
+    </View>
   );
 };
 

@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo-google-fonts/montserrat-alternates": "^0.2.3",
     "@expo-google-fonts/raleway": "^0.2.3",
+    "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~51.0.8",
