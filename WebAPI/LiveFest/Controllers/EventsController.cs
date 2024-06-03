@@ -22,7 +22,7 @@ namespace LiveFest.Controllers
 
 
 
-        [HttpPost("CriacaoDeEvento")]
+        [HttpPost("PublicacaoDeEvento")]
         public IActionResult Register(Events events)
         {
             try
@@ -37,16 +37,18 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("Todos")]
-        public IActionResult GetAll()
+        [HttpGet("BuscarPorId")]
+        public IActionResult GetById(Guid id)
         {
             try
             {
-                return Ok(eventsRepository.GetAll());
+                Events searchedEvents = eventsRepository.GetById(id);
+
+                return Ok(searchedEvents);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -65,18 +67,16 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("BuscarPorId")]
-        public IActionResult GetById(Guid id)
+        [HttpGet("Todos")]
+        public IActionResult GetAll()
         {
             try
             {
-                Events searchedEvents = eventsRepository.GetById(id);
-
-                return Ok(searchedEvents);
+                return Ok(eventsRepository.GetAll());
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
