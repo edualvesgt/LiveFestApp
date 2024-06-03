@@ -1,13 +1,29 @@
 import { SafeAreaView, StatusBar, StyleSheet, TextInput } from "react-native"
 import ButtonDefault from "../../components/ButtonDefault/ButtonDefault"
-import { TextTitle } from "../../components/Titles/Titles"
+import { TextTitle } from "../../components/Texts/Texts"
 import InputSearch from "../../components/InputSearch/InputSearch"
-import InputSearchTest from "../../components/InputSearchTest/InputSearchTest"
 import { useState } from "react"
 import { ModalTeste } from "../../components/Modal/ModalTeste"
+import { CardsMainEvents } from "../../components/CardsMainEvents/CardsMainEvents"
+import Carrosel from "../../components/Carrosel/Carrosel"
 
 export const Home = ({ navigation }) => {
-
+  cardsMain =[ 
+    <CardsMainEvents 
+        color={"red"} 
+        title={"Startup Event"} 
+        // urifoto={"https://conectanuvem.com.br/wp-content/uploads/2022/11/Capas-Blog-Imagem-destacadas-2022-44-930x620.png"}
+        urifoto={"https://www.omnieventos.com/wp-content/uploads/2018/06/eventos-corporativos-1000x500.jpg"} 
+        date={"01/06/2024"}      
+        />,
+        <CardsMainEvents 
+        color={"red"} 
+        title={"Startup Event"} 
+        // urifoto={"https://conectanuvem.com.br/wp-content/uploads/2022/11/Capas-Blog-Imagem-destacadas-2022-44-930x620.png"}
+        urifoto={"https://www.omnieventos.com/wp-content/uploads/2018/06/eventos-corporativos-1000x500.jpg"} 
+        date={"01/06/2024"}      
+        />
+  ]
   const [text, onChangeText] = useState('Useless Text');
   const [number, onChangeNumber] = useState('');
     return(
@@ -15,27 +31,10 @@ export const Home = ({ navigation }) => {
       <StatusBar barStyle={"dark-content"}/>
       <TextTitle>Fixou uma data para o evento</TextTitle>
       <ButtonDefault text={"Iniciar"}/>
-      <InputSearchTest />
-
+      <InputSearch/>
       
 
-      <TextInput placeholder="dsadsad"></TextInput>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      />
-      {/* <InputSearch/> */}
-
-
-      <ModalTeste />
+        <Carrosel cardsMain={cardsMain}/>
     </SafeAreaView>
     )
 }

@@ -18,20 +18,20 @@ export default function InputSearch() {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
-  // const renderLabel = ({value, isFocus}) => {
-  //   if (value || isFocus) {
-  //     return (
-  //       <Text style={[styles.label, isFocus && { color: '#956ADF' }]}>
-  //         Eventos e locais
-  //       </Text>
-  //     );
-  //   }
-  //   return null;
-  // };
+  const renderLabel = ({value, isFocus}) => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: '#956ADF' }]}>
+          Eventos e locais
+        </Text>
+      );
+    }
+    return null;
+  };
 
   return (
     <View style={styles.container}>
-      {/* {renderLabel({value,isFocus})} */}
+      {renderLabel({value,isFocus})}
       <InputSearchStyle
         isFocus={isFocus}
         value={value}

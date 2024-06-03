@@ -1,4 +1,4 @@
-import { TextButtonDefault } from "../Titles/Titles";
+import { TextButtonDefault } from "../Texts/Texts";
 import { ButtonDefaultStyle } from "./Style";
 
 
