@@ -8,7 +8,7 @@ namespace LiveFest.Interface
 
         public Events GetById(Guid id);
 
-        public List<Events> ListAll();
+        public List<Events> GetAll();
 
         public List<Events> GetByCategory(Guid CategoriesID);
 

@@ -8,6 +8,6 @@ namespace LiveFest.Interface
 
         public Categories GetById(Guid id);
 
-        public List<Categories> ListAll();
+        public List<Categories> GetAll();
     }
 }

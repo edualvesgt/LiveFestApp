@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj": {}
+    "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj": {
+    "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj",
+        "projectUniqueName": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
         "projectName": "LiveFest",
-        "projectPath": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\LiveFest.csproj",
-        "packagesPath": "C:\\Users\\46291995867\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\46291995867\\Desktop\\WebAPI\\LiveFest\\obj\\",
+        "projectPath": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
+        "packagesPath": "C:\\Users\\53144094889\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\46291995867\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\53144094889\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
