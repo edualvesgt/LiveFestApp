@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using LiveFest.Domains;
 using LiveFest.Interface;
 using LiveFest.Repository;
+using System.Collections.Generic;
 
 
 namespace LiveFest.Controllers
@@ -19,8 +20,10 @@ namespace LiveFest.Controllers
             eventsRepository = new EventsRepository();
         }
 
-        [HttpPost("CriacaoDeUsuario")]
-        public IActionResult Post(Events events)
+
+
+        [HttpPost("CriacaoDeEvento")]
+        public IActionResult Register(Events events)
         {
             try
             {
@@ -35,7 +38,7 @@ namespace LiveFest.Controllers
         }
 
         [HttpGet("Todos")]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             try
             {
@@ -47,28 +50,20 @@ namespace LiveFest.Controllers
             }
         }
 
+        [HttpGet("BuscarPorCategoria")]
+        public IActionResult GetByCategory(Guid CategoriesID)
+        {
+            try
+            {
+                List<Events> eventsByCategory = eventsRepository.GetByCategory(CategoriesID);
 
-
-
-
-
-        //[HttpGet("ConsultasPaciente")]
-        //public IActionResult GetByIdPatient()
-        //{
-        //    try
-        //    {
-        //        Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
-
-        //        List<Consulta> consultas = consultaRepository.ListarPorPaciente(idUsuario);
-        //        return Ok(consultas);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
+                return Ok(eventsByCategory);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("BuscarPorId")]
         public IActionResult GetById(Guid id)
@@ -82,6 +77,21 @@ namespace LiveFest.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEvent(Guid id)
+        {
+            try
+            {
+                eventsRepository.DeleteEvent(id);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

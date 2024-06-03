@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LiveFest.Repository
 {
-    public class EventsRepository
+    public class EventsRepository : IEventsRepository
     {
         public LiveFestContext ctx = new LiveFestContext();
 
@@ -37,7 +37,9 @@ namespace LiveFest.Repository
         {
             try
             {
-                List<Events> categoryList = ctx.Events.ToList();
+                List<Events> categoryList = ctx.Events
+                    .Where(x => x.CategoriesID != null && x.CategoriesID == CategoriesID)
+                    .ToList(); 
 
                 return categoryList;
             }
