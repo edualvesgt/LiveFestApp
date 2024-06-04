@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; // Importe o ícone AntDesign
+import ButtonDefault from '../../components/ButtonDefault/ButtonDefault';
 
 
 export const Onboarding3 = ({ navigation }) => {
@@ -18,15 +19,10 @@ export const Onboarding3 = ({ navigation }) => {
             <Text style={styles.text}>
             Conheça novas pessoas.
             </Text>
-            <View style={styles.bottomContainer}>
-               
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.linkText}>Avançar</Text>
-                </TouchableOpacity>
-                <AntDesign name="arrowright" size={24} color="#4090FE" />
-            
-            </View>
+          
+           <ButtonDefault text="Iniciar" onPress={() => navigation.navigate('Home')}/>
         </View>
+        
     );
 }
 
@@ -41,6 +37,7 @@ const styles = StyleSheet.create({
         height: 400,
         width: 300,
         marginTop: 100,
+        marginBottom: 100,
         
         
     },
@@ -56,7 +53,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: 20,
         fontFamily: "Raleway_700Bold",
-        marginBottom: 40,
+        marginBottom: 50,
     },
     bottomContainer: {
         flexDirection: 'row',

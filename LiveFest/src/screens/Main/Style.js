@@ -15,7 +15,7 @@ export const ContentIcon = styled.View`
 
 export const TextIcon = styled.Text`
     font-size: 12px;
-    font-family: 'Raleway_500Medium';
+    font-family: 'Raleway_600SemiBold';
     margin-top: -5px;
-    color: #AAAAAA;
+    color: #FEA340;
 `

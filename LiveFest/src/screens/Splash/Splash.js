@@ -31,6 +31,7 @@ export const SplashScreen = () => {
 
   return (
     <View style={styles.container}>
+      
       {/* Exibe a animação de splash */}
       <LottieView
         source={splashjson}
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adiciona margem superior à barra de carregamento
   },
   txt: {
-    color: "#60BFC5",
+    color: "#4090FE",
     fontSize: 24,
     fontFamily: "Quicksand_600SemiBold",
     textAlign: "center",

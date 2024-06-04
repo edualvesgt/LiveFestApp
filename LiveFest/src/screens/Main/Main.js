@@ -21,14 +21,17 @@ export const Main = () => {
         tabBarShowLabel: false,
         headerShown: false,
         tabBarIcon: ({ focused }) => {
+          // Ajuste aqui para mudar a cor dos ícones para #FEA340 quando focados
+          const iconColor = focused? "#FEA340" : "#AAAAAA"; // Cor original
+
           if (route.name === "Home") {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused ? "#fff" : "transparent"
+                  focused? "#fff" : "transparent"
                 }
               >
-                <AntDesign name="home" size={32} color="#AAAAAA" />
+                <AntDesign name="home" size={32} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Home</TextIcon>
                 )}
@@ -38,10 +41,10 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused ? "#fff" : "transparent"
+                  focused? "#fff" : "transparent"
                 }
               >
-                <Feather name="map" size={28} color="#AAAAAA" />
+                <Feather name="map" size={28} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Mapa</TextIcon>
                 )}
@@ -51,12 +54,12 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused ? "#fff" : "transparent"
+                  focused? "#fff" : "transparent"
                 }
               >
-               <Feather name="calendar" size={24} color="#AAAAAA" />
+                <Feather name="calendar" size={28} color={iconColor} />
                 {focused && (
-                  <TextIcon style={{ paddingLeft: 3 }}>Calendário</TextIcon>
+                  <TextIcon style={{ paddingLeft: 3 }}>Eventos</TextIcon>
                 )}
               </ContentIcon>
             );
@@ -64,10 +67,10 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused ? "#fff" : "transparent"
+                  focused? "#fff" : "transparent"
                 }
               >
-                <Feather name="user" size={32} color="#AAAAAA" />
+                <Feather name="user" size={32} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Login</TextIcon>
                 )}
@@ -77,16 +80,16 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused ? "#fff" : "transparent"
+                  focused? "#fff" : "transparent"
                 }
               >
-                <Feather name="heart" size={32} color="#AAAAAA" />
+                <Feather name="heart" size={32} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Like</TextIcon>
                 )}
               </ContentIcon>
             );
-          } 
+          }
         },
       })}
     >
@@ -95,9 +98,6 @@ export const Main = () => {
       <BottomTab.Screen name="Calendar" component={Calendar} />
       <BottomTab.Screen name="Login" component={Login} />
       <BottomTab.Screen name="Like" component={Like} />
-  
     </BottomTab.Navigator>
   );
 };
-
-

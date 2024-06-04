@@ -1,19 +1,31 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import InputSearch from "../../components/InputSearch/InputSearch";
+import { Container, ContainerMarginStatusBar } from "../../components/Container/Style";
+import { StatusBar } from "expo-status-bar";
+import { TextTitle } from "../../components/Texts/Texts";
+import { Logo } from "../../components/Logo/Logo";
 
 export const Home = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text>Conteúdo da Home</Text>
-      
-    </View>
+    <>
+      <ContainerMarginStatusBar justifyContent={"start"}>
+        <StatusBar style="auto"/>
+        <TextTitle>Home</TextTitle>
+        <View style={styles.ContainerImput}>
+          <InputSearch></InputSearch>
+        </View>
+        <TextTitle>Eventos perto de você</TextTitle>
+
+        <TextTitle>Próximos eventos</TextTitle>
+        
+      </ContainerMarginStatusBar>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  ContainerImput: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
