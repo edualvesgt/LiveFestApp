@@ -7,5 +7,4 @@ export const CardMainContianer = styled.View`
   width: 317px;
   height:180px;
   /* padding: 8px 20px; */
-  gap: 5
 `
