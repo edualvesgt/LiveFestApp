@@ -51,7 +51,7 @@ namespace LiveFest.Repository
             throw new NotImplementedException();
         }
 
-        public Users? Login(string email, string password)
+        public Users Login(string email, string password)
         {
             try
             {

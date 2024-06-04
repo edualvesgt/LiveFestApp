@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LiveFest.Domains;
-using LiveFest.Interface;
+
 using LiveFest.Repository;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ namespace LiveFest.Controllers
             categoriesRepository = new CategoriesRepository();  
         }
 
-        [HttpPost("CriacaoDeCategoria")]
+        [HttpPost]
 
         public IActionResult CreateCategory(Categories categories)
         {
@@ -34,7 +34,7 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("BuscarPorId")]
+        [HttpGet("GetById")]
 
         public IActionResult GetById(Guid id) 
         {
@@ -50,7 +50,7 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("Todos")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             try

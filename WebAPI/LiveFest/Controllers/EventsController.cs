@@ -13,21 +13,21 @@ namespace LiveFest.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private IEventsRepository eventsRepository;
+        private IEventsRepository _eventsRepository;
 
         public EventsController()
         {
-            eventsRepository = new EventsRepository();
+            _eventsRepository = new EventsRepository();
         }
 
 
 
-        [HttpPost("PublicacaoDeEvento")]
+        [HttpPost]
         public IActionResult Register(Events events)
         {
             try
             {
-                eventsRepository.Register(events);
+                _eventsRepository.Register(events);
 
                 return StatusCode(201, events);
             }
@@ -37,42 +37,42 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("BuscarPorId")]
+        [HttpGet("GetById")]
         public IActionResult GetById(Guid id)
         {
             try
             {
-                Events searchedEvents = eventsRepository.GetById(id);
+                Events searchedEvents = _eventsRepository.GetById(id);
 
                 return Ok(searchedEvents);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("BuscarPorCategoria")]
+        [HttpGet("GetByCategory")]
         public IActionResult GetByCategory(Guid CategoriesID)
         {
             try
             {
-                List<Events> eventsByCategory = eventsRepository.GetByCategory(CategoriesID);
+                List<Events> eventsByCategory = _eventsRepository.GetByCategory(CategoriesID);
 
                 return Ok(eventsByCategory);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("Todos")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             try
             {
-                return Ok(eventsRepository.GetAll());
+                return Ok(_eventsRepository.GetAll());
             }
             catch (Exception e)
             {
@@ -85,7 +85,7 @@ namespace LiveFest.Controllers
         {
             try
             {
-                eventsRepository.DeleteEvent(id);
+                _eventsRepository.DeleteEvent(id);
 
                 return NoContent();
             }
