@@ -30,8 +30,6 @@ export const Home = ({ navigation }) => {
       <TextTitle>Fixou uma data para o evento</TextTitle>
       <ButtonDefault text={"Iniciar"} />
       <InputSearch />
-
-
       <Carrosel cardsMain={cardsMain} />
     </SafeAreaView>
   )

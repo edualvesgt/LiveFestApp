@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Home } from "./src/screens/Home/Home";
 import { SplashScreen } from "./src/screens/Splash/Splash";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Importe das Fontes
 import {
@@ -35,6 +36,7 @@ export default function App() {
   }
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
         {/* <Stack.Screen
@@ -49,5 +51,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }

@@ -5,7 +5,6 @@ import { TextDate, TextTitleCardMain } from "../Texts/Texts"
 import { AntDesign } from '@expo/vector-icons';
 
 export const CardsMainEvents = ({
-  color,
   title,
   date,
   urifoto
