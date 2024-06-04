@@ -23,7 +23,7 @@ function Index({
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH * 0.85,
-    height: PAGE_WIDTH / 2,
+    height: PAGE_WIDTH,
   } as const;
 
   return (
