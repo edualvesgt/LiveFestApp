@@ -1,51 +1,51 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from "react";
 import { View } from "react-native";
 import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 
-
 import { SBItem } from "./SBItem";
 import SButton from "./SButton";
 import { ElementsText, window } from "./constants";
-import { CardsMainEvents } from '../CardsMainEvents/CardsMainEvents';
+import { CardsMainEvents } from "../CardsMainEvents/CardsMainEvents";
+import { green } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 const PAGE_WIDTH = window.width;
 
-function Index({
-  cardsMain
-}) {
-  const [data, setData] = useState ([...new Array(6).keys()]);
-  const [isFast, setIsFast] = useState(false);
-  const [isAutoPlay, setIsAutoPlay] = useState(false);
-  const [isPagingEnabled, setIsPagingEnabled] = useState(true);
+function Index({ cardsMain }) {
   const ref = useRef<ICarouselInstance>(null);
 
-  const baseOptions = {
-    vertical: false,
-    width: PAGE_WIDTH * 0.85,
-    height: PAGE_WIDTH,
-  } as const;
+  // const baseOptions = {
+  //   vertical: false,
+  //   width: ,
+  //   height: 300,
+  // } as const;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{backgroundColor: "pink", height:280}}>
       <Carousel
-        {...baseOptions}
+        width={100}
+        height={180}
         loop={true}
         ref={ref}
-        style={{ width: "100%" }}
+        
+        style={{
+          width:"100%",
+          justifyContent: "center",
+          
+        }}
         autoPlay={true}
-        autoPlayInterval={isFast ? 100 : 2000}
         data={cardsMain}
-        pagingEnabled={isPagingEnabled}
-        onSnapToItem={index => console.log("current index:", index)}
+        pagingEnabled={true}
+        // autoPlayInterval={isFast ? 100 : 2000}
+        // onSnapToItem={index => console.log("current index:", index)}
         renderItem={({ item }) => (
           <CardsMainEvents
             date={item.date}
             title={item.title}
-            urifoto={item.urifoto}          
+            urifoto={item.urifoto}
           />
-        )
-        }
+          
+        )}
       />
       {/* <SButton
         onPress={() => {

@@ -1,4 +1,4 @@
-import { SafeAreaView, StatusBar, StyleSheet, TextInput } from "react-native"
+import { SafeAreaView, StatusBar, StyleSheet, TextInput, View } from "react-native"
 import ButtonDefault from "../../components/ButtonDefault/ButtonDefault"
 import { TextTitle } from "../../components/Texts/Texts"
 import InputSearch from "../../components/InputSearch/InputSearch"
@@ -6,6 +6,7 @@ import { useState } from "react"
 import { ModalTeste } from "../../components/Modal/ModalTeste"
 import { CardsMainEvents } from "../../components/CardsMainEvents/CardsMainEvents"
 import Carrosel from "../../components/Carrosel/Carrosel"
+import { CardEvents } from "../../components/CardEvents/CardEvents"
 
 export const Home = ({ navigation }) => {
   const cardsMain = [
@@ -23,14 +24,23 @@ export const Home = ({ navigation }) => {
 
   const [text, onChangeText] = useState('Useless Text');
   const [number, onChangeNumber] = useState('');
-  
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{height:"100%", backgroundColor:"green"}}>
       <StatusBar barStyle={"dark-content"} />
-      <TextTitle>Fixou uma data para o evento</TextTitle>
-      <ButtonDefault text={"Iniciar"} />
-      <InputSearch />
-      <Carrosel cardsMain={cardsMain} />
+      <View style={{backgroundColor:"yellow"}} >
+        <TextTitle >Fixou uma data para o evento</TextTitle>
+        <InputSearch />
+      </View>
+      <View >
+        <Carrosel cardsMain={cardsMain} />
+      </View>
+      
+      {/* <CardEvents /> */}
+      <View style={{backgroundColor:"yellow", padding:1}}>
+        <ButtonDefault text={"Iniciar"} />
+      </View>
+
     </SafeAreaView>
   )
 }

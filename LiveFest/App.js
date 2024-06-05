@@ -37,20 +37,20 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
-        {/* <Stack.Screen
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen">
+          {/* <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
         /> */}
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </GestureHandlerRootView>
   );
 }

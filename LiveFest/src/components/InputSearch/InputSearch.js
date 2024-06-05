@@ -3,8 +3,8 @@ import { InputSearchStyle } from "./Style";
 import { useState } from "react";
 
 dataSelect = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
+  { label: 'Raça Negra, 08 de Junho de 2024, Vibra São Paulo ', value: '1' },
+  { label: 'Roupa Nova,  08 de Junho de 2024, Espaço Unimed', value: '2' },
   { label: 'Item 3', value: '3' },
   { label: 'Item 4', value: '4' },
   { label: 'Item 5', value: '5' },
