@@ -24,7 +24,9 @@ import { Onboarding3 } from "./src/screens/Onboarding3/Onboarding3";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screens/Main/Main";
-import { Map } from "./src/components/Logo/Map/Map";
+import Map from "./src/components/Map/Map";
+import { Categories } from "./src/screens/Categories/Categories";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +46,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="SplashScreen">
   
         <Stack.Screen
           name="SplashScreen"
@@ -79,6 +81,11 @@ export default function App() {
          <Stack.Screen
           name="Map"
           component={Map}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Categories"
+          component={Categories}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

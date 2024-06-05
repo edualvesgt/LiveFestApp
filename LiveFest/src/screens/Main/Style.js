@@ -17,5 +17,5 @@ export const TextIcon = styled.Text`
     font-size: 12px;
     font-family: 'Raleway_600SemiBold';
     margin-top: -5px;
-    color: #FEA340;
+    color: #956ADF;
 `

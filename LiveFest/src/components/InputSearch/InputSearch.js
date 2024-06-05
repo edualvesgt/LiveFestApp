@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     padding: 16,
+    width: '100%',
   },
   dropdown: {
     height: 50,

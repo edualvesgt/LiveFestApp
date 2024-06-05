@@ -4,10 +4,13 @@ import { Home } from "../Home/Home";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { ContentIcon, TextIcon } from "./Style";
-import { Map } from "../../components/Logo/Map/Map";
+
 import { Login } from "../Login/Login";
 import { Like } from "../Like/Like";
 import { Calendar } from "../../components/Calendar/Calendar";
+import Map from "../../components/Map/Map";
+import { Categories } from "../Categories/Categories";
+import { Entypo } from '@expo/vector-icons';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -22,7 +25,7 @@ export const Main = () => {
         headerShown: false,
         tabBarIcon: ({ focused }) => {
           // Ajuste aqui para mudar a cor dos ícones para #FEA340 quando focados
-          const iconColor = focused? "#FEA340" : "#AAAAAA"; // Cor original
+          const iconColor = focused? "#956ADF" : "#AAAAAA"; // Cor original
 
           if (route.name === "Home") {
             return (
@@ -50,16 +53,16 @@ export const Main = () => {
                 )}
               </ContentIcon>
             );
-          } else if (route.name === "Calendar") {
+          } else if (route.name === "Categories") {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
                   focused? "#fff" : "transparent"
                 }
               >
-                <Feather name="calendar" size={28} color={iconColor} />
+                <Entypo name="menu" size={38} color={iconColor} />
                 {focused && (
-                  <TextIcon style={{ paddingLeft: 3 }}>Eventos</TextIcon>
+                  <TextIcon style={{ paddingLeft: 3 }}>Categoria</TextIcon>
                 )}
               </ContentIcon>
             );
@@ -95,7 +98,7 @@ export const Main = () => {
     >
       <BottomTab.Screen name="Home" component={Home} />
       <BottomTab.Screen name="Map" component={Map} />
-      <BottomTab.Screen name="Calendar" component={Calendar} />
+      <BottomTab.Screen name="Categories" component={Categories} />
       <BottomTab.Screen name="Login" component={Login} />
       <BottomTab.Screen name="Like" component={Like} />
     </BottomTab.Navigator>
