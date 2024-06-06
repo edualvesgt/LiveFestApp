@@ -11,6 +11,7 @@ import { Calendar } from "../../components/Calendar/Calendar";
 import Map from "../../components/Map/Map";
 import { Categories } from "../Categories/Categories";
 import { Entypo } from '@expo/vector-icons';
+import { Favorites } from "../Favorites/Favorites";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -79,7 +80,7 @@ export const Main = () => {
                 )}
               </ContentIcon>
             );
-          } else if (route.name === "Like") {
+          } else if (route.name === "Favorites") {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
@@ -88,7 +89,7 @@ export const Main = () => {
               >
                 <Feather name="heart" size={32} color={iconColor} />
                 {focused && (
-                  <TextIcon style={{ paddingLeft: 3 }}>Like</TextIcon>
+                  <TextIcon style={{ paddingLeft: 3 }}>Favoritos</TextIcon>
                 )}
               </ContentIcon>
             );
@@ -100,7 +101,7 @@ export const Main = () => {
       <BottomTab.Screen name="Map" component={Map} />
       <BottomTab.Screen name="Categories" component={Categories} />
       <BottomTab.Screen name="Login" component={Login} />
-      <BottomTab.Screen name="Like" component={Like} />
+      <BottomTab.Screen name="Favorites" component={Favorites} />
     </BottomTab.Navigator>
   );
 };
