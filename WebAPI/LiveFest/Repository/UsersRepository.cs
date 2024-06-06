@@ -48,10 +48,18 @@ namespace LiveFest.Repository
 
         public List<Users> GetUsers()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.Users.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Users? Login(string email, string password)
+        public Users Login(string email, string password)
         {
             try
             {

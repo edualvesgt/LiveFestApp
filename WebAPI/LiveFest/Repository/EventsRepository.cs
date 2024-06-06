@@ -38,7 +38,7 @@ namespace LiveFest.Repository
             try
             {
                 List<Events> categoryList = ctx.Events
-                    .Where(x => x.CategoriesID != null && x.CategoriesID == CategoriesID)
+                    .Where(x => x.CategoriesID  == CategoriesID)
                     .ToList(); 
 
                 return categoryList;

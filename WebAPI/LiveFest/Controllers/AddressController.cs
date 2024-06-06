@@ -11,19 +11,19 @@ namespace LiveFest.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private IAddressRepository addressRepository;
+        private IAddressRepository _addressRepository;
         public AddressController()
         {
-            addressRepository = new AddressRepository();
+            _addressRepository = new AddressRepository();
         }
 
-        [HttpPost("CadastroDeEndereco")]
+        [HttpPost]
 
         public IActionResult Register(Address address)
         {
             try
             {
-                addressRepository.Register(address);
+                _addressRepository.Register(address);
                 return StatusCode(201, address);
             }
             catch (Exception e)
@@ -32,28 +32,28 @@ namespace LiveFest.Controllers
             }
         }
 
-        [HttpGet("BuscarPorId")]
+        [HttpGet("GetById")]
 
         public IActionResult GetById(Guid id)
         {
             try
             {
-                Address searchedAddress = addressRepository.GetById(id);
+                Address searchedAddress = _addressRepository.GetById(id);
 
                 return Ok(searchedAddress);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("Todos")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             try
             {
-                return Ok(addressRepository.GetAll());
+                return Ok(_addressRepository.GetAll());
             }
             catch (Exception e)
             {

@@ -1,3 +1,4 @@
+using LiveFest.Utils.Email;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

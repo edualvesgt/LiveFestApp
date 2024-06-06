@@ -40,9 +40,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.20.0, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.6.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -63,6 +71,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.5, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[4.6.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
