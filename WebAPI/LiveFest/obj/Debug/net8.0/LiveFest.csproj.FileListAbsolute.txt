@@ -135,7 +135,6 @@ C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\refint\Live
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\LiveFest.pdb
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\LiveFest.genruntimeconfig.cache
 C:\Users\46291995867\source\repos\LiveFest\LiveFest\obj\Debug\net8.0\ref\LiveFest.dll
-<<<<<<< HEAD
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.csproj.AssemblyReference.cache
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.AssemblyInfoInputs.cache
@@ -413,7 +412,6 @@ C:\Users\46291995867\Desktop\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.csproj.Co
 C:\Users\46291995867\Desktop\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.genruntimeconfig.cache
 C:\Users\46291995867\Desktop\WebAPI\LiveFest\obj\Debug\net8.0\ref\LiveFest.dll
 >>>>>>> origin/eduardo
-=======
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\appsettings.json
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\libman.json
@@ -553,4 +551,7 @@ C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\refint
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.pdb
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.genruntimeconfig.cache
 C:\Users\46291995867\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\ref\LiveFest.dll
->>>>>>> origin/eduardo
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\libman.json
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\MailKit.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\MimeKit.dll

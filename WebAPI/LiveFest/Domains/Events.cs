@@ -43,7 +43,7 @@ namespace LiveFest.Domains
 
         [Column(TypeName = "INT")]
         [Required(ErrorMessage = "O Numero de Contato de Evento Obrigatorio")]
-        public int PhoneNumber { get; set; }
+        public int? PhoneNumber { get; set; }
 
         [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Foto do Evneto Obrigatoria" )]

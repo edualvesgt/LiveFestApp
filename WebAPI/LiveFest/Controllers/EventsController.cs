@@ -20,8 +20,6 @@ namespace LiveFest.Controllers
             _eventsRepository = new EventsRepository();
         }
 
-
-
         [HttpPost]
         public IActionResult Register(Events events)
         {

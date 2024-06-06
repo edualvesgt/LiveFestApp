@@ -23,7 +23,7 @@ namespace LiveFest.Domains
         public string? Password { get; set; }
 
         [Column(TypeName = "INT")]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         [Column(TypeName = "VARCHAR(11)")]
         [Required(ErrorMessage = "CPF do Usuario Obrigatorio")]
