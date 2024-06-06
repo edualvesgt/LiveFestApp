@@ -34,9 +34,8 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+{/* <GestureHandlerRootView style={{ flex: 1 }}> */}
+  return (    
       <NavigationContainer>
         <Stack.Navigator initialRouteName="SplashScreen">
           {/* <Stack.Screen
@@ -50,7 +49,6 @@ export default function App() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+      </NavigationContainer>    
   );
 }

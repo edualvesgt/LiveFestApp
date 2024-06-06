@@ -10,25 +10,27 @@ export const CardsMainEvents = ({
   urifoto
 }) => {
   return (
-
-
     <CardMainContianer>
-      <Image source={{ uri: urifoto }} style={{ width: "100%", height: "100%", resizeMode:"cover", borderRadius: 6}} />
-      <View 
+      <Image source={{ uri: urifoto }} style={{ width: "100%", height: "100%", resizeMode: "cover", borderRadius: 6 }} />
+      <View
         style={{
-            flexDirection: "row", 
-            justifyContent:"space-between", 
-            alignItems: "center",
-            position: "absolute", 
-            bottom: 0, 
-            width:317,
-            backgroundColor: "#00000080",
-            borderRadius: 6, 
-            paddingHorizontal: 15,
-            paddingVertical: 10
-      }}>
-        <View style={{ gap: 5}}>
-          <TextTitleCardMain>{title}</TextTitleCardMain>
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          position: "absolute",
+          bottom: 0,
+          width: 317,
+          backgroundColor: "#00000080",
+          borderRadius: 6,
+          paddingHorizontal: 15,
+          paddingVertical: 10
+        }}>
+        <View style={{ gap: 5 }}>
+          <TextTitleCardMain
+            numberOfLines={1}
+          >
+            {title}
+          </TextTitleCardMain>
           <TextDate>{date}</TextDate>
         </View>
         <AntDesign name="staro" size={24} color="white" />
