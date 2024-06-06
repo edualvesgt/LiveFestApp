@@ -4,10 +4,7 @@ import { Home } from "../Home/Home";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { ContentIcon, TextIcon } from "./Style";
-
 import { Login } from "../Login/Login";
-import { Like } from "../Like/Like";
-import { Calendar } from "../../components/Calendar/Calendar";
 import Map from "../../components/Map/Map";
 import { Categories } from "../Categories/Categories";
 import { Entypo } from '@expo/vector-icons';

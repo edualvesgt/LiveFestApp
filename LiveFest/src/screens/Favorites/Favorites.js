@@ -76,6 +76,10 @@ export const Favorites = () => {
     fetchFavorites();
   }, []);
 
+  const handleDelete = (title) => {
+    setFavorites(favorites.filter(item => item.title!== title));
+  };
+
   return (
     <>
       <ContainerMarginStatusBar justifyContent={"start"}>
@@ -101,6 +105,7 @@ export const Favorites = () => {
               title={item.title}
               date={item.date}
               color={colors[index % colors.length]}
+              onDelete={() => handleDelete(item.title)}
             />
           )}
         />
