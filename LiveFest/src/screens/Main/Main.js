@@ -5,10 +5,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { ContentIcon, TextIcon } from "./Style";
 import { Login } from "../Login/Login";
-import Map from "../../components/Map/Map";
+
 import { Categories } from "../Categories/Categories";
 import { Entypo } from '@expo/vector-icons';
 import { Favorites } from "../Favorites/Favorites";
+import { Map } from "../../components/Map/Map";
 
 const BottomTab = createBottomTabNavigator();
 

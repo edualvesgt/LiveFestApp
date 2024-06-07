@@ -1,137 +1,135 @@
-import React, { useRef, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  Platform,
-  Linking,
-} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import {
   requestForegroundPermissionsAsync,
   getCurrentPositionAsync,
+  LocationAccuracy,
 } from "expo-location";
-import MapView, { Marker } from "react-native-maps";
+import { ActivityIndicator, StyleSheet, Text, View, TouchableOpacity, Image, Linking } from "react-native";
+
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { mapskey } from "../../utils/mapsApiKey";
 
-export default function Map({ setFinalPosition, finalPosition }) {
-  const mapReference = useRef(null);
+export const Map = ({
+  latitudeClinica = -23.448563,
+  longitudeClinica = -46.534352,
+  nomeClinica = "text",
+}) => {
   const [initialPosition, setInitialPosition] = useState(null);
+  const mapReference = useRef(null);
 
-  async function RechargeVisualization() {
-    if (mapReference.current && initialPosition) {
-      await mapReference.current.fitToCoordinates(
-        [
-          {
-            latitude: initialPosition.coords.latitude,
-            longitude: initialPosition.coords.longitude,
-          },
-          {
-            latitude: finalPosition.latitude,
-            longitude: finalPosition.longitude,
-          },
-        ],
-        {
-          edgePadding: { top: 60, right: 60, left: 60, bottom: 60 },
-          animated: true,
-        }
-      );
-    }
-  }
-
-  useEffect(() => {
-    RechargeVisualization();
-  }, [initialPosition, finalPosition]);
-
-  async function CaptureLocation() {
+  async function CurrentLocation() {
     const { granted } = await requestForegroundPermissionsAsync();
-
     if (granted) {
-      try {
-        const captureLocation = await getCurrentPositionAsync();
-        setInitialPosition(captureLocation);
-      } catch (error) {
-        console.error("Erro ao capturar localização:", error);
-      }
-    } else {
-      console.error("Permissão de localização não concedida.");
+      const captureLocation = await getCurrentPositionAsync();
+      setInitialPosition(captureLocation);
+    }
+  }
+
+  function reloadPreviewMap() {
+    if (mapReference.current && initialPosition?.coords) {
+      const coordinates = [
+        { latitude: initialPosition.coords.latitude, longitude: initialPosition.coords.longitude },
+        { latitude: latitudeClinica, longitude: longitudeClinica },
+      ];
+
+      mapReference.current.fitToCoordinates(coordinates, {
+        edgePadding: { top: 60, right: 60, bottom: 60, left: 60 },
+        animated: true,
+      });
     }
   }
 
   useEffect(() => {
-    CaptureLocation();
+    CurrentLocation();
   }, []);
 
+  const openGoogleMaps = () => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitudeClinica},${longitudeClinica}`;
+    Linking.openURL(url);
+  };
+
+  const openWaze = () => {
+    const url = `https://www.waze.com/ul?ll=${latitudeClinica},${longitudeClinica}&navigate=yes`;
+    Linking.openURL(url);
+  };
+
   return (
-    <>
-      {initialPosition != null && finalPosition != null ? (
-        <MapView
-          ref={mapReference}
-          style={styles.map}
-          initialRegion={{
-            latitude: -23.448563,
-            longitude: -46.534352,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
-          customMapStyle={grayMapStyle}
-        >
-          <Marker
-            coordinate={{
+    <View style={styles.container}>
+      {initialPosition !== null ? (
+        <>
+          <MapView
+            ref={mapReference}
+            initialRegion={{
               latitude: initialPosition.coords.latitude,
               longitude: initialPosition.coords.longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
             }}
-            title="Você"
-            description="Posição atual do seu dispositivo"
-            image={require("../../../assets/redMarker.png")}
-          />
-
-          <Marker
-            coordinate={{
-              latitude: finalPosition.latitude,
-              longitude: finalPosition.longitude,
-            }}
-            image={require("../../../assets/grayMarker.png")}
-          />
-
-          <MapViewDirections
-            origin={initialPosition.coords}
-            destination={{
-              latitude: finalPosition.latitude,
-              longitude: finalPosition.longitude,
-            }}
-            apikey={mapskey}
-            strokeWidth={3}
-            strokeColor="#7791cf"
-          />
-        </MapView>
+            provider={PROVIDER_GOOGLE}
+            customMapStyle={grayMapStyle}
+            style={{ flex: 1 }}
+            onMapReady={reloadPreviewMap}
+          >
+            <Marker
+              coordinate={{
+                latitude: initialPosition.coords.latitude,
+                longitude: initialPosition.coords.longitude,
+              }}
+              title="Você está aqui"
+              description="Posição inicial"
+              pinColor="green"
+            />
+            <MapViewDirections
+              origin={initialPosition.coords}
+              destination={{
+                latitude: latitudeClinica,
+                longitude: longitudeClinica,
+              }}
+              strokeWidth={5}
+              strokeColor="#496BBA"
+              apikey={mapskey}
+            />
+          </MapView>
+          {/* Botão do Google Maps */}
+          <TouchableOpacity style={styles.googleMapsButton} onPress={openGoogleMaps}>
+            <Image source={require("../../../assets/google map.png")} style={styles.icon} />
+          </TouchableOpacity>
+          {/* Botão do Waze */}
+          <TouchableOpacity style={styles.wazeButton} onPress={openWaze}>
+            <Image source={require("../../../assets/Waze-icon-google-play-store.png")} style={styles.icon} />
+          </TouchableOpacity>
+        </>
       ) : (
         <>
-          <Text>Localização não encontrada!</Text>
+          <Text>Localização não encontrada</Text>
           <ActivityIndicator />
         </>
       )}
-    </>
+    </View>
   );
-}
-
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
-  map: {
-    width: "100%",
-    height: "50%",
+  googleMapsButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 1,
   },
-  button: {
-    marginTop: "20px",
+  wazeButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+  icon: {
+    width: 50,
+    height: 50,
   },
 });
+
 
 const grayMapStyle = [
   {
@@ -305,7 +303,7 @@ const grayMapStyle = [
     elementType: "geometry",
     stylers: [
       {
-        color: "#9B9FA4",
+        color: "#8C8A97",
       },
     ],
   },
@@ -314,7 +312,7 @@ const grayMapStyle = [
     elementType: "geometry",
     stylers: [
       {
-        color: "#9B9FA4",
+        color: "#8C8A97",
       },
     ],
   },

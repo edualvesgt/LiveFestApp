@@ -24,9 +24,11 @@ import { Onboarding3 } from "./src/screens/Onboarding3/Onboarding3";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screens/Main/Main";
-import Map from "./src/components/Map/Map";
+
 import { Categories } from "./src/screens/Categories/Categories";
 import { Favorites } from "./src/screens/Favorites/Favorites";
+import { DetailedCard } from "./src/screens/DetailedCard/DetailedCard";
+import { Map } from "./src/components/Map/Map";
 
 
 const Stack = createNativeStackNavigator();
@@ -47,7 +49,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="Home">
   
         <Stack.Screen
           name="SplashScreen"
@@ -92,6 +94,11 @@ export default function App() {
          <Stack.Screen
           name="Favorites"
           component={Favorites}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="DetailedCard"
+          component={DetailedCard}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
