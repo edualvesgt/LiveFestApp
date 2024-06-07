@@ -3,6 +3,7 @@ using LiveFest.Utils.Email;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace LiveFest.Controllers
 {
@@ -13,7 +14,12 @@ namespace LiveFest.Controllers
         private readonly LiveFestContext _context; // Contexto do banco de dados
         private readonly EmailSendingService _emailSendingService; // Serviço de envio de e-mails
 
+<<<<<<< HEAD
         // Construtor do controller
+=======
+        
+
+>>>>>>> origin/eduardo
         public RecoveryPasswordController(LiveFestContext context, EmailSendingService emailSendingService)
         {
             _context = context; // Inicializa o contexto do banco de dados
@@ -48,14 +54,14 @@ namespace LiveFest.Controllers
 
                 return Ok("Codigo Enviado Com Sucesso "); // Retorna uma resposta de sucesso
             }
-            catch (Exception)
+            catch (Exception  e )
             {
-                return BadRequest("Erro Ao enviar o Codigo "); // Retorna um erro 400 em caso de falha
+                return BadRequest($"Erro Ao enviar o Codigo: {e.Message}"); // Retorna um erro 400 em caso de falha
             }
         }
 
         // Método para validar o código de recuperação de senha
-        [HttpPost("ValidarCodigoRecuperacaoDeSenha")]
+        [HttpPost("RecoveryPassword")]
         public async Task<IActionResult> ValidatePasswordRecoveryCode(string email, int code)
         {
             try

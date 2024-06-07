@@ -717,6 +717,7 @@
           "lib/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
             "assemblyVersion": "6.6.2.0",
             "fileVersion": "6.6.2.401"
+<<<<<<< HEAD
           }
         }
       },
@@ -729,6 +730,8 @@
           "lib/net6.0/System.ClientModel.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.24.5302"
+=======
+>>>>>>> origin/eduardo
           }
         }
       },
@@ -1384,6 +1387,7 @@
       "sha512": "sha512-mBBb+/8Hm2Q3Wygag+hu2jj69tZW5psuv0vMRXY07Wy+Rrj40vRP8ZTbKBhs91r45/HXT4aY4z0iSBYx1h6JvA==",
       "path": "swashbuckle.aspnetcore.swaggerui/6.6.2",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+<<<<<<< HEAD
     },
     "System.ClientModel/1.0.0": {
       "type": "package",
@@ -1391,6 +1395,8 @@
       "sha512": "sha512-I3CVkvxeqFYjIVEP59DnjbeoGNfo/+SZrCLpRz2v/g0gpCHaEMPtWSY0s9k/7jR1rAsLNg2z2u1JRB76tPjnIw==",
       "path": "system.clientmodel/1.0.0",
       "hashPath": "system.clientmodel.1.0.0.nupkg.sha512"
+=======
+>>>>>>> origin/eduardo
     },
     "System.CodeDom/4.4.0": {
       "type": "package",

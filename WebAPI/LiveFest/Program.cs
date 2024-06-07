@@ -1,18 +1,27 @@
+<<<<<<< HEAD
 using LiveFest.Utils.Email;
+=======
+using LiveFest.Context;
+using LiveFest.Utils.Email;
+using Microsoft.EntityFrameworkCore;
+>>>>>>> origin/eduardo
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adicionar serviços ao contêiner.
+// Configura a conexão com o banco de dados.
+builder.Services.AddDbContext<LiveFestContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDataBase"));
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 
-// Adicione o gerador do Swagger à coleção de serviços
+// Configurar o Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    // Adiciona informações sobre a API no Swagger
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
@@ -25,9 +34,16 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Configurar EmailSettings
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+
+// Registrar o serviço de envio de e-mails
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddScoped<EmailSendingService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar o pipeline de solicitação HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

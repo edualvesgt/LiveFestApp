@@ -55,6 +55,7 @@ namespace LiveFest.Utils.Email
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Erro ao enviar email: {ex.Message}");
                 throw;
             }
         }
