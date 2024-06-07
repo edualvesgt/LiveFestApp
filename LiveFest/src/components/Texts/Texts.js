@@ -17,8 +17,8 @@ export const TextDate = styled(TextTitleCardMain)`
 `
 export const TextTitle = styled(TextButtonDefault)`
   color: #000;
-  padding: 0;
-  text-align: center;
+  padding: 16px;
+  text-align: start;
 `
 
 export const TextTitleCard = styled.Text`
@@ -39,4 +39,10 @@ export const TextContentCard = styled.Text`
   font-size: 14px;
   font-family: "Raleway_500Medium";
   line-height: 28px;
+`
+
+export const TextSubTitle = styled(TextButtonDefault)`
+  font-size: 18;
+  font-family: "MontserratAlternates_500Medium";
+  color: "#333333"
 `

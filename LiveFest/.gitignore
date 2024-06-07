@@ -2,7 +2,6 @@
 
 # dependencies
 node_modules/
-!node_modules/react-native-element-dropdown/src/components/TextInput/index.tsx
 
 # Expo
 .expo/

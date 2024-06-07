@@ -1,0 +1,1 @@
+export const mapskey = "AIzaSyCP6zqLswfuGOEvMp8ceKnv20g2JsztPSw";

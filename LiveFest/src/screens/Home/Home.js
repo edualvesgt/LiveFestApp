@@ -1,15 +1,16 @@
-import { SafeAreaView, StatusBar, StyleSheet, TextInput, View } from "react-native"
-import ButtonDefault from "../../components/ButtonDefault/ButtonDefault"
-import { TextTitle } from "../../components/Texts/Texts"
-import InputSearch from "../../components/InputSearch/InputSearch"
-import { useState } from "react"
-import { ModalTeste } from "../../components/Modal/ModalTeste"
-import { CardsMainEvents } from "../../components/CardsMainEvents/CardsMainEvents"
-import Carrosel from "../../components/Carrosel/Carrosel"
-import { CardEvents } from "../../components/CardEvents/CardEvents"
-import { ListCardsEvents } from "../../components/ListCardsEvents/ListCardsEvents"
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import InputSearch from "../../components/InputSearch/InputSearch";
+import {
+  Container,
+  ContainerMarginStatusBar,
+} from "../../components/Container/Style";
+import { StatusBar } from "expo-status-bar";
+import { TextTitle } from "../../components/Texts/Texts";
+
 
 export const Home = ({ navigation }) => {
+
   const cardsMain = [
     {
       title: "Kit Digital Turma da Monica Scrapbook",
@@ -61,26 +62,28 @@ export const Home = ({ navigation }) => {
     }
   ]
 
-  const [text, onChangeText] = useState('Useless Text');
-  const [number, onChangeNumber] = useState('');
-
   return (
-    <SafeAreaView>
-      <StatusBar />
-      <TextTitle >Fixou uma data para o evento</TextTitle>
-      <InputSearch />
-      <Carrosel cardsMain={cardsMain} />
-      <ListCardsEvents cards={cardsMain}/>
-      <ButtonDefault text={"Iniciar"} />
-    </SafeAreaView>
-  )
-}
+    <>
+      <ContainerMarginStatusBar justifyContent={"start"}>
+        <StatusBar style="auto" />
+
+        <View style={styles.ContainerImput}>
+          <TextTitle>Home</TextTitle>
+          <InputSearch></InputSearch>
+        </View>
+        <TextTitle>Eventos perto de você</TextTitle>
+        
+
+        <TextTitle>Próximos eventos</TextTitle>
+      </ContainerMarginStatusBar>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  ContainerImput: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 30,
   },
 });
