@@ -57,55 +57,55 @@ export const Map = ({
   return (
     <View style={styles.container}>
       {initialPosition !== null ? (
-        <>
-          <MapView
-            ref={mapReference}
-            initialRegion={{
+        <MapView
+          ref={mapReference}
+          initialRegion={{
+            latitude: initialPosition.coords.latitude,
+            longitude: initialPosition.coords.longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          }}
+          provider={PROVIDER_GOOGLE}
+          customMapStyle={grayMapStyle}
+          style={{ flex: 1 }}
+          onMapReady={reloadPreviewMap}
+        >
+          <Marker
+            coordinate={{
               latitude: initialPosition.coords.latitude,
               longitude: initialPosition.coords.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
             }}
-            provider={PROVIDER_GOOGLE}
-            customMapStyle={grayMapStyle}
-            style={{ flex: 1 }}
-            onMapReady={reloadPreviewMap}
-          >
-            <Marker
-              coordinate={{
-                latitude: initialPosition.coords.latitude,
-                longitude: initialPosition.coords.longitude,
-              }}
-              title="Você está aqui"
-              description="Posição inicial"
-              pinColor="green"
-            />
-            <MapViewDirections
-              origin={initialPosition.coords}
-              destination={{
-                latitude: latitudeClinica,
-                longitude: longitudeClinica,
-              }}
-              strokeWidth={5}
-              strokeColor="#496BBA"
-              apikey={mapskey}
-            />
-          </MapView>
-          {/* Botão do Google Maps */}
-          <TouchableOpacity style={styles.googleMapsButton} onPress={openGoogleMaps}>
-            <Image source={require("../../../assets/google map.png")} style={styles.icon} />
-          </TouchableOpacity>
-          {/* Botão do Waze */}
-          <TouchableOpacity style={styles.wazeButton} onPress={openWaze}>
-            <Image source={require("../../../assets/Waze-icon-google-play-store.png")} style={styles.icon} />
-          </TouchableOpacity>
-        </>
+            title="Você está aqui"
+            description="Posição inicial"
+            pinColor="green"
+          />
+          <MapViewDirections
+            origin={initialPosition.coords}
+            destination={{
+              latitude: latitudeClinica,
+              longitude: longitudeClinica,
+            }}
+            strokeWidth={5}
+            strokeColor="#496BBA"
+            apikey={mapskey}
+          />
+        </MapView>
       ) : (
         <>
           <Text>Localização não encontrada</Text>
           <ActivityIndicator />
         </>
       )}
+      <View style={styles.buttonContainer}>
+        {/* Botão do Google Maps */}
+        <TouchableOpacity style={styles.button} onPress={openGoogleMaps}>
+          <Image source={require("../../../assets/google map.png")} style={styles.icon} />
+        </TouchableOpacity>
+        {/* Botão do Waze */}
+        <TouchableOpacity style={styles.button} onPress={openWaze}>
+          <Image source={require("../../../assets/Waze-icon-google-play-store.png")} style={styles.icon} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -113,20 +113,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  googleMapsButton: {
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     position: "absolute",
-    top: 20,
-    left: 20,
-    zIndex: 1,
+    bottom: 40,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
   },
-  wazeButton: {
-    position: "absolute",
-    top: 20,
-    right: 20,
+  button: {
+    borderRadius: 25,
+    backgroundColor: "white",
+    padding: 10,
+    elevation: 5,
   },
   icon: {
     width: 50,
     height: 50,
+    borderRadius: 25, 
   },
 });
 
