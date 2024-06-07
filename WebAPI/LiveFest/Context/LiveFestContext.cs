@@ -18,7 +18,7 @@ namespace LiveFest.Context
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server= SUPORTE\\SQLEXPRESS; Database= LiveFestServer; User Id=sa; Pwd=Senai@134; TrustServerCertificate= True");
+            optionsBuilder.UseSqlServer("Server=NOTE09-S19\\SQLEXPRESS; Database= LiveFestServer; User Id=sa; Pwd=Senai@134; TrustServerCertificate= True");
 
             base.OnConfiguring(optionsBuilder);
         }
