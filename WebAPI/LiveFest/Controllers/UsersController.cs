@@ -1,6 +1,7 @@
 ﻿using LiveFest.Domains;
 using LiveFest.Interface;
 using LiveFest.Repository;
+using LiveFest.Utils.Email;
 using LiveFest.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,26 +14,37 @@ namespace LiveFest.Controllers
     {
         private IUsersRepository _usersRepository { get; set; }
 
-        public UsersController()
+        private readonly EmailSendingService _emailSendingService;
+
+        public UsersController(EmailSendingService emailSendingService)
         {
             _usersRepository = new UsersRepository();
+            _emailSendingService = emailSendingService;
         }
 
         [HttpPost]
-        public IActionResult Post(Users users)
+        public async Task<IActionResult> PostAsync(Users users)
         {
 
             try
             {
                 _usersRepository.CreateUser(users);
 
+                await _emailSendingService.SendWelcomeEmail(users.Email!, users.UserName!);
+
                 return StatusCode(201, users);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                if (e.Message == "Email já cadastrado.")
+                {
+                    return BadRequest("O email informado já está em uso.");
+                }
+
+                return BadRequest("Ocorreu um erro ao processar a sua solicitação.");
             }
         }
+        
 
 
         [HttpGet("GetById")]

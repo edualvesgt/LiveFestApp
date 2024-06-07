@@ -5,6 +5,8 @@ using LiveFest.Domains;
 using LiveFest.Interface;
 using LiveFest.Repository;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using LiveFest.Context;
 
 
 namespace LiveFest.Controllers
@@ -15,9 +17,12 @@ namespace LiveFest.Controllers
     {
         private IEventsRepository _eventsRepository;
 
-        public EventsController()
+        private readonly LiveFestContext _context;
+        public EventsController(LiveFestContext context)
         {
             _eventsRepository = new EventsRepository();
+
+            _context = context;
         }
 
 
@@ -94,5 +99,10 @@ namespace LiveFest.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        
+        
     }
 }
+

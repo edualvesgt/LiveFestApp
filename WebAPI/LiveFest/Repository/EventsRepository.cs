@@ -68,5 +68,10 @@ namespace LiveFest.Repository
             }
 
         }
+
+        public Task<IEnumerable<Events>> GetNearbyEvents(decimal latitude, decimal longitude, decimal radiusInKilometers)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
