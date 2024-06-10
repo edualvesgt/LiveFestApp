@@ -56,39 +56,34 @@ export const Categories = () => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-   marginLeft: 10,
-  },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-    marginRight: 28,
-  },
-  categoryContainer: {
-    padding: 24,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
-    height: 120,
-    alignItems: 'center'
-    
-  },
-  categoryTitle: {
-    fontSize: 24,
-    color: '#fff',
-    fontFamily: "Raleway_700Bold"
-  },
-  categoryEvents: {
-    fontSize: 18,
-    color: '#fff',
-    fontFamily: "Raleway_700Bold"
-  },
-  ContainerImput: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 30,
-  },
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        marginLeft: 10,
+    },
+    headerTitleContainer: {
+        flex: 1,
+        alignItems: "center",
+        marginRight: 28,
+    },
+    categoryContainer: {
+        padding: 24,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        borderRadius: 10,
+        height: 120,
+        alignItems: "center",
+    },
+    categoryTitle: {
+        fontSize: 24,
+        color: "#fff",
+        fontFamily: "MontserratAlternates_500Medium",
+    },
+    categoryEvents: {
+        fontSize: 16,
+        color: "#fff",
+        fontFamily: "MontserratAlternates_500Medium",
+    },
+   
 });

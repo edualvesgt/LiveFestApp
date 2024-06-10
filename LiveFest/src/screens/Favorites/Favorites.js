@@ -48,14 +48,14 @@ const mockFavorites = [
   },
 ];
 
-const FavoriteItem = ({ title, date, color }) => (
-  <View style={[styles.cardContainer, { backgroundColor: color }]}>
-    <View style={styles.cardContent}>
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardDate}>{date}</Text>
+const FavoriteItem = ({ title, date, color, onPress }) => (
+    <View style={[styles.cardContainer, { backgroundColor: color }]}>
+        <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>{title}</Text>
+            <Text style={styles.cardDate}>{date}</Text>
+        </View>
+        <Ionicons name="star" size={24} color="yellow" />
     </View>
-    <Ionicons name="star" size={24} color="yellow" />
-  </View>
 );
 
 export const Favorites = () => {
@@ -105,6 +105,11 @@ export const Favorites = () => {
                             title={item.title}
                             date={item.date}
                             color={colors[index % colors.length]}
+                            onPress={() =>
+                                navigation.navigate("DetailedCard", {
+                                    title: item.title,
+                                })
+                            }
                             onDelete={() => handleDelete(item.title)}
                         />
                     )}

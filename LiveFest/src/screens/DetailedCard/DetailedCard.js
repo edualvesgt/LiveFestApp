@@ -64,9 +64,11 @@ export const DetailedCard = ({ route }) => {
 
   const openMaps = () => {
     navigation.navigate("Map", {
-      latitudeEvento: -23.448563,
-      longitudeEvento: -46.534352,
-      nomeClinica: "Metallica Concert",
+        latitudeEvento: -23.448563,
+        longitudeEvento: -46.534352,
+        nomeEvento: eventData.event_name,
+        dataEvento: eventData.event_date,
+        descricaoEvento: eventData.description,
     });
   };
 
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     scrollView: {
-        marginTop: 115, // Ajuste este valor de acordo com a altura do cabeçalho
+        marginTop: 115, 
     },
     header: {
         padding: 16,
