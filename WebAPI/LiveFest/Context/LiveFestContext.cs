@@ -20,10 +20,6 @@ namespace LiveFest.Context
         public DbSet<Evaluation> Evaluation { get; set; }
         public DbSet<SaveEvents> SaveEvents { get; set; }
 
-<<<<<<< HEAD
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,7 +27,5 @@ namespace LiveFest.Context
 
             base.OnConfiguring(optionsBuilder);
         }
-=======
->>>>>>> origin/eduardo
     }
 }

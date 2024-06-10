@@ -5,13 +5,10 @@ using LiveFest.Domains;
 using LiveFest.Interface;
 using LiveFest.Repository;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using LiveFest.ViewModel;
 using WebAPI.Utils.BlobStorage;
-=======
 using Microsoft.EntityFrameworkCore;
 using LiveFest.Context;
->>>>>>> origin/eduardo
 
 
 namespace LiveFest.Controllers

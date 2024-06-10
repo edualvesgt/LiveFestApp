@@ -10,5 +10,7 @@ namespace LiveFest.Interface
         //    public SaveEvents GetById(Guid id);
 
         public List<SaveEvents> GetAll();
+
+        bool SaveEvent(Guid userID, Guid eventID);
     }
 }

@@ -123,15 +123,9 @@ namespace LiveFest.Migrations
                     b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
-
-<<<<<<< HEAD
+ 
                     b.Property<double>("PhoneNumber")
                         .HasColumnType("FLOAT");
-=======
-                    b.Property<int?>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("INT");
->>>>>>> origin/eduardo
 
                     b.Property<string>("Photo")
                         .IsRequired()

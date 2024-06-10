@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-using LiveFest.Utils.Email;
-=======
+
 using LiveFest.Context;
 using LiveFest.Utils.Email;
 using Microsoft.EntityFrameworkCore;
->>>>>>> origin/eduardo
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

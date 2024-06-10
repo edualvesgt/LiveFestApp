@@ -14,12 +14,6 @@ namespace LiveFest.Controllers
         private readonly LiveFestContext _context; // Contexto do banco de dados
         private readonly EmailSendingService _emailSendingService; // Serviço de envio de e-mails
 
-<<<<<<< HEAD
-        // Construtor do controller
-=======
-        
-
->>>>>>> origin/eduardo
         public RecoveryPasswordController(LiveFestContext context, EmailSendingService emailSendingService)
         {
             _context = context; // Inicializa o contexto do banco de dados
