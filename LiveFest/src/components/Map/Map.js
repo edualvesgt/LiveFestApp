@@ -11,8 +11,8 @@ import MapViewDirections from "react-native-maps-directions";
 import { mapskey } from "../../utils/mapsApiKey";
 
 export const Map = ({
-  latitudeClinica = -23.448563,
-  longitudeClinica = -46.534352,
+  latitudeEvento = -23.448563,
+  longitudeEvento = -46.534352,
   nomeClinica = "text",
 }) => {
   const [initialPosition, setInitialPosition] = useState(null);
@@ -30,7 +30,7 @@ export const Map = ({
     if (mapReference.current && initialPosition?.coords) {
       const coordinates = [
         { latitude: initialPosition.coords.latitude, longitude: initialPosition.coords.longitude },
-        { latitude: latitudeClinica, longitude: longitudeClinica },
+        { latitude: latitudeEvento, longitude: longitudeEvento },
       ];
 
       mapReference.current.fitToCoordinates(coordinates, {
@@ -45,12 +45,12 @@ export const Map = ({
   }, []);
 
   const openGoogleMaps = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitudeClinica},${longitudeClinica}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitudeEvento},${longitudeEvento}`;
     Linking.openURL(url);
   };
 
   const openWaze = () => {
-    const url = `https://www.waze.com/ul?ll=${latitudeClinica},${longitudeClinica}&navigate=yes`;
+    const url = `https://www.waze.com/ul?ll=${latitudeEvento},${longitudeEvento}&navigate=yes`;
     Linking.openURL(url);
   };
 
@@ -59,6 +59,7 @@ export const Map = ({
       {initialPosition !== null ? (
         <MapView
           ref={mapReference}
+          toolbarEnabled={false}
           initialRegion={{
             latitude: initialPosition.coords.latitude,
             longitude: initialPosition.coords.longitude,
@@ -82,8 +83,8 @@ export const Map = ({
           <MapViewDirections
             origin={initialPosition.coords}
             destination={{
-              latitude: latitudeClinica,
-              longitude: longitudeClinica,
+              latitude: latitudeEvento,
+              longitude: longitudeEvento,
             }}
             strokeWidth={5}
             strokeColor="#496BBA"

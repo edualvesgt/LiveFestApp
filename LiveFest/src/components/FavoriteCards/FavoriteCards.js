@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export const FavoriteCards = ({ title, date, color, onPress, onDelete }) => {
+export const FavoriteCards = ({ title, date, color, onPress, onDelete, route }) => {
   const [starColor, setStarColor] = useState("yellow");
 
   const handleStarPress = () => {
