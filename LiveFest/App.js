@@ -29,6 +29,7 @@ import { Categories } from "./src/screens/Categories/Categories";
 import { Favorites } from "./src/screens/Favorites/Favorites";
 import { DetailedCard } from "./src/screens/DetailedCard/DetailedCard";
 import { Map } from "./src/components/Map/Map";
+import { MapNearby } from "./src/screens/MapNearby/MapNearby";
 
 
 const Stack = createNativeStackNavigator();
@@ -82,8 +83,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
          <Stack.Screen
-          name="Map"
-          component={Map}
+          name="MapNearby"
+          component={MapNearby}
           options={{ headerShown: false }}
         />
          <Stack.Screen
@@ -101,6 +102,7 @@ export default function App() {
           component={DetailedCard}
           options={{ headerShown: false }}
         />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

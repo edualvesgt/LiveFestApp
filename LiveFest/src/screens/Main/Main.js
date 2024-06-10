@@ -10,6 +10,7 @@ import { Categories } from "../Categories/Categories";
 import { Entypo } from '@expo/vector-icons';
 import { Favorites } from "../Favorites/Favorites";
 import { Map } from "../../components/Map/Map";
+import { MapNearby } from "../MapNearby/MapNearby";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -39,7 +40,7 @@ export const Main = () => {
                 )}
               </ContentIcon>
             );
-          } else if (route.name === "Map") {
+          } else if (route.name === "MapNearby") {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
@@ -96,7 +97,7 @@ export const Main = () => {
       })}
     >
       <BottomTab.Screen name="Home" component={Home} />
-      <BottomTab.Screen name="Map" component={Map} />
+      <BottomTab.Screen name="MapNearby" component={MapNearby} />
       <BottomTab.Screen name="Categories" component={Categories} />
       <BottomTab.Screen name="Login" component={Login} />
       <BottomTab.Screen name="Favorites" component={Favorites} />

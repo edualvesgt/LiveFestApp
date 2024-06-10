@@ -6,7 +6,7 @@ import { Dimensions, View } from "react-native";
 
 
 
-function Index({ cardsMain }) {
+function Carrossel({ cardsMain }) {
   const ref = useRef<ICarouselInstance>(null);
   const width = Dimensions.get('window').width
   return (
@@ -37,4 +37,4 @@ function Index({ cardsMain }) {
   );
 }
 
-export default Index;
+export default Carrossel;
