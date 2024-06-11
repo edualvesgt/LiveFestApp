@@ -15,6 +15,10 @@ namespace LiveFest.ViewModel
 
         public string? Email { get; set; }
 
+        public string? Description { get; set; }        
+
+        public string? Organizer { get; set; }
+
         public float? PhoneNumber { get; set; }
 
         [NotMapped]

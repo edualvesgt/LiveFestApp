@@ -17,7 +17,7 @@ namespace LiveFest.Domains
         [Required(ErrorMessage = "Numero do Endereco Obrigatorio")]
         public int? Number { get; set; }
 
-        [Column(TypeName = "VARCHAR(8)")]
+        [Column(TypeName = "FLOAT")]
         [Required(ErrorMessage = "CEP do Endereco Obrigatorio")]
         public int? CEP { get; set; }
 

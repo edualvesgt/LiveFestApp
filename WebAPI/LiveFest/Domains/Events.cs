@@ -29,6 +29,8 @@ namespace LiveFest.Domains
 
 
 
+
+
         [Column(TypeName = "VARCHAR(255)")]
         [Required(ErrorMessage = "Nome do Evento Obrigatorio")]
         public string? EventName { get; set; }
@@ -38,7 +40,7 @@ namespace LiveFest.Domains
         public DateTime Date { get; set; }
 
         [Column(TypeName = "VARCHAR(255)")]
-        [Required(ErrorMessage = "Email do Contato do Evento Obrigatorio ")]
+        [Required(ErrorMessage = "Email do Contato do Evento Obrigatorio")]
         public string? Email { get; set; }
 
         [Column(TypeName = "FLOAT")]
@@ -46,8 +48,16 @@ namespace LiveFest.Domains
         public float? PhoneNumber { get; set; }
 
         [Column(TypeName = "TEXT")]
-        [Required(ErrorMessage = "Foto do Evneto Obrigatoria" )]
+        [Required(ErrorMessage = "Foto do Evneto Obrigatoria")]
         public string? Photo { get; set; }
+
+        [Column(TypeName = "VARCHAR(255)")]
+        [Required(ErrorMessage = "Descricao do Evento Obrigatorio")]
+        public string?  Description { get; set; }
+
+        [Column(TypeName = "VARCHAR(255)")]
+        [Required(ErrorMessage = "Organizador do Evento Obrigatorio")]
+        public string? Organizer { get; set; }
 
 
     }

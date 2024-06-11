@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LiveFest.Migrations
 {
     /// <inheritdoc />
-    public partial class LiveFestBD2 : Migration
+    public partial class LiveFest_BD3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace LiveFest.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Street = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Number = table.Column<int>(type: "INT", nullable: false),
-                    CEP = table.Column<string>(type: "VARCHAR(8)", nullable: false),
+                    CEP = table.Column<double>(type: "FLOAT", nullable: false),
                     City = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Name = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Longitude = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
@@ -67,8 +67,10 @@ namespace LiveFest.Migrations
                     EventName = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Date = table.Column<DateTime>(type: "DATE", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "INT", nullable: false),
-                    Photo = table.Column<string>(type: "TEXT", nullable: false)
+                    PhoneNumber = table.Column<double>(type: "FLOAT", nullable: false),
+                    Photo = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "VARCHAR(255)", nullable: false),
+                    Organizer = table.Column<string>(type: "VARCHAR(255)", nullable: false)
                 },
                 constraints: table =>
                 {

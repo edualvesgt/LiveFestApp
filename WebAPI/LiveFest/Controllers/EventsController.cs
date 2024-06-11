@@ -50,6 +50,8 @@ namespace LiveFest.Controllers
                     Date = eventDate,
                     Email = eventsViewModel.Email,
                     PhoneNumber = eventsViewModel.PhoneNumber,
+                    Description = eventsViewModel.Description,
+                    Organizer = eventsViewModel.Organizer,
                     Photo = imageUrl
                 };
 

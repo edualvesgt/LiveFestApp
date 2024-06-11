@@ -144,3 +144,4 @@ C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\refint
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.pdb
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\LiveFest.genruntimeconfig.cache
 C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\obj\Debug\net8.0\ref\LiveFest.dll
+C:\Users\53144094889\Desktop\LiveFestApp\WebAPI\LiveFest\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

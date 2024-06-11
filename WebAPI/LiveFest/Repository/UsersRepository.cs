@@ -17,9 +17,15 @@ namespace LiveFest.Repository
         {
             try
             {
+                if (_context.Users.Any(u => u.Email == newUser.Email))
+                {
+                    throw new Exception("Email já cadastrado.");
+                }
+
                 newUser.Password = Criptografia.Hash(newUser.Password!);
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
+
             }
             catch (Exception)
             {

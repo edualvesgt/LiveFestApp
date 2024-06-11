@@ -28,9 +28,8 @@ namespace LiveFest.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CEP")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(8)");
+                    b.Property<double>("CEP")
+                        .HasColumnType("FLOAT");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -116,6 +115,10 @@ namespace LiveFest.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("DATE");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(255)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
@@ -123,7 +126,11 @@ namespace LiveFest.Migrations
                     b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
- 
+
+                    b.Property<string>("Organizer")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(255)");
+
                     b.Property<double>("PhoneNumber")
                         .HasColumnType("FLOAT");
 

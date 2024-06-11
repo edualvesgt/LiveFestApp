@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LiveFest.Migrations
 {
     [DbContext(typeof(LiveFestContext))]
-    [Migration("20240607122327_LiveFest_BD1")]
-    partial class LiveFest_BD1
+    [Migration("20240611125138_LiveFest_BD3")]
+    partial class LiveFest_BD3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,8 @@ namespace LiveFest.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CEP")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(8)");
+                    b.Property<double>("CEP")
+                        .HasColumnType("FLOAT");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -119,11 +118,19 @@ namespace LiveFest.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("DATE");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(255)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
 
                     b.Property<string>("EventName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(255)");
+
+                    b.Property<string>("Organizer")
                         .IsRequired()
                         .HasColumnType("VARCHAR(255)");
 

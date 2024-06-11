@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LiveFest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9f815e25202352460a58686d691decec72f0b5d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+540662b4e1f7fdd916f3255a3128f6559e05006d")]
 [assembly: System.Reflection.AssemblyProductAttribute("LiveFest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LiveFest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
