@@ -13,7 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 
 //import components
 import splashjson from "./SplashFest.json";
-import { Logo } from "../../components/Logo/Logo";
 
 export const SplashScreen = () => {
   const navigation = useNavigation();

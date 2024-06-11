@@ -1,24 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { ContainerMarginStatusBar } from "../../components/Container/Style";
 import { StatusBar } from "expo-status-bar";
 import { TextTitle } from '../../components/Texts/Texts';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons'; 
+import api from "../../service/service";
 
-const categories = [
-  { id: '1', title: 'Congressos e Palestras', events: 32, color: '#4DB6E8' },
-  { id: '2', title: 'Arte, Cinema e Lazer', events: 10, color: '#FF8A65' },
-  { id: '3', title: 'Saúde e Bem-Estar', events: 60, color: '#BA68C8' },
-  { id: '4', title: 'Infantil', events: 7, color: '#F06292' },
-  { id: '5', title: 'Games e Geek', events: 20, color: '#81C784' },
-  { id: '6', title: 'Esportes', events: 25, color: '#FFD54F' },
-  { id: '7', title: 'Música e Shows', events: 15, color: '#4DB6AC' },
-  { id: '8', title: 'Tecnologia', events: 12, color: '#7986CB' },
-  { id: '9', title: 'Negócios e Finanças', events: 18, color: '#FF7043' },
-  { id: '10', title: 'Gastronomia', events: 22, color: '#8D6E63' },
-  { id: '11', title: 'Turismo e Viagens', events: 8, color: '#AED581' },
-  { id: '12', title: 'Educação', events: 40, color: '#64B5F6' },
+const colors = [
+  '#4DB6E8', '#FF8A65', '#BA68C8', '#F06292', '#81C784', '#FFD54F', 
+  '#4DB6AC', '#7986CB', '#FF7043', '#8D6E63', '#AED581', '#64B5F6'
 ];
 
 const CategoryItem = ({ title, events, color }) => (
@@ -29,7 +20,31 @@ const CategoryItem = ({ title, events, color }) => (
 );
 
 export const Categories = () => {
+  const [categories, setCategories] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    fetchCategoriesData();
+  }, []);
+
+  const fetchCategoriesData = async () => {
+    try {
+      const response = await api.get('/categories');
+      const data = response.data;
+
+      // Mapear os dados da API para o formato necessário
+      const mappedCategories = data.map((item, index) => ({
+        id: item.id,
+        title: item.category,
+        events: Math.floor(Math.random() * 100), // Gerando um número aleatório para eventos
+        color: colors[index % colors.length], // Usando cores de maneira cíclica
+      }));
+
+      setCategories(mappedCategories);
+    } catch (error) {
+      console.error("Erro ao carregar dados das categorias:", error);
+    }
+  };
 
   return (
     <>
@@ -56,34 +71,33 @@ export const Categories = () => {
 };
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        marginLeft: 10,
-    },
-    headerTitleContainer: {
-        flex: 1,
-        alignItems: "center",
-        marginRight: 28,
-    },
-    categoryContainer: {
-        padding: 24,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        borderRadius: 10,
-        height: 120,
-        alignItems: "center",
-    },
-    categoryTitle: {
-        fontSize: 24,
-        color: "#fff",
-        fontFamily: "MontserratAlternates_500Medium",
-    },
-    categoryEvents: {
-        fontSize: 16,
-        color: "#fff",
-        fontFamily: "MontserratAlternates_500Medium",
-    },
-   
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    marginLeft: 10,
+  },
+  headerTitleContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginRight: 28,
+  },
+  categoryContainer: {
+    padding: 24,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 10,
+    height: 120,
+    alignItems: "center",
+  },
+  categoryTitle: {
+    fontSize: 24,
+    color: "#fff",
+    fontFamily: "MontserratAlternates_500Medium",
+  },
+  categoryEvents: {
+    fontSize: 16,
+    color: "#fff",
+    fontFamily: "MontserratAlternates_500Medium",
+  },
 });
