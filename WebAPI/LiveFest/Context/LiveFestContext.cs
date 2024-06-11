@@ -20,5 +20,15 @@ namespace LiveFest.Context
         public DbSet<Evaluation> Evaluation { get; set; }
         public DbSet<SaveEvents> SaveEvents { get; set; }
 
+<<<<<<< HEAD
+=======
+        /// <param name="optionsBuilder"></param>
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=LAPTOP-LUCAS\\SQLEXPRESS; Database= LiveFestServer; User Id=sa; Pwd=Vidanova7836#; TrustServerCertificate= True");
+
+            base.OnConfiguring(optionsBuilder);
+        }
+>>>>>>> 7aac4ca1cafccac4d87abe2b73c027bd0556ea72
     }
 }

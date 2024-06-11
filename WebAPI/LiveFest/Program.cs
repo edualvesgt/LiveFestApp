@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7aac4ca1cafccac4d87abe2b73c027bd0556ea72
 using LiveFest.Context;
 using LiveFest.Utils.Email;
 using Microsoft.EntityFrameworkCore;

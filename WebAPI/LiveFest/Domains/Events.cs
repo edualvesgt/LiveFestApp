@@ -41,9 +41,15 @@ namespace LiveFest.Domains
         [Required(ErrorMessage = "Email do Contato do Evento Obrigatorio ")]
         public string? Email { get; set; }
 
+<<<<<<< HEAD
         [Column(TypeName = "INT")]
         [Required(ErrorMessage = "O Numero de Contato de Evento Obrigatorio")]
         public int? PhoneNumber { get; set; }
+=======
+        [Column(TypeName = "FLOAT")]
+        [Required(ErrorMessage = "O Numero de Contato de Evento Obrigatorio")]
+        public float? PhoneNumber { get; set; }
+>>>>>>> 7aac4ca1cafccac4d87abe2b73c027bd0556ea72
 
         [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Foto do Evneto Obrigatoria" )]
