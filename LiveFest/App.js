@@ -28,6 +28,7 @@ import { Categories } from "./src/screens/Categories/Categories";
 import { DetailedCard } from "./src/screens/DetailedCard/DetailedCard";
 import { Map } from "./src/components/Map/Map";
 import { Favorites } from "./src/screens/Favorites/Favorites";
+import { SelectedCategory } from "./src/screens/SelectedCategory/SelectedCategory";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,7 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Favorites">
+            <Stack.Navigator initialRouteName="SplashScreen">
                 <Stack.Screen
                     name="SplashScreen"
                     component={SplashScreen}
@@ -86,6 +87,11 @@ export default function App() {
                 <Stack.Screen
                     name="Categories"
                     component={Categories}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="SelectedCategory"
+                    component={SelectedCategory}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
