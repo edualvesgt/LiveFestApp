@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 import { CardsMainEvents } from "../CardsMainEvents/CardsMainEvents";
@@ -14,10 +14,19 @@ function Carrossel({
 }) {
   // const ref = useRef<ICarouselInstance>(null);
   const width = Dimensions.get('window').width
+  const [carouselKey, setCarouselKey] = useState(events.length);
+
+  useEffect(() => {
+    // Update the key whenever events change
+    setCarouselKey(events.length);
+    console.log(carouselKey)
+    handleCardSelect(0)
+  }, [events]);
+
   return (
     <View style={{height: 180, width: "100%", margin:10}} >
       <Carousel
-        
+        key={carouselKey}
         onSnapToItem={(index) => handleCardSelect(index)}
 
         width={width*0.90}
@@ -31,7 +40,6 @@ function Carrossel({
         autoPlay={autoPlay}
         data={events}
         pagingEnabled={true}
-       
         renderItem={({ item }) => (
           <CardsMainEvents
             date={item.date}

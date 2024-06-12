@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const portaAPI = '4466';
+const portaAPI = '5190';
 
-const ip = "192.168.15.5"
+const ip = "192.168.21.118"
 
 // Allan sala 172.16.39.107
 // Allan casa 192.168.15.5

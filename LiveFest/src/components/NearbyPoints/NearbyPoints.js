@@ -29,7 +29,6 @@ export default function NearbyPoints({
 
   const [markers] = useState(events);
 
-
   //Função finalizada
   //Função para obter a coordenadas do dispositivo
   async function CurrentLocation() {
@@ -149,6 +148,7 @@ export default function NearbyPoints({
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           toolbarEnabled={false}
+          
           onMapReady={() => { reloadPreviewMap() }}
         >
 
@@ -210,7 +210,7 @@ export default function NearbyPoints({
           <Text>Obtendo coordenadas do dispositivo</Text>
         </View>
       }
-      <View style={{ position: "absolute", left: 20, top: 30, gap: 20, alignItems: "center" }} >
+      <View style={{ position: "absolute", left: 20, top: 30, gap: 20, padding:5, borderRadius:100, alignItems: "center", backgroundColor: "#FFF" }} >
         <TouchableOpacity
           onPress={() => {
             setDistanceOfDisplay(distanceOfDisplay + 5)
@@ -221,8 +221,9 @@ export default function NearbyPoints({
         </TouchableOpacity>
         <Text style={{ fontWeight: 900 }} >{distanceOfDisplay}</Text>
         <TouchableOpacity
-          onPress={() => {
+          onPress={() => {if(distanceOfDisplay>5){
             setDistanceOfDisplay(distanceOfDisplay - 5)
+          }
           }
           }
         >
