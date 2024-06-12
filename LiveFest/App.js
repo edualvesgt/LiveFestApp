@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DetailedCard">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
