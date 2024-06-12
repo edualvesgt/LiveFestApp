@@ -58,5 +58,18 @@ namespace LiveFest.Controllers
                 return BadRequest("Failed to save event.");
             }
         }
+        [HttpDelete("userId/eventId")]
+        public IActionResult DeleteSaveEvent(Guid userID, Guid eventID)
+        {
+            try
+            {
+                saveEventsRepository.DeleteSaveEvent(userID, eventID);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

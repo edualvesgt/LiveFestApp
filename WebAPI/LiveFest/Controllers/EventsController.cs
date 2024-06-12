@@ -122,11 +122,7 @@ namespace LiveFest.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
-
-
-        
-        
+        }     
     }
 }
 

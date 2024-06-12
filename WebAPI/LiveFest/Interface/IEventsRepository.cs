@@ -12,6 +12,7 @@ namespace LiveFest.Interface
         public List<Events> GetAll();
 
         public List<Events> GetByCategory(Guid CategoriesID);
+
         void DeleteEvent(Guid id);
 
         Task<IEnumerable<Events>> GetNearbyEvents(decimal latitude, decimal longitude, decimal radiusInKilometers);
