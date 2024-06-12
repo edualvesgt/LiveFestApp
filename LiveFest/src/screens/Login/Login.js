@@ -13,6 +13,9 @@ export const Login = ({ navigation }) => {
     async function  RedirectRegister() {
         navigation.replace("CreateAccount")
     }
+    async function  RedirectPasswordRecover() {
+        navigation.replace("PasswordRecover")
+    }
 
     return (
         <Container>
@@ -44,7 +47,7 @@ export const Login = ({ navigation }) => {
                 </PasswordInputContainer>
             </Input>
             
-            <LinkMedium>Esqueceu sua senha?</LinkMedium>
+            <LinkMedium onPress={RedirectPasswordRecover}>Esqueceu sua senha?</LinkMedium>
 
             <Button>
                 <ButtonTitle>Entrar</ButtonTitle>
