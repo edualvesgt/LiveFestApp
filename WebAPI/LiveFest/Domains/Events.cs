@@ -60,5 +60,10 @@ namespace LiveFest.Domains
         public string? Organizer { get; set; }
 
 
+
+
+     
+
+
     }
 }

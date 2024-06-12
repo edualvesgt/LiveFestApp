@@ -32,10 +32,15 @@ namespace LiveFest.Repository
             }
         }
 
-        public List<SaveEvents> GetAll()
+        public List<SaveEvents> GetAll(Guid userID)
         {
-            return ctx.SaveEvents.ToList();
+            List<SaveEvents> savedEvent = ctx.SaveEvents
+                .Where(x => x.UserID == userID)
+                .ToList();
+
+            return savedEvent;
         }
+
 
         public bool SaveEvent(Guid userID, Guid eventID)
         {

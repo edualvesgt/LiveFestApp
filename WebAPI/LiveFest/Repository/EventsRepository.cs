@@ -30,7 +30,26 @@ namespace LiveFest.Repository
 
         public List<Events> GetAll()
         {
-            return ctx.Events.ToList();
+            var events = (from e in ctx.Events
+                          join a in ctx.Address on e.AddressID equals a.ID
+                          join c in ctx.Categories on e.CategoriesID equals c.ID
+                          select new Events
+                          {
+                              ID = e.ID,
+                              EventName = e.EventName,
+                              Date = e.Date,
+                              Email = e.Email,
+                              PhoneNumber = e.PhoneNumber,
+                              Photo = e.Photo,
+                              Description = e.Description,
+                              Organizer = e.Organizer,
+                              AddressID = e.AddressID,
+                              Address = a,
+                              CategoriesID = e.CategoriesID,
+                              Categories = c
+                          }).ToList();
+
+            return events;
         }
 
         public List<Events> GetByCategory(Guid CategoriesID)

@@ -4,7 +4,7 @@ namespace LiveFest.Interface
 {
     public interface ISaveEventsRepository
     {
-        public List<SaveEvents> GetAll();
+        public List<SaveEvents> GetAll(Guid userID);
 
         bool SaveEvent(Guid userID, Guid eventID);
 

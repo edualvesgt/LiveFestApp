@@ -20,11 +20,13 @@ namespace LiveFest.Controllers
         }
 
         [HttpGet("Todos")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(Guid userID)
         {
             try
             {
-                return Ok(saveEventsRepository.GetAll());
+                List<SaveEvents> eventsById = saveEventsRepository.GetAll(userID);
+
+                return Ok(eventsById);
             }
             catch (Exception e)
             {
