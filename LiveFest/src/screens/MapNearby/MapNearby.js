@@ -24,9 +24,8 @@ const cardsMain = [
     Portanto, se você é fã da Turma da Mônica e adora scrapbooking, não perca a oportunidade de explorar o universo desses personagens incríveis e criar seu próprio Kit Digital Turma da Mônica Scrapbook. Solte sua imaginação e divirta-se contando histórias únicas com a ajuda da Mônica, Cebolinha, Magali, Cascão e toda a turminha!`,
     date: "01/06/2024",
     time: "08:50 AM",
-    // lat: -23.61511,
-    // long: -46.57071,
-    latlng: {latitude: -23.67122, longitude: -46.53236}
+    latitude: -23.67122, 
+    longitude: -46.53236
   },
   {
     title: "GABRIELA ROCHA E CAMILA BARROS EM SÃO PAULO - CONFERÊNCIA 'O ENCONTRO'",
@@ -54,7 +53,8 @@ const cardsMain = [
     PISTA - NÃO HAVERÁ CADEIRAS:  O setor PISTA não haverá cadeiras disponibilizadas.`,
     date: "01/06/2024",
     time: "01:00 PM",
-    latlng: {latitude: -23.61511, longitude: -46.57071}
+    latitude: -23.61511, 
+    longitude: -46.57071
   }
 ]
 
@@ -62,11 +62,8 @@ export const MapNearby = () => {
   return(
     <View style={{flex:1}}>
       <NearbyPoints
-        cardsMain={cardsMain}
-      />
-      <Carrosel
-        cardsMain={cardsMain}
-      />
+        events={cardsMain}
+      />      
     </View>
   )
 }

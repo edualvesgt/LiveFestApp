@@ -1,30 +1,37 @@
 import React, { useRef } from "react";
-import type { ICarouselInstance } from "react-native-reanimated-carousel";
+// import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 import { CardsMainEvents } from "../CardsMainEvents/CardsMainEvents";
 import { Dimensions, View } from "react-native";
 
 
 
-function Carrossel({ cardsMain }) {
-  const ref = useRef<ICarouselInstance>(null);
+function Carrossel({   
+  events,
+  loop=true,
+  autoPlay=true, 
+  handleCardSelect, 
+}) {
+  // const ref = useRef<ICarouselInstance>(null);
   const width = Dimensions.get('window').width
   return (
     <View style={{height: 180, width: "100%", margin:10}} >
       <Carousel
-        width={width*0.80}
+        
+        onSnapToItem={(index) => handleCardSelect(index)}
+
+        width={width*0.90}
         // height={200}
-        loop={true}
-        ref={ref}        
+        loop={loop}
+        // ref={ref}        
         style={{
           width:"100%",
-          height: 200,        
-          justifyContent: "center",
-          alignItems: "center",
+          height: 200,          
         }}        
-        autoPlay={true}
-        data={cardsMain}
+        autoPlay={autoPlay}
+        data={events}
         pagingEnabled={true}
+       
         renderItem={({ item }) => (
           <CardsMainEvents
             date={item.date}
