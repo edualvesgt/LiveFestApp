@@ -20,6 +20,7 @@ import MapViewDirections from "react-native-maps-directions";
 import { mapskey } from "../../utils/mapsApiKey";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from '@react-navigation/native';
 
 export const Map = ({ route, navigation }) => {
     // Verifica se route.params está definido
@@ -31,6 +32,7 @@ export const Map = ({ route, navigation }) => {
             </View>
         );
     }
+    
     const {
         latitudeEvento,
         longitudeEvento,

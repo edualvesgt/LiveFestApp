@@ -106,9 +106,9 @@ export const Favorites = () => {
                             date={item.date}
                             color={colors[index % colors.length]}
                             onPress={() =>
-                                navigation.navigate("DetailedCard", {
-                                    title: item.title,
-                                })
+                              navigation.navigate("DetailedCard", {
+                                eventData: item, 
+                              })
                             }
                             onDelete={() => handleDelete(item.title)}
                         />

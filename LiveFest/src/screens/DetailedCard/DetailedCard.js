@@ -7,14 +7,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Linking,
   ImageBackground,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
-import ButtonDefault from "../../components/ButtonDefault/ButtonDefault";
 import { TextButtonDefault } from "../../components/Texts/Texts";
-import { Axios } from "react-native-axios";
 import api from "../../service/service";
 
 const mapApiDataToEventData = (apiData) => {
@@ -31,106 +28,136 @@ const mapApiDataToEventData = (apiData) => {
     }),
     description: apiData.description || "Descrição não fornecida.",
     organizer: {
-        name: apiData.organizer || "Organizador não fornecido",
+      name: apiData.organizer || "Organizador não fornecido",
       contact: apiData.phoneNumber,
     },
-    location: "Localização não fornecida", 
+    location: "Localização não fornecida",
     attendees: [
-        "https://randomuser.me/api/portraits/men/1.jpg",
-        "https://randomuser.me/api/portraits/women/2.jpg",
-        "https://randomuser.me/api/portraits/men/3.jpg",
-        "https://randomuser.me/api/portraits/women/4.jpg",
-        "https://randomuser.me/api/portraits/men/5.jpg",
-        "https://randomuser.me/api/portraits/women/6.jpg",
-        "https://randomuser.me/api/portraits/men/7.jpg",
-        "https://randomuser.me/api/portraits/women/8.jpg",
-        "https://randomuser.me/api/portraits/men/9.jpg",
-        "https://randomuser.me/api/portraits/women/10.jpg",
-    ], 
+      "https://randomuser.me/api/portraits/men/1.jpg",
+      "https://randomuser.me/api/portraits/women/2.jpg",
+      "https://randomuser.me/api/portraits/men/3.jpg",
+      "https://randomuser.me/api/portraits/women/4.jpg",
+      "https://randomuser.me/api/portraits/men/5.jpg",
+      "https://randomuser.me/api/portraits/women/6.jpg",
+      "https://randomuser.me/api/portraits/men/7.jpg",
+      "https://randomuser.me/api/portraits/women/8.jpg",
+      "https://randomuser.me/api/portraits/men/9.jpg",
+      "https://randomuser.me/api/portraits/women/10.jpg",
+    ],
     contact: {
       phone: apiData.phoneNumber,
       email: apiData.email,
     },
+    
   };
 };
 
-export const DetailedCard = ({ route }) => {
+export const DetailedCard = () => {
   const [eventData, setEventData] = useState(null);
-  const navigation = useNavigation(); 
+  const route = useRoute();
+  const navigation = useNavigation();
+  // const { eventId } = route.params; 
+  const eventId = route.params.eventData?.id; 
 
   useEffect(() => {
-    fetchEventData();
-  }, []);
+    if (eventId) {
+      fetchEventData(eventId);
+    }
+  }, [eventId]);
 
-  const fetchEventData = async () => {
+  const fetchEventData = async (eventId) => {
     try {
-      console.log("Fetching event data...");
-      console.log("API URL:", api.defaults.baseURL);
-      const response = await api.get("/events");
-      console.log("API response:", response);
+      console.log("Fetching event data for ID:", eventId);
+
+      const response = await api.get(`/Events/GetById?id=${eventId}`);
+      console.log("API response:", response.data); 
       const data = response.data;
-      console.log("Event data:", data);
-      const eventData = mapApiDataToEventData(data[0]);
+      
+      const eventData = mapApiDataToEventData(data);
+      console.log(eventData)
       setEventData(eventData);
+
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       if (error.response) {
         console.error("Server responded with a status:", error.response.status);
       } else if (error.request) {
-        console.error(
-          "Request was made but no response received:",
-          error.request
-        );
+        console.error("Request was made but no response received:", error.request);
       } else {
-        console.error(
-          "Something went wrong while setting up the request:",
-          error.message
-        );
+        console.error("Something went wrong while setting up the request:", error.message);
       }
     }
   };
 
-  const getMockEventData = async () => {
-    return new Promise((resolve) => {
-      resolve({
-        event_name: "Metallica Concert",
-        event_date: "Seg, 25 de Março",
-        event_time: "09:59PM",
-        description:
-          "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-        organizer: {
-          name: "John Wells",
-          contact: "702-323-3322",
-        },
-        location: "05 Frami Mills Apt. 295",
-        attendees: [
-          "https://randomuser.me/api/portraits/men/1.jpg",
-          "https://randomuser.me/api/portraits/women/2.jpg",
-        ],
-        contact: {
-          phone: "473-465-1548",
-          email: "lakin_gavin@yahoo.com",
-        },
-      });
-    });
+  const saveEventToApi = async () => {
+    try {
+      const userId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"; // Substitua pelo ID do usuário logado
+      const eventToSave = {
+        userID: userId,
+        eventID: eventId,
+      };
+      const response = await api.post(
+        "/SaveEvents/EventosDoUsuario",
+        eventToSave
+      );
+      console.log("Evento salvo com sucesso na API:", response.data);
+
+      // Exibir feedback ao usuário
+      Alert.alert(
+        "Sucesso",
+        "Evento salvo com sucesso nos favoritos!",
+        [{ text: "OK", onPress: () => navigation.navigate("Favorites") }]
+      );
+    } catch (error) {
+      console.error("Erro ao salvar evento na API:", error);
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao salvar o evento. Por favor, tente novamente."
+      );
+    }
+  };
+
+  const navigateToFavorites = () => {
+    navigation.navigate("Favorites", { event: eventData });
   };
 
   if (!eventData) {
     return <Text>Carregando...</Text>;
   }
 
-  const openMaps = () => {
-    navigation.navigate("Map", {
-      latitudeEvento: -23.448563,
-      longitudeEvento: -46.534352,
-      nomeEvento: eventData.event_name,
-      dataEvento: eventData.event_date,
-      descricaoEvento: eventData.description,
-    });
+  // const openMaps = () => {
+  //   navigation.navigate("Map", {
+  //     latitudeEvento: -23.448563,
+  //     longitudeEvento: -46.534352,
+  //     nomeEvento: eventData.event_name,
+  //     dataEvento: eventData.event_date,
+  //     descricaoEvento: eventData.description,
+  //   });
+  // };
+
+  const openMaps = async () => {
+    try {
+      
+      const response = await api.get('http://192.168.21.118:5190/api/Address');
+      const locationData = response.data;
+  
+      
+      navigation.navigate("Map", {
+        latitudeEvento: locationData.latitude,
+        longitudeEvento: locationData.longitude,
+        nomeEvento: eventData.event_name,
+        dataEvento: eventData.event_date,
+        descricaoEvento: eventData.description,
+      });
+    } catch (error) {
+      console.error("Erro ao buscar localização do evento:", error);
+      Alert.alert("Erro", "Não foi possível encontrar a localização do evento.");
+    }
   };
+  
 
   const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
+    navigation.navigate("Favorites", { event: eventData });
   };
 
   return (
@@ -144,23 +171,22 @@ export const DetailedCard = ({ route }) => {
             <Icon name="arrow-back" size={28} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Agenda de Eventos</Text>
-          <Text style={styles.headerSubtitle}>7 eventos</Text>
         </ImageBackground>
       </View>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>{eventData.event_name}</Text>
-        <Text
-          style={styles.date}
-        >{`${eventData.event_date}, ${eventData.event_time}`}</Text>
+        <Text style={styles.date}>{`${eventData.event_date}, ${eventData.event_time}`}</Text>
         <Text style={styles.description}>{eventData.description}</Text>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Organizado por</Text>
-          <View style={styles.organizerInfo}>
-            <Text style={styles.organizerName}>{eventData.organizer.name}</Text>
+        {eventData.organizer && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Organizado por</Text>
+            <View style={styles.organizerInfo}>
+              <Text style={styles.organizerName}>{eventData.organizer.name}</Text>
+            </View>
+            <Text style={styles.contact}>{eventData.organizer.contact}</Text>
           </View>
-          <Text style={styles.contact}>{eventData.organizer.contact}</Text>
-        </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Localização</Text>
@@ -232,6 +258,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
+    height: 120,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -245,10 +272,6 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
-  },
-  headerSubtitle: {
-    fontSize: 16,
     color: "white",
   },
   headerSubtitle: {
@@ -298,19 +321,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginRight: 8,
   },
-  followButton: {
-    marginLeft: 150,
-    backgroundColor: "#007BFF",
-    width: 109,
-    height: 35,
-    borderRadius: 4,
-  },
-  followButtonText: {
-    color: "white",
-    fontFamily: "MontserratAlternates_700Bold",
-    textAlign: "center",
-    paddingTop: 7,
-  },
   contact: {
     fontSize: 16,
     color: "gray",
@@ -349,29 +359,6 @@ const styles = StyleSheet.create({
   eventCardDate: {
     fontSize: 14,
     color: "white",
-  },
-  floatingButton: {
-    position: "absolute",
-    bottom: 90,
-    right: 16,
-    backgroundColor: "red",
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  floatingButtonText: {
-    color: "white",
-    fontSize: 24,
   },
   icon: {
     width: 30,
