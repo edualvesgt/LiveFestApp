@@ -36,6 +36,7 @@ import { PasswordResetSuccessful } from "./src/screens/PasswordResetSuccessful/P
 import VerificationCode from "./src/screens/VerificationCode/VerificationCode";
 import { PasswordReset } from "./src/screens/PasswordReset/PasswordReset";
 import { Login } from "./src/screens/Login/Login";
+import { SelectedCategory } from "./src/screens/SelectedCategory/SelectedCategory";
 
 
 const Stack = createNativeStackNavigator();
@@ -58,7 +59,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator
-        initialRouteName="SplashScreen" // Define a tela inicial do navegador de pilha.
+        initialRouteName="Home" // Define a tela inicial do navegador de pilha.
         screenOptions={{
           headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
           animation: 'slide_from_right',
@@ -67,7 +68,7 @@ export default function App() {
         }}
       // screenOptions={{ headerShown: false, animation: 'fade', animationTypeForReplace: 'push'}} // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
       >
-         <Stack.Screen
+        <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
@@ -92,33 +93,37 @@ export default function App() {
           component={Main}
           options={{ headerShown: false }}
         />
-      
-        <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{ headerShown: false }}
-        />
+        
         <Stack.Screen
           name="Map"
           component={Map}
           options={{ headerShown: false }}
         />
+        
         <Stack.Screen
           name="Categories"
           component={Categories}
           options={{ headerShown: false }}
         />
+       
+        <Stack.Screen
+          name="SelectedCategory"
+          component={SelectedCategory}
+          options={{ headerShown: false }}
+        />
+         
         <Stack.Screen
           name="DetailedCard"
           component={DetailedCard}
           options={{ headerShown: false }}
         />
+        
         <Stack.Screen
           name="Favorites"
           component={Favorites}
           options={{ headerShown: false }}
         />
-
+ 
         <Stack.Screen
           //Login
           name='Login'
@@ -127,15 +132,17 @@ export default function App() {
           //titulo da tela
           options={{ title: 'Login' }}
         />
-          <Stack.Screen
+        
+        <Stack.Screen
           //RegistrationSuccessful
           name='PasswordReset'
           //componente que sera chamado
           component={PasswordReset}
           //titulo da tela
-          options={{title: 'PasswordReset'}}
+          options={{ title: 'PasswordReset' }}
         />
-          <Stack.Screen
+        
+        <Stack.Screen
           //RegistrationSuccessful
           name='EmailVerification'
           //componente que sera chamado
@@ -146,7 +153,8 @@ export default function App() {
             // animation:'slide_from_right',
           }}
         />
-           <Stack.Screen
+        
+        <Stack.Screen
           //RegistrationSuccessful
           name='VerificationCode'
           //componente que sera chamado
@@ -154,10 +162,11 @@ export default function App() {
           //titulo da tela
           options={{
             title: 'VerificationCode',
-            animation:'slide_from_right',
-          }}    
+            animation: 'slide_from_right',
+          }}
         />
-         <Stack.Screen
+        
+        <Stack.Screen
           //Login
           name='CreateAccount'
           //componente que sera chamado
@@ -173,25 +182,25 @@ export default function App() {
           //titulo da tela
           options={{ title: 'RegistrationSuccessful' }}
         />
-         <Stack.Screen
+        <Stack.Screen
           //RegistrationSuccessful
           name='PasswordRecover'
           //componente que sera chamado
           component={PasswordRecover}
           //titulo da tela
-          options={{title: 'PasswordRecover'}}
+          options={{ title: 'PasswordRecover' }}
         />
-       
-         <Stack.Screen
+
+        <Stack.Screen
           //RegistrationSuccessful
           name='PasswordResetSuccessful'
           //componente que sera chamado
           component={PasswordResetSuccessful}
           //titulo da tela
-          options={{title: 'PasswordResetSuccessful'}}
-        />
-      
-       
+          options={{ title: 'PasswordResetSuccessful' }}
+        /> 
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
