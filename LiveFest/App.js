@@ -59,7 +59,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator
-        initialRouteName="Home" // Define a tela inicial do navegador de pilha.
+        initialRouteName="SplashScreen" // Define a tela inicial do navegador de pilha.
         screenOptions={{
           headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
           animation: 'slide_from_right',
@@ -93,6 +93,11 @@ export default function App() {
           component={Main}
           options={{ headerShown: false }}
         />
+        {/* <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{ headerShown: false }}
+        /> */}
         
         <Stack.Screen
           name="Map"

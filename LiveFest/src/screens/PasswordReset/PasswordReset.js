@@ -4,8 +4,9 @@ import { Button, ButtonTitle, Container, Input, InputConfirmPassword, InputPassw
 import { TouchableOpacity } from 'react-native';
 import ShowIcon from '../../components/Icons/Show';
 import HideIcon from '../../components/Icons/Hide';
+import api from '../../service/service';
 
-export const PasswordReset = ({ navigation }) => {
+export const PasswordReset = ({ navigation, route }) => {
 
     const [isSecureEntry, setIsSecureEntry] = useState(true);
 
@@ -21,7 +22,7 @@ export const PasswordReset = ({ navigation }) => {
         passwordConfirm: ''   // Erro na confirmação de senha
     });
 
-
+    const { userEmail } = route.params;
     // Função para atualizar o estado de input ao alterar os valores dos campos
     const onInputChange = (name, value) => {
         setInput(prev => ({
@@ -62,7 +63,22 @@ export const PasswordReset = ({ navigation }) => {
         });
     };
 
+    async function UpdatePassword() {
+        try {
+            if (input.password === input.passwordConfirm) {
+                const response = await api.put(`/Users/UpdatePassword?email=${userEmail}`, {
+                    "newPassword": input.password
+                })
+                console.log(response.data);
+                if (response.status == 200) {
+                    navigation.replace("PasswordResetSuccessful")
+                }
 
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Container>
@@ -113,7 +129,8 @@ export const PasswordReset = ({ navigation }) => {
                 </PasswordInputContainer>
             </InputConfirmPassword>
 
-            <Button>
+
+            <Button onPress={() => UpdatePassword()}>
                 <ButtonTitle>Redefinir senha</ButtonTitle>
             </Button>
 

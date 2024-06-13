@@ -10,8 +10,8 @@ import api from '../../service/service';
 
 export const Login = ({ navigation }) => {
     const [isSecureEntry, setIsSecureEntry] = useState(true);
-    const [email, setEmail] = useState('dudualvesgt27@gmail.com');
-    const [password, setPassword] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     async function RedirectRegister() {
         navigation.replace("CreateAccount")
     }
@@ -31,6 +31,7 @@ export const Login = ({ navigation }) => {
             if (response.status == 200) {
                 // Sucesso no login, redirecionar ou armazenar o token
                 Alert.alert('Login bem-sucedido');
+                navigation.replace('Home')
                 // navegação ou armazenamento de token aqui
             } else {
                 Alert.alert('Erro', 'Credenciais inválidas');

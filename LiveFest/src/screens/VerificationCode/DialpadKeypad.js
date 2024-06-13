@@ -1,8 +1,8 @@
-"react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";    // Importa Feather, um pacote de ícones para React Native.
 import styled from "styled-components/native";   // Importa styled-components para estilizar componentes no React Native.
-
+import { useEffect } from "react";
+import api from "../../service/service";
 
 const DialpadKeypad = ({
   dialPadContent,              // Conteúdo do teclado, um array de itens (números e um botão de deletar).
@@ -11,11 +11,32 @@ const DialpadKeypad = ({
   setCode,                     // Função para atualizar o código.
   navigation,                  // Objeto de navegação para trocar de telas.
   dialPadSize,                 // Tamanho dos botões do teclado.
-  dialPadTextSize,             // Tamanho do texto nos botões do teclado.
+  dialPadTextSize,
+  userEmail                    // Tamanho do texto nos botões do teclado.
 }) => {
-   // Retorna um componente FlatList que exibe os botões do teclado em uma grade.
+
+  useEffect(() => {
+   console.log("codigo again" ,code.join(''));
+    console.log(userEmail);
+  }, [code, userEmail]);
+
+  async function ValidateCode(codigin) {
+    console.log("CODIGIN", code.join(''));
+    console.log("CODIGIN", codigin.join(''));
+    try {
+      const response = await api.post(`/RecoveryPassword/RecoveryPassword?email=${userEmail}&code=${codigin.join('')}`);
+
+      if (response.status == 200) {
+        navigation.replace("PasswordReset" , {userEmail : userEmail});
+      }
+    } catch (error) {
+      console.error('Error during API request:', error);
+    }
+  }
+
+  // Retorna um componente FlatList que exibe os botões do teclado em uma grade.
   return (
-    <FlatList                                        
+    <FlatList
       data={dialPadContent}                          // Define os dados a serem exibidos na FlatList.
       numColumns={3}                                 // Define que a FlatList terá 3 colunas.
       keyExtractor={(_, index) => index.toString()}  // Gera uma chave única para cada item com base no índice.
@@ -23,8 +44,7 @@ const DialpadKeypad = ({
         const isDelete = item === "X";               // Verifica se o item atual é o botão de deletar (representado por "X").
         const isEmpty = item === "";                 // Verifica se o item atual é um espaço vazio.
 
-
-         // Retorna um componente TouchableOpacity, que é um botão clicável.
+        // Retorna um componente TouchableOpacity, que é um botão clicável.
         return (
           <TouchableOpacity
             disabled={isEmpty} // Desativa o botão se o item for um espaço vazio.
@@ -32,17 +52,21 @@ const DialpadKeypad = ({
               if (isDelete) {  // Se o botão for o de deletar...
                 setCode((prev) => prev.slice(0, -1));  // Remove o último caractere do código.
               } else {         // Se o botão não for o de deletar...
-                if (code.length === pinLength - 1) {    // Verifica se o código está completo.
-                  navigation.navigate("PasswordResetSuccessful");          // Navega para a tela "PasswordResetSuccessful".
+                if (code.length < pinLength) {         // Verifica se o código ainda não está completo.
+                  const newCode = [...code, item];     // Adiciona o item ao código.
+                  setCode(newCode);                    // Atualiza o estado do código.
+
+                  if (newCode.length === pinLength) {  // Se o novo código estiver completo...
+                    ValidateCode(newCode);                    // Chama a validação com o código completo.
+                  }
                 }
-                setCode((prev) => [...prev, item]);      // Adiciona o item ao código.
               }
             }}
           >
-            <DialPadContainer                  //background-color: Agora, é transparente tanto para os botões de apagar (isDelete) 
-              size={dialPadSize}               //quanto para os espaços vazios (isEmpty). Isso garante que não haverá um fundo visível 
-              isDelete={isDelete}              //para esses elementos.
-              isEmpty={isEmpty} 
+            <DialPadContainer                  // background-color: Agora, é transparente tanto para os botões de apagar (isDelete) 
+              size={dialPadSize}               // quanto para os espaços vazios (isEmpty). Isso garante que não haverá um fundo visível 
+              isDelete={isDelete}              // para esses elementos.
+              isEmpty={isEmpty}
             >
               {isDelete ? (
                 <DeleteIcon size={dialPadTextSize} />
@@ -58,7 +82,6 @@ const DialpadKeypad = ({
     />
   );
 };
-
 
 export default DialpadKeypad;
 
@@ -76,8 +99,7 @@ const DialPadContainer = styled.View`
 const DialPadText = styled.Text`
   color: #3f1d38;
   font-size: ${(props) => props.size}px;
-   font-family: MontserratAlternates_600SemiBold;
-
+  font-family: MontserratAlternates_600SemiBold;
 `;
 
 const DeleteIcon = styled(Feather).attrs({
@@ -85,4 +107,4 @@ const DeleteIcon = styled(Feather).attrs({
   color: "#D75353",
 })`
   font-size: ${(props) => props.size}px;
-`;
+`; 
