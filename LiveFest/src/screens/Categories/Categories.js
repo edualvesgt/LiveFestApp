@@ -12,8 +12,8 @@ const colors = [
   '#4DB6AC', '#7986CB', '#FF7043', '#8D6E63', '#AED581', '#64B5F6'
 ];
 
-const CategoryItem = ({ title, events, color }) => (
-  <TouchableOpacity style={[styles.categoryContainer, { backgroundColor: color }]}>
+const CategoryItem = ({ id, title, events, color, onPress }) => (
+  <TouchableOpacity style={[styles.categoryContainer, { backgroundColor: color }]} onPress={onPress}>
     <Text style={styles.categoryTitle}>{title}</Text>
     <Text style={styles.categoryEvents}>{events} eventos</Text>
   </TouchableOpacity>
@@ -29,18 +29,22 @@ export const Categories = () => {
 
   const fetchCategoriesData = async () => {
     try {
-      const response = await api.get('/categories');
-      const data = response.data;
+      const categoriesResponse = await api.get('/categories');
+      const categoriesData = categoriesResponse.data;
 
-      // Mapear os dados da API para o formato necessário
-      const mappedCategories = data.map((item, index) => ({
-        id: item.id,
-        title: item.category,
-        events: Math.floor(Math.random() * 100), // Gerando um número aleatório para eventos
-        color: colors[index % colors.length], // Usando cores de maneira cíclica
+      const categoriesWithEventCount = await Promise.all(categoriesData.map(async (category, index) => {
+        const eventsResponse = await api.get(`/events/GetByCategory?CategoriesID=${category.id}`);
+        const eventCount = eventsResponse.data.length;
+
+        return {
+          id: category.id,
+          title: category.category,
+          events: eventCount,
+          color: colors[index % colors.length], // Usando cores de maneira cíclica
+        };
       }));
 
-      setCategories(mappedCategories);
+      setCategories(categoriesWithEventCount);
     } catch (error) {
       console.error("Erro ao carregar dados das categorias:", error);
     }
@@ -51,7 +55,7 @@ export const Categories = () => {
       <ContainerMarginStatusBar justifyContent={"start"}>
         <StatusBar style="auto" />
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
             <Ionicons name="close" size={30} color="#D75353" />
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
@@ -62,7 +66,15 @@ export const Categories = () => {
           data={categories}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <CategoryItem title={item.title} events={item.events} color={item.color} />
+            <CategoryItem
+              id={item.id}
+              title={item.title}
+              events={item.events}
+              color={item.color}
+              onPress={() =>
+                navigation.navigate("SelectedCategory", { categoryId: item.id })
+              }
+            />
           )}
         />
       </ContainerMarginStatusBar>
