@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export const FavoriteCards = ({ title, date, color, onPress, onDelete }) => {
+export const FavoriteCards = ({ title, date, color, onPress, onDelete, route }) => {
   const [starColor, setStarColor] = useState("yellow");
 
   const handleStarPress = () => {
@@ -61,31 +61,32 @@ export const FavoriteCards = ({ title, date, color, onPress, onDelete }) => {
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
-  },
-  cardTitle: {
-    fontSize: 24,
-    color: "#fff",
-    fontFamily: "Raleway_700Bold",
-  },
-  cardDate: {
-    fontSize: 18,
-    color: "#fff",
-    fontFamily: "Raleway_700Bold",
-  },
-  deleteButton: {
-    backgroundColor: "#D75353",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 100,
-    height: 108,
-    borderRadius: 10,
-  },
+    cardContainer: {
+        height: 180,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        borderRadius: 10,
+    },
+    cardTitle: {
+        fontSize: 24,
+        color: "#fff",
+        fontFamily: "MontserratAlternates_500Medium",
+    },
+    cardDate: {
+        fontSize: 16,
+        color: "#fff",
+        fontFamily: "MontserratAlternates_500Medium",
+    },
+    deleteButton: {
+        backgroundColor: "#D75353",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 100,
+        height: 187,
+        borderRadius: 10,
+    },
 });

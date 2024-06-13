@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
+import LottieView from "lottie-react-native";
+import { useNavigation } from "@react-navigation/native";
+//import components
+import splashjson from "./SplashFest.json";
 
-//import bibliotecas
 import {
   View,
   Text,
@@ -8,43 +11,36 @@ import {
   ActivityIndicator,
   ProgressBarAndroid,
 } from "react-native";
-import LottieView from "lottie-react-native";
-import { useNavigation } from "@react-navigation/native";
 
-//import components
-import splashjson from "./SplashFest.json";
-import { Logo } from "../../components/Logo/Logo";
 
 export const SplashScreen = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsLoading(false); // Define isLoading como false após 3 segundos (3000 milissegundos)
       navigation.navigate("Onboarding1");
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      
-      {/* Exibe a animação de splash */}
-      <LottieView
-        source={splashjson}
-        autoPlay
-        loop={false}
-        resizeMode="contain"
-        style={styles.animation}
-        onAnimationFinish={() => setIsLoading(false)} // Define isLoading como false quando a animação terminar
-      />
-      <Text style={styles.txt}>
-        Centralize todos os seus eventos em um único lugar!
-      </Text>
-    </View>
+      <View style={styles.container}>
+          {/* <Logo/> */}
+
+          {/* Exibe a animação de splash */}
+          <LottieView
+              source={splashjson}
+              autoPlay
+              loop={false}
+              resizeMode="contain"
+              style={styles.animation}
+              onAnimationFinish={() => setIsLoading(false)} // Define isLoading como false quando a animação terminar
+          />
+          <Text style={styles.txt}>Centralize todos os seus eventos em um único lugar!</Text>
+      </View>
   );
 };
 
@@ -63,9 +59,9 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adiciona margem superior à barra de carregamento
   },
   txt: {
-    color: "#4090FE",
+    color: "#60BFC5",
     fontSize: 24,
-    fontFamily: "Quicksand_600SemiBold",
+    fontFamily: "Raleway_700Bold",
     textAlign: "center",
     width: "70%",
   },
