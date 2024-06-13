@@ -10,8 +10,8 @@ import api from '../../service/service';
 
 export const Login = ({ navigation }) => {
     const [isSecureEntry, setIsSecureEntry] = useState(true);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     async function RedirectRegister() {
         navigation.replace("CreateAccount")
     }
