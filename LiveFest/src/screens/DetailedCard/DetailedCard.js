@@ -53,10 +53,10 @@ const mapApiDataToEventData = (apiData) => {
 };
 
 export const DetailedCard = () => {
-  const [eventData, setEventData] = useState(null);
   const route = useRoute();
   const navigation = useNavigation();
   const eventId = route.params.eventData?.id;
+  const [eventData, setEventData] = useState(null);
 
   useEffect(() => {
     if (eventId) {
@@ -73,18 +73,33 @@ export const DetailedCard = () => {
       const location = await fetchEventLocation(data.addressID);
       console.log("Dados de localização:", location);
 
-      const eventData = {
+      const eventDataBase = {
         ...mapApiDataToEventData(data),
         ...location,
       };
-      console.log("Dados do evento mapeados:", eventData);
 
-      setEventData(eventData);
+      setEventData(eventDataBase);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       Alert.alert("Erro", "Ocorreu um erro ao carregar os dados do evento.");
     }
   };
+
+  // const fetchEventLocation = async (addressID) => {
+  //   try {
+  //     const response = await api.get(`/Address/GetById?id=${addressID}`);
+  //     const locationData = response.data;
+  //     return {
+  //       latitude: locationData.latitude,
+  //       longitude: locationData.longitude,
+  //       location: locationData.street,
+  //       endereco: locationData.number.toString(),
+  //     };
+  //   } catch (error) {
+  //     console.error("Erro ao carregar dados de localização:", error);
+  //     return { latitude: null, longitude: null, location: null, endereco: null };
+  //   }
+  // };
 
   const fetchEventLocation = async (addressID) => {
     try {
@@ -93,10 +108,19 @@ export const DetailedCard = () => {
       return {
         latitude: locationData.latitude,
         longitude: locationData.longitude,
+        location: locationData.street || "Localização não fornecida",
+        endereco: locationData.number
+          ? locationData.number.toString()
+          : "Número não fornecido",
       };
     } catch (error) {
       console.error("Erro ao carregar dados de localização:", error);
-      return { latitude: null, longitude: null };
+      return {
+        latitude: null,
+        longitude: null,
+        location: "Localização não fornecida",
+        endereco: "Número não fornecido",
+      };
     }
   };
 
@@ -109,6 +133,9 @@ export const DetailedCard = () => {
         nomeEvento: eventData.event_name,
         dataEvento: eventData.event_date,
         descricaoEvento: eventData.description,
+        eventData: eventData,
+        endereco: eventData.street,
+        numero: eventData.number,
       });
     } else {
       Alert.alert("Erro", "A localização do evento não está disponível.");
@@ -159,15 +186,16 @@ export const DetailedCard = () => {
           <Text style={styles.sectionTitle}>Localização</Text>
           <TouchableOpacity onPress={openMaps}>
             <Text style={styles.location}>
-              {eventData.location}{" "}
+              {eventData.location || "Endereço não fornecido"}{" "}
               <Image
                 source={require("../../../assets/google map.png")}
                 style={styles.icon}
               />
             </Text>
           </TouchableOpacity>
-          <Text>Latitude: {eventData.latitude}</Text>
-          <Text>Longitude: {eventData.longitude}</Text>
+
+          <Text>Endereço: {eventData.location}</Text>
+          <Text>Número: {eventData.endereco}</Text>
         </View>
 
         <View style={styles.section}>
