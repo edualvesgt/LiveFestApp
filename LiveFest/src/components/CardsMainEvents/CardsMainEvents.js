@@ -1,7 +1,7 @@
 import { Image, View } from "react-native"
 import { CardMainContianer } from "./style"
 import { TextDate, TextTitleCardMain } from "../Texts/Texts"
-
+import moment from "moment"
 import { AntDesign } from '@expo/vector-icons';
 
 export const CardsMainEvents = ({
@@ -25,13 +25,13 @@ export const CardsMainEvents = ({
           paddingHorizontal: 15,
           paddingVertical: 10
         }}>
-        <View style={{ gap: 5 }}>
+        <View style={{ gap: 5, width:"80%" }}>
           <TextTitleCardMain
             numberOfLines={1}
           >
             {title}
           </TextTitleCardMain>
-          <TextDate>{date}</TextDate>
+          <TextDate>{moment(date).format("DD-MM-YYYY") }</TextDate>
         </View>
         <AntDesign name="staro" size={24} color="white" />
       </View>

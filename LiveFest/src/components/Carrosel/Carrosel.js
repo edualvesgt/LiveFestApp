@@ -18,17 +18,21 @@ function Carrossel({
 
   useEffect(() => {
     // Update the key whenever events change
-    setCarouselKey(events.length);
-    console.log(carouselKey)
-    handleCardSelect(0)
+    if(events!== null && events !== undefined){
+
+      setCarouselKey(events.length);
+      console.log(carouselKey)
+      if(handleCardSelect){
+        handleCardSelect(0)
+      }
+    }
   }, [events]);
 
   return (
     <View style={{height: 180, width: "100%", margin:10}} >
       <Carousel
         key={carouselKey}
-        onSnapToItem={(index) => handleCardSelect(index)}
-
+        onSnapToItem={(index) => {if(handleCardSelect){handleCardSelect(index)}}}
         width={width*0.90}
         // height={200}
         loop={loop}
@@ -43,8 +47,8 @@ function Carrossel({
         renderItem={({ item }) => (
           <CardsMainEvents
             date={item.date}
-            title={item.title}
-            urifoto={item.urifoto}
+            title={item.eventName}
+            urifoto={item.photo}
           />          
         )}
       />

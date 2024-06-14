@@ -62,16 +62,7 @@ export default function NearbyPoints({
   };
 
 
-  //Filtra os dados apenas para dentro do raio setado em distanceOfDisplay
-  // const getMarkersInRegion = () => {
-  //   return markers.filter(marker => {
-  //     console.log(initialPosition.longitude, marker.longitude)
-  //     const distance = calculateDistance(initialPosition.coords.latitude, initialPosition.coords.longitude, marker.latitude, marker.longitude);
-  //     // Defina uma distância máxima para considerar um marcador como "próximo"
-  //     const maxDistance = 1; // por exemplo, 0.1 graus de latitude ou longitude
-  //     return distance <= distanceOfDisplay;
-  //   });
-  // };
+
 
   const onEndPositionChange = (newPosition) => {
     console.log(newPosition);
@@ -81,11 +72,6 @@ export default function NearbyPoints({
   const handleCardSelect = (index) => {
     console.log(`Card selected: ${index}`); // Log para depuração
     const selectedMarker = markers[index];
-    // setRegion({
-    //   ...region,
-    //   latitude: selectedMarker.latlng.latitude,
-    //   longitude: selectedMarker.latlng.longitude,
-    // });
     setSelectedMarkerIndex(index);
   };
 
@@ -94,16 +80,18 @@ export default function NearbyPoints({
   }, [])
 
   useEffect(() => {
+    //Filtra os dados apenas para dentro do raio setado em distanceOfDisplay
     if (initialPosition !== null) {
       const eventsFilter = markers.filter(marker => {
         // console.log(initialPosition.coords?.longitude, marker.longitude)
-        const distance = calculateDistance(initialPosition.coords?.latitude, initialPosition.coords?.longitude, marker.latitude, marker.longitude);
+        const distance = calculateDistance(initialPosition.coords?.latitude, initialPosition.coords?.longitude, marker.address.latitude, marker.address.longitude);
         // Defina uma distância máxima para considerar um marcador como "próximo"
         const maxDistance = 1; // por exemplo, 0.1 graus de latitude ou longitude
         return distance <= distanceOfDisplay;
       });
       setMarkerFilter(eventsFilter)
     }
+    reloadPreviewMap()
 
   }, [initialPosition, distanceOfDisplay])
 
@@ -140,96 +128,100 @@ export default function NearbyPoints({
 
       {/* MapView = Exibe de fato o map */}
       {initialPosition !== null ?
-        <MapView
-          ref={mapReference}
-          // initialRegion={getRegionForCoordinates(initialPosition.coords.latitude, initialPosition.coords.longitude, distanceOfDisplay)}
-          // region={region}
-          // onRegionChange={onRegionChange} 
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          toolbarEnabled={false}
-          
-          onMapReady={() => { reloadPreviewMap() }}
-        >
+        <View style={{ flex: 1 , position:"relative"}}>
+          <MapView
+            ref={mapReference}
+            // initialRegion={getRegionForCoordinates(initialPosition.coords.latitude, initialPosition.coords.longitude, distanceOfDisplay)}
+            // region={region}
+            // onRegionChange={onRegionChange} 
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            toolbarEnabled={false}
 
-          <Marker
-            coordinate={{
-              latitude: initialPosition.coords?.latitude,
-              longitude: initialPosition.coords?.longitude,
-            }}
-            title="Você está aqui!"
-            pinColor="green"
-          />
-          {
-            (markerFilter.length > 0) && markerFilter[selectedMarkerIndex] ?
-              <MapViewDirections
-                origin={initialPosition.coords}
-                destination={{
-                  latitude: markerFilter[selectedMarkerIndex].latitude,
-                  longitude: markerFilter[selectedMarkerIndex].longitude,
+            onMapReady={() => { reloadPreviewMap() }}
+          >
+
+            <Marker
+              coordinate={{
+                latitude: initialPosition.coords?.latitude,
+                longitude: initialPosition.coords?.longitude,
+              }}
+              title="Você está aqui!"
+              pinColor="green"
+            />
+            {
+              (markerFilter.length > 0) && markerFilter[selectedMarkerIndex] ?
+                <MapViewDirections
+                  origin={initialPosition.coords}
+                  destination={{
+                    latitude: markerFilter[selectedMarkerIndex].address.latitude,
+                    longitude: markerFilter[selectedMarkerIndex].address.longitude,
+                  }}
+                  strokeWidth={5}
+                  strokeColor="#496BBA"
+                  apikey={GOOGLE_MAPS_APIKEY}
+
+                />
+                :
+                <></>
+            }
+
+
+
+
+            {/* Mostra os pontos dos eventos no map */}
+            {initialPosition !== null ? markerFilter.map((marker, index) => (
+              <Marker
+                key={index}
+                coordinate={{
+                  latitude: marker.address.latitude,
+                  longitude: marker.address.longitude
                 }}
-                strokeWidth={5}
-                strokeColor="#496BBA"
-                apikey={GOOGLE_MAPS_APIKEY}
-
+                title={marker.eventName}
+                pinColor="tan"
+              // description={marker.description}
               />
+            ))
               :
               <></>
-          }
-
-
-
-
-          {/* Mostra os pontos dos eventos no map */}
-          {initialPosition !== null ? markerFilter.map((marker, index) => (
-            <Marker
-              key={index}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude
-              }}
-              title={marker.title}
-              pinColor="tan"
-            // description={marker.description}
+            }
+            {/* Circulo correspondente ao raio selecionado pelo usuario */}
+            <Circle
+              center={{ latitude: initialPosition.coords.latitude, longitude: initialPosition.coords.longitude }}
+              radius={distanceOfDisplay * 1000} // Converter de km para metros
+              fillColor="rgba(150, 150, 150, 0.5)" // Cor de preenchimento do círculo
+              strokeColor="rgba(255, 0, 0, 0.8)" // Cor da borda do círculo
             />
-          ))
-            :
-            <></>
-          }
-          {/* Circulo correspondente ao raio selecionado pelo usuario */}
-          <Circle
-            center={{ latitude: initialPosition.coords.latitude, longitude: initialPosition.coords.longitude }}
-            radius={distanceOfDisplay * 1000} // Converter de km para metros
-            fillColor="rgba(150, 150, 150, 0.5)" // Cor de preenchimento do círculo
-            strokeColor="rgba(255, 0, 0, 0.8)" // Cor da borda do círculo
-          />
-        </MapView>
+          </MapView>
+          <View style={{ position: "absolute", right: 10, bottom: 10, gap: 20, padding: 5, borderRadius: 100, alignItems: "center", backgroundColor: "#FFF" }} >
+            <TouchableOpacity
+              onPress={() => {
+                setDistanceOfDisplay(distanceOfDisplay + 5)
+              }
+              }
+            >
+              <AntDesign name="pluscircle" size={32} color="#956ADF" />
+            </TouchableOpacity>
+            <Text style={{ fontWeight: 900 }} >{distanceOfDisplay}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                if (distanceOfDisplay > 5) {
+                  setDistanceOfDisplay(distanceOfDisplay - 5)
+                }
+              }
+              }
+            >
+              <AntDesign name="minuscircle" size={32} color="#956ADF" />
+            </TouchableOpacity>
+          </View>
+        </View>
         :
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator />
           <Text>Obtendo coordenadas do dispositivo</Text>
         </View>
       }
-      <View style={{ position: "absolute", left: 20, top: 30, gap: 20, padding:5, borderRadius:100, alignItems: "center", backgroundColor: "#FFF" }} >
-        <TouchableOpacity
-          onPress={() => {
-            setDistanceOfDisplay(distanceOfDisplay + 5)
-          }
-          }
-        >
-          <AntDesign name="pluscircle" size={32} color="#956ADF" />
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 900 }} >{distanceOfDisplay}</Text>
-        <TouchableOpacity
-          onPress={() => {if(distanceOfDisplay>5){
-            setDistanceOfDisplay(distanceOfDisplay - 5)
-          }
-          }
-          }
-        >
-          <AntDesign name="minuscircle" size={32} color="#956ADF" />
-        </TouchableOpacity>
-      </View>
+
 
       {
         markerFilter.length > 0 ?
