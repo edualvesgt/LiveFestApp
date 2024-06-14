@@ -55,160 +55,67 @@ export default function App() {
     return null;
   }
 
-  return (
-    <NavigationContainer>
-      <StatusBar />
-      <Stack.Navigator
-        initialRouteName="SplashScreen" // Define a tela inicial do navegador de pilha.
-        screenOptions={{
-          headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
-          animation: 'slide_from_right',
-          animationTypeForReplace: 'push',
-          // gestureEnabled: false
-        }}
-      // screenOptions={{ headerShown: false, animation: 'fade', animationTypeForReplace: 'push'}} // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
-      >
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Onboarding1"
-          component={Onboarding1}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Onboarding2"
-          component={Onboarding2}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Onboarding3"
-          component={Onboarding3}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Main}
-          options={{ headerShown: false }}
-        />
-        {/* <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{ headerShown: false }}
-        /> */}
-        
-        <Stack.Screen
-          name="Map"
-          component={Map}
-          options={{ headerShown: false }}
-        />
-        
-        <Stack.Screen
-          name="Categories"
-          component={Categories}
-          options={{ headerShown: false }}
-        />
-       
-        <Stack.Screen
-          name="SelectedCategory"
-          component={SelectedCategory}
-          options={{ headerShown: false }}
-        />
-         
-        <Stack.Screen
-          name="DetailedCard"
-          component={DetailedCard}
-          options={{ headerShown: false }}
-        />
-        
-        <Stack.Screen
-          name="Favorites"
-          component={Favorites}
-          options={{ headerShown: false }}
-        />
- 
-        <Stack.Screen
-          //Login
-          name='Login'
-          //componente que sera chamado
-          component={Login}
-          //titulo da tela
-          options={{ title: 'Login' }}
-        />
-        
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='PasswordReset'
-          //componente que sera chamado
-          component={PasswordReset}
-          //titulo da tela
-          options={{ title: 'PasswordReset' }}
-        />
-        
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='EmailVerification'
-          //componente que sera chamado
-          component={EmailVerification}
-          //titulo da tela
-          options={{
-            title: 'EmailVerification',
-            // animation:'slide_from_right',
-          }}
-        />
-        
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='VerificationCode'
-          //componente que sera chamado
-          component={VerificationCode}
-          //titulo da tela
-          options={{
-            title: 'VerificationCode',
-            animation: 'slide_from_right',
-          }}
-        />
-        
-        <Stack.Screen
-          //Login
-          name='CreateAccount'
-          //componente que sera chamado
-          component={CreateAccount}
-          //titulo da tela
-          options={{ title: 'CreateAccount' }}
-        />
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='RegistrationSuccessful'
-          //componente que sera chamado
-          component={RegistrationSuccessful}
-          //titulo da tela
-          options={{ title: 'RegistrationSuccessful' }}
-        />
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='PasswordRecover'
-          //componente que sera chamado
-          component={PasswordRecover}
-          //titulo da tela
-          options={{ title: 'PasswordRecover' }}
-        />
-
-        <Stack.Screen
-          //RegistrationSuccessful
-          name='PasswordResetSuccessful'
-          //componente que sera chamado
-          component={PasswordResetSuccessful}
-          //titulo da tela
-          options={{ title: 'PasswordResetSuccessful' }}
-        /> 
-
-
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Categories">
+                <Stack.Screen
+                    name="SplashScreen"
+                    component={SplashScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Onboarding1"
+                    component={Onboarding1}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Onboarding2"
+                    component={Onboarding2}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Onboarding3"
+                    component={Onboarding3}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Home"
+                    component={Main}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Main"
+                    component={Main}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Map"
+                    component={Map}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Categories"
+                    component={Categories}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="SelectedCategory"
+                    component={SelectedCategory}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="DetailedCard"
+                    component={DetailedCard}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Favorites"
+                    component={Favorites}
+                    options={{ headerShown: false }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({

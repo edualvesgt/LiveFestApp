@@ -13,7 +13,7 @@ import { Map } from "../../components/Map/Map";
 
 const BottomTab = createBottomTabNavigator();
 
-export const Main = () => {
+export const Main = ({route}) => {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -24,13 +24,13 @@ export const Main = () => {
         headerShown: false,
         tabBarIcon: ({ focused }) => {
           // Ajuste aqui para mudar a cor dos ícones para #FEA340 quando focados
-          const iconColor = focused? "#956ADF" : "#AAAAAA"; // Cor original
+          const iconColor = focused ? "#956ADF" : "#AAAAAA"; // Cor original
 
           if (route.name === "Home") {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused? "#fff" : "transparent"
+                  focused ? "#fff" : "transparent"
                 }
               >
                 <AntDesign name="home" size={32} color={iconColor} />
@@ -43,7 +43,7 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused? "#fff" : "transparent"
+                  focused ? "#fff" : "transparent"
                 }
               >
                 <Feather name="map" size={28} color={iconColor} />
@@ -56,7 +56,7 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused? "#fff" : "transparent"
+                  focused ? "#fff" : "transparent"
                 }
               >
                 <Entypo name="menu" size={38} color={iconColor} />
@@ -69,7 +69,7 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused? "#fff" : "transparent"
+                  focused ? "#fff" : "transparent"
                 }
               >
                 <Feather name="user" size={32} color={iconColor} />
@@ -82,7 +82,7 @@ export const Main = () => {
             return (
               <ContentIcon
                 tabBarActiveBackgroundColor={
-                  focused? "#fff" : "transparent"
+                  focused ? "#fff" : "transparent"
                 }
               >
                 <Feather name="heart" size={32} color={iconColor} />
@@ -99,7 +99,7 @@ export const Main = () => {
       <BottomTab.Screen name="Map" component={Map} />
       <BottomTab.Screen name="Categories" component={Categories} />
       <BottomTab.Screen name="Login" component={Login} />
-      <BottomTab.Screen name="Favorites" component={Favorites} />
+      <BottomTab.Screen initialParams={ route.params } name="Favorites" component={Favorites} />
     </BottomTab.Navigator>
   );
 };

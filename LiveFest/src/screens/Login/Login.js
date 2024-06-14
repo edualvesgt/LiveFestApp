@@ -10,8 +10,8 @@ import api from '../../service/service';
 
 export const Login = ({ navigation }) => {
     const [isSecureEntry, setIsSecureEntry] = useState(true);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("gabriel.demetrio5@aluno.senai.br");
+    const [password, setPassword] = useState("123456");
     async function RedirectRegister() {
         navigation.replace("CreateAccount")
     }
@@ -21,6 +21,8 @@ export const Login = ({ navigation }) => {
 
 
     async function Login() {
+        console.log(email);
+        console.log(password);
         try {
             const response = await api.post('/login', {
                 "email": email,
@@ -31,7 +33,8 @@ export const Login = ({ navigation }) => {
             if (response.status == 200) {
                 // Sucesso no login, redirecionar ou armazenar o token
                 Alert.alert('Login bem-sucedido');
-                navigation.replace('Home')
+                console.log("id",{userId : response.data.user.id});
+                navigation.replace('Main', {userId : response.data.user.id})
                 // navegação ou armazenamento de token aqui
             } else {
                 Alert.alert('Erro', 'Credenciais inválidas');
@@ -54,7 +57,7 @@ export const Login = ({ navigation }) => {
                 </IconWrapper>
                 <StyledInput
                     value={email}
-                    onChanceText={txt => setEmail(txt)}
+                    onChangeText={txt => setEmail(txt)}
                     placeholder="E-mail" />
             </Input>
 
@@ -65,7 +68,7 @@ export const Login = ({ navigation }) => {
                 <PasswordInputContainer>
                     <StyledInput
                         value={password}
-                        onChanceText={txt => setEmail(txt)}
+                        onChangeText={txt => setPassword(txt)}
                         placeholder="Senha"
                         secureTextEntry={isSecureEntry}
                     />

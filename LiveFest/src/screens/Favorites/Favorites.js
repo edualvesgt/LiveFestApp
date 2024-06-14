@@ -5,7 +5,6 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import { ContainerMarginStatusBar } from "../../components/Container/Style";
 import { StatusBar } from "expo-status-bar";
@@ -14,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import InputSearch from "../../components/InputSearch/InputSearch";
 import { TextTitle } from "../../components/Texts/Texts";
 import { FavoriteCards } from "../../components/FavoriteCards/FavoriteCards";
+import api from "../../service/service";
 
 const colors = [
   "#BA68C8",
@@ -30,93 +30,92 @@ const colors = [
   "#F06292",
 ];
 
-const mockFavorites = [
-  { id: "1", title: "Festas e shows", date: "09 Jun 2024", color: "#BA68C8" },
-  {
-    id: "2",
-    title: "Cursos e Workshops",
-    date: "09 Jun 2024",
-    color: "#4DB6E8",
-  },
-  { id: "3", title: "Gastronomia", date: "09 Jun 2024", color: "#81C784" },
-  { id: "4", title: "Tecnologia", date: "09 Jun 2024", color: "#FF8A65" },
-  {
-    id: "5",
-    title: "Turismo e Viagens",
-    date: "09 Jun 2024",
-    color: "#FFD54F",
-  },
-];
-
 const FavoriteItem = ({ title, date, color, onPress }) => (
-    <View style={[styles.cardContainer, { backgroundColor: color }]}>
-        <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{title}</Text>
-            <Text style={styles.cardDate}>{date}</Text>
-        </View>
-        <Ionicons name="star" size={24} color="yellow" />
+  <View style={[styles.cardContainer, { backgroundColor: color }]}>
+    <View style={styles.cardContent}>
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDate}>{date}</Text>
     </View>
+    <Ionicons name="star" size={24} color="yellow" />
+  </View>
 );
 
-export const Favorites = () => {
-    const navigation = useNavigation();
-    //   const [favorites, setFavorites] = useState([]);
-    const [favorites, setFavorites] = useState(mockFavorites); // Usando dados mock
-    const [search, setSearch] = useState("");
+export const Favorites = ({ route }) => {
+  const { userID } = route.params;
+  const navigation = useNavigation();
+  const [favorites, setFavorites] = useState([]); // Inicializa como uma lista vazia
+  const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        //chamada à API para obter os dados dos eventos favoritos
+  useEffect(() => {
+    // Chamada à API para obter os dados dos eventos favoritos
+    async function GetEventsSaved() {
+      try {
+        const response = await api.get(`/SaveEvents/Todos?userID=78B8715F-4966-484D-B680-B973F2C90348`);
 
-        const fetchFavorites = async () => {
-            const response = await fetch("URL_DA_API");
-            const data = await response.json();
-            setFavorites(data);
-        };
+        // Mapeia a estrutura de dados recebida para o formato esperado pela FlatList
+        const mappedFavorites = response.data.map((item) => ({
+          id: item.events.id,
+          title: item.events.eventName,
+          date: new Date(item.events.date).toLocaleDateString(), // Formata a data
+          color: colors[Math.floor(Math.random() * colors.length)], // Seleciona uma cor aleatória
+        }));
 
-        fetchFavorites();
-    }, []);
+        setFavorites(mappedFavorites);
+      } catch (error) {
+        console.log("log error");
+        console.log(error);
+      }
+    }
 
-    const handleDelete = (title) => {
-        setFavorites(favorites.filter((item) => item.title !== title));
-    };
+    GetEventsSaved();
+  }, []);
 
-    return (
-        <>
-            <ContainerMarginStatusBar justifyContent={"start"}>
-                <StatusBar style="auto" />
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Ionicons name="arrow-back" size={30} color="#4090FE" />
-                    </TouchableOpacity>
-                    <View style={styles.headerTitleContainer}>
-                        <TextTitle>Favoritos</TextTitle>
-                    </View>
-                </View>
+  const handleDelete = (eventId) => {
+    // setFavorites(favorites.filter((item) => item.title !== title));
+    console.log(route.params.userId, eventId);
+  };
 
-                <InputSearch></InputSearch>
+  // useEffect(() => {
+  //   console.log("route", route.params.userId);
+  // }, []);
 
-                <FlatList
-                    data={favorites.filter((item) =>
-                        item.title.toLowerCase().includes(search.toLowerCase())
-                    )}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item, index }) => (
-                        <FavoriteCards
-                            title={item.title}
-                            date={item.date}
-                            color={colors[index % colors.length]}
-                            onPress={() =>
-                                navigation.navigate("DetailedCard", {
-                                    title: item.title,
-                                })
-                            }
-                            onDelete={() => handleDelete(item.title)}
-                        />
-                    )}
-                />
-            </ContainerMarginStatusBar>
-        </>
-    );
+  return (
+    <>
+      <ContainerMarginStatusBar justifyContent={"start"}>
+        <StatusBar style="auto" />
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={30} color="#4090FE" />
+          </TouchableOpacity>
+          <View style={styles.headerTitleContainer}>
+            <TextTitle>Favoritos</TextTitle>
+          </View>
+        </View>
+
+        <InputSearch value={search} onChangeText={(text) => setSearch(text)} />
+
+        <FlatList
+          data={favorites.filter((item) =>
+            item.title ? item.title.toLowerCase().includes(search.toLowerCase()) : false
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => (
+            <FavoriteCards
+              title={item.title}
+              date={item.date}
+              color={item.color}
+              onPress={() =>
+                navigation.navigate("DetailedCard", {
+                  eventData: item,
+                })
+              }
+              onDelete={() => handleDelete( item.id ) }
+            />
+          )}
+        />
+      </ContainerMarginStatusBar>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({

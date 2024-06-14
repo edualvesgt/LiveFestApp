@@ -31,16 +31,38 @@ namespace LiveFest.Repository
                 throw new InvalidOperationException("Erro ao deletar evento salvo.", ex);
             }
         }
-
         public List<SaveEvents> GetAll(Guid userID)
         {
-            List<SaveEvents> savedEvent = ctx.SaveEvents
-                .Where(x => x.UserID == userID)
-                .ToList();
+            var savedEvents = (from se in ctx.SaveEvents
+                               join e in ctx.Events on se.EventsID equals e.ID
+                               join a in ctx.Address on e.AddressID equals a.ID
+                               join c in ctx.Categories on e.CategoriesID equals c.ID
+                               where se.UserID == userID
+                               select new SaveEvents
+                               {
+                                   ID = se.ID,
+                                   UserID = se.UserID,
+                                   EventsID = se.EventsID,
+                                   Events = new Events
+                                   {
+                                       ID = e.ID,
+                                       EventName = e.EventName,
+                                       Date = e.Date,
+                                       Email = e.Email,
+                                       PhoneNumber = e.PhoneNumber,
+                                       Photo = e.Photo,
+                                       Description = e.Description,
+                                       Organizer = e.Organizer,
+                                       AddressID = e.AddressID,
+                                       Address = a,
+                                       CategoriesID = e.CategoriesID,
+                                       Categories = c
+                                   },
+                                   Users = se.Users // assuming this is populated correctly elsewhere
+                               }).ToList();
 
-            return savedEvent;
+            return savedEvents;
         }
-
 
         public bool SaveEvent(Guid userID, Guid eventID)
         {

@@ -7,15 +7,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Linking,
   ImageBackground,
-  TextInput
+  TextInput,
+  Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
-import ButtonDefault from "../../components/ButtonDefault/ButtonDefault";
 import { TextButtonDefault } from "../../components/Texts/Texts";
-import { Axios } from "react-native-axios";
 import api from "../../service/service";
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -33,10 +31,10 @@ const mapApiDataToEventData = (apiData) => {
     }),
     description: apiData.description || "Descrição não fornecida.",
     organizer: {
-      name: apiData.organizer || "Organizador não fornecido",
+      name: apiData.organizer || "Organizador não fornecida",
       contact: apiData.phoneNumber,
     },
-    location: "Localização não fornecida",
+    location: apiData.address || "Localização não fornecida",
     attendees: [
       "https://randomuser.me/api/portraits/men/1.jpg",
       "https://randomuser.me/api/portraits/women/2.jpg",
@@ -56,102 +54,93 @@ const mapApiDataToEventData = (apiData) => {
   };
 };
 
-export const DetailedCard = ({ route }) => {
+export const DetailedCard = () => {
   const [eventData, setEventData] = useState(null);
-  const [evaluation, setEvaluation] = useState("")
+  const route = useRoute();
   const navigation = useNavigation();
+  const eventId = route.params.eventData?.id;
 
   useEffect(() => {
-    fetchEventData();
-  }, []);
+    if (eventId) {
+      fetchEventData(eventId);
+    }
+  }, [eventId]);
 
-  const fetchEventData = async () => {
+  const fetchEventData = async (eventId) => {
     try {
-      console.log("Fetching event data...");
-      console.log("API URL:", api.defaults.baseURL);
-      const response = await api.get("/events");
-      console.log("API response:", response);
+      const response = await api.get(`/Events/GetById?id=${eventId}`);
       const data = response.data;
-      console.log("Event data:", data);
-      const eventData = mapApiDataToEventData(data[0]);
+      console.log("Dados do evento da API:", data);
+
+      const location = await fetchEventLocation(data.addressID);
+      console.log("Dados de localização:", location);
+
+      const eventData = {
+        ...mapApiDataToEventData(data),
+        ...location,
+      };
+      console.log("Dados do evento mapeados:", eventData);
+
       setEventData(eventData);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
-      if (error.response) {
-        console.error("Server responded with a status:", error.response.status);
-      } else if (error.request) {
-        console.error(
-          "Request was made but no response received:",
-          error.request
-        );
-      } else {
-        console.error(
-          "Something went wrong while setting up the request:",
-          error.message
-        );
-      }
+      Alert.alert("Erro", "Ocorreu um erro ao carregar os dados do evento.");
     }
   };
 
-  // const getMockEventData = async () => {
-  //   return new Promise((resolve) => {
-  //     resolve({
-  //       event_name: "Metallica Concert",
-  //       event_date: "Seg, 25 de Março",
-  //       event_time: "09:59PM",
-  //       description:
-  //         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  //       organizer: {
-  //         name: "John Wells",
-  //         contact: "702-323-3322",
-  //       },
-  //       location: "05 Frami Mills Apt. 295",
-  //       attendees: [
-  //         "https://randomuser.me/api/portraits/men/1.jpg",
-  //         "https://randomuser.me/api/portraits/women/2.jpg",
-  //       ],
-  //       contact: {
-  //         phone: "473-465-1548",
-  //         email: "lakin_gavin@yahoo.com",
-  //       },
-  //     });
-  //   });
-  // };
+  const fetchEventLocation = async (addressID) => {
+    try {
+      const response = await api.get(`/Address/GetById?id=${addressID}`);
+      const locationData = response.data;
+      return {
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+      };
+    } catch (error) {
+      console.error("Erro ao carregar dados de localização:", error);
+      return { latitude: null, longitude: null };
+    }
+  };
+
+  const openMaps = () => {
+    console.log("Dados do evento no openMaps:", eventData);
+    if (eventData.latitude && eventData.longitude) {
+      navigation.navigate("Map", {
+        latitudeEvento: eventData.latitude,
+        longitudeEvento: eventData.longitude,
+        nomeEvento: eventData.event_name,
+        dataEvento: eventData.event_date,
+        descricaoEvento: eventData.description,
+      });
+    } else {
+      Alert.alert("Erro", "A localização do evento não está disponível.");
+    }
+  };
+
+  const navigateHome = () => {
+    navigation.navigate("Favorites", { event: eventData });
+  };
 
   if (!eventData) {
     return <Text>Carregando...</Text>;
   }
 
-  const openMaps = () => {
-    navigation.navigate("Map", {
-      latitudeEvento: -23.448563,
-      longitudeEvento: -46.534352,
-      nomeEvento: eventData.event_name,
-      dataEvento: eventData.event_date,
-      descricaoEvento: eventData.description,
-    });
-  };
+  // async function GetByEvent() {
+  //   try {
+  //     const response = await api.get(`/Evaluations/GetByEvent?id=${eventId}`);
 
-  const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
-  };
+  //     setEvaluation(response.description);
+  //   } catch (error) {
+  //     console.log("deu ruim na requição de comentário");
+  //     console.log(error.request);
+  //   }
+  // }
 
-  async function GetByEvent() {
-    try {
-      const response = await api.get(`/Evaluations/GetByEvent?id=${id}`);
-
-      setEvaluation(response.description);
-    } catch (error) {
-      console.log("deu ruim na requição de comentário");
-      console.log(error.request);
-    }
-  }
-
-  useEffect(() => {
-    if (EventsID) {
-      GetByEvent();
-    }
-  }, [EventsID]);
+  // useEffect(() => {
+  //   if (eventId) {
+  //     GetByEvent();
+  //   }
+  // }, [eventId]);
 
   return (
     <View style={styles.container}>
@@ -164,7 +153,6 @@ export const DetailedCard = ({ route }) => {
             <Icon name="arrow-back" size={28} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Agenda de Eventos</Text>
-          <Text style={styles.headerSubtitle}>7 eventos</Text>
         </ImageBackground>
       </View>
       <ScrollView style={styles.scrollView}>
@@ -174,13 +162,17 @@ export const DetailedCard = ({ route }) => {
         >{`${eventData.event_date}, ${eventData.event_time}`}</Text>
         <Text style={styles.description}>{eventData.description}</Text>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Organizado por</Text>
-          <View style={styles.organizerInfo}>
-            <Text style={styles.organizerName}>{eventData.organizer.name}</Text>
+        {eventData.organizer && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Organizado por</Text>
+            <View style={styles.organizerInfo}>
+              <Text style={styles.organizerName}>
+                {eventData.organizer.name}
+              </Text>
+            </View>
+            <Text style={styles.contact}>{eventData.organizer.contact}</Text>
           </View>
-          <Text style={styles.contact}>{eventData.organizer.contact}</Text>
-        </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Localização</Text>
@@ -193,6 +185,8 @@ export const DetailedCard = ({ route }) => {
               />
             </Text>
           </TouchableOpacity>
+          <Text>Latitude: {eventData.latitude}</Text>
+          <Text>Longitude: {eventData.longitude}</Text>
         </View>
 
         <View style={styles.section}>
@@ -218,7 +212,7 @@ export const DetailedCard = ({ route }) => {
           <Text style={styles.contact}>{eventData.contact.email}</Text>
         </View>
 
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.sectionTitle}>Comentários do Evento</Text>
           <View style={styles.eventEvaluation}>
             <View style={styles.organizerInfo}>
@@ -230,9 +224,9 @@ export const DetailedCard = ({ route }) => {
             <Text style={styles.eventEText}>{evaluation}
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.evaluationSection}>
+        {/* <View style={styles.evaluationSection}>
           <TextInput
             style={styles.eventE}
             placeholder="Escreva o seu comentário"
@@ -241,7 +235,7 @@ export const DetailedCard = ({ route }) => {
           <TouchableOpacity style={styles.sendEvaluation}>
             <FontAwesome name="send" size={24} color="white" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <Text style={styles.sectionTitle2}>Eventos perto de você</Text>
         <View style={styles.nearbyEvents}>
@@ -278,6 +272,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
+    height: 120,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -291,10 +286,6 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
-  },
-  headerSubtitle: {
-    fontSize: 16,
     color: "white",
   },
   headerSubtitle: {
@@ -363,19 +354,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginRight: 8,
   },
-  followButton: {
-    marginLeft: 150,
-    backgroundColor: "#007BFF",
-    width: 109,
-    height: 35,
-    borderRadius: 4,
-  },
-  followButtonText: {
-    color: "white",
-    fontFamily: "MontserratAlternates_700Bold",
-    textAlign: "center",
-    paddingTop: 7,
-  },
   contact: {
     fontSize: 16,
     color: "gray",
@@ -391,11 +369,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   moreAttendees: {
-    marginTop: 8,
+    fontSize: 16,
     color: "#007BFF",
   },
   nearbyEvents: {
-    marginTop: 16,
+    paddingLeft: 16,
   },
   eventEvaluation: {
     width: "90%",
@@ -409,15 +387,15 @@ const styles = StyleSheet.create({
     borderColor: "#4090fe",
     borderWidth: 2
   },
-  sendEvaluation: {
-    marginTop: 5,
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: "#4090fe",
-    justifyContent: "center",
-    alignItems: "center"
-  },
+  // sendEvaluation: {
+  //   marginTop: 5,
+  //   width: 50,
+  //   height: 50,
+  //   borderRadius: 100,
+  //   backgroundColor: "#4090fe",
+  //   justifyContent: "center",
+  //   alignItems: "center"
+  // },
   userIcon: {
     marginTop: 5,
     width: 40,
@@ -440,18 +418,14 @@ const styles = StyleSheet.create({
     borderWidth: 2
   },
   eventCard: {
-    width: "90%",
-    height: 180,
-    alignSelf: "center",
-    backgroundColor: "#8A2BE2",
+    backgroundColor: "#f8f8f8",
     padding: 16,
     borderRadius: 8,
     marginBottom: 16,
   },
   eventCardText: {
     fontSize: 16,
-    color: "white",
-    marginBottom: 4,
+    fontWeight: "bold",
   },
   eventEText: {
     fontSize: 16,
@@ -460,45 +434,17 @@ const styles = StyleSheet.create({
   },
   eventCardDate: {
     fontSize: 14,
-    color: "white",
+    color: "gray",
   },
-  floatingButton: {
-    position: "absolute",
-    bottom: 90,
-    right: 16,
-    backgroundColor: "red",
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
+  buttonParticipar: {
+    backgroundColor: "#007BFF",
+    padding: 16,
+    borderRadius: 8,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  floatingButtonText: {
-    color: "white",
-    fontSize: 24,
+    margin: 16,
   },
   icon: {
     width: 30,
     height: 30,
-  },
-  buttonParticipar: {
-    width: "90%",
-    height: 60,
-    marginTop: 20,
-    borderRadius: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: "#4090fe",
-    padding: 18,
-    marginBottom: 20,
   },
 });

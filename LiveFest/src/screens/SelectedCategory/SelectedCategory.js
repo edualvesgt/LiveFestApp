@@ -12,7 +12,7 @@ const colors = [
   '#4DB6AC', '#7986CB', '#FF7043', '#8D6E63', '#AED581', '#64B5F6'
 ];
 
-const EventItem = ({ title, date, description, color, onPress  }) => {
+const EventItem = ({ title, date, description, color, onPress }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const truncateDescription = (description, limit) => {
@@ -29,7 +29,7 @@ const EventItem = ({ title, date, description, color, onPress  }) => {
   };
 
   return (
-    <View style={[styles.eventContainer, { borderColor: color }]}>
+    <TouchableOpacity onPress={onPress} style={[styles.eventContainer, { borderColor: color }]}>
       <Text style={[styles.eventTitle, { color }]}>{title}</Text>
       <Text style={styles.eventDate}>{new Date(date).toLocaleDateString()}</Text>
       <Text style={styles.eventDescription}>
@@ -42,7 +42,7 @@ const EventItem = ({ title, date, description, color, onPress  }) => {
           </Text>
         </TouchableOpacity>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 

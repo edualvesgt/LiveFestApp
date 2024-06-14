@@ -14,23 +14,25 @@ import {
     Linking,
     ImageBackground,
 } from "react-native";
+import axios from 'axios';
 
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { mapskey } from "../../utils/mapsApiKey";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from '@react-navigation/native';
 
 export const Map = ({ route, navigation }) => {
-    // Verifica se route.params está definido
     if (!route.params) {
-        // Retorna alguma ação para lidar com o caso em que route.params não está definido
         return (
             <View style={styles.container}>
                 <Text>Parâmetros não encontrados</Text>
             </View>
         );
     }
+    
+
     const {
         latitudeEvento,
         longitudeEvento,
@@ -38,7 +40,14 @@ export const Map = ({ route, navigation }) => {
         dataEvento,
         descricaoEvento,
     } = route.params;
+    const [region, setRegion] = useState({
+        latitude: latitudeEvento,
+        longitude: longitudeEvento,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
     const [initialPosition, setInitialPosition] = useState(null);
+    const [eventLocation, setEventLocation] = useState(null);
     const [showFullDescription, setShowFullDescription] = useState(false);
     const mapReference = useRef(null);
 
@@ -50,14 +59,28 @@ export const Map = ({ route, navigation }) => {
         }
     }
 
+    useEffect(() => {
+        CurrentLocation();
+        fetchEventLocation();
+    }, []);
+
+    const fetchEventLocation = async () => {
+        try {
+            const response = await axios.get('http://172.16.20.218:5190/api/Address');
+            setEventLocation(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar localização do evento:", error);
+        }
+    };
+
     function reloadPreviewMap() {
-        if (mapReference.current && initialPosition?.coords) {
+        if (mapReference.current && initialPosition?.coords && eventLocation) {
             const coordinates = [
                 {
                     latitude: initialPosition.coords.latitude,
                     longitude: initialPosition.coords.longitude,
                 },
-                { latitude: latitudeEvento, longitude: longitudeEvento },
+                { latitude: eventLocation.latitude, longitude: eventLocation.longitude },
             ];
 
             mapReference.current.fitToCoordinates(coordinates, {
@@ -67,17 +90,13 @@ export const Map = ({ route, navigation }) => {
         }
     }
 
-    useEffect(() => {
-        CurrentLocation();
-    }, []);
-
     const openGoogleMaps = () => {
-        const url = `https://www.google.com/maps/dir/?api=1&destination=${latitudeEvento},${longitudeEvento}`;
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`;
         Linking.openURL(url);
     };
 
     const openWaze = () => {
-        const url = `https://www.waze.com/ul?ll=${latitudeEvento},${longitudeEvento}&navigate=yes`;
+        const url = `https://www.waze.com/ul?ll=${eventLocation.latitude},${eventLocation.longitude}&navigate=yes`;
         Linking.openURL(url);
     };
 
@@ -111,10 +130,12 @@ export const Map = ({ route, navigation }) => {
                 </ImageBackground>
             </View>
 
-            {initialPosition !== null ? (
+            {initialPosition !== null && eventLocation !== null ? (
                 <MapView
                     ref={mapReference}
                     toolbarEnabled={false}
+                    region={region}
+                    onRegionChangeComplete={(region) => setRegion(region)}
                     initialRegion={{
                         latitude: initialPosition.coords.latitude,
                         longitude: initialPosition.coords.longitude,
@@ -126,20 +147,16 @@ export const Map = ({ route, navigation }) => {
                     style={{ flex: 1 }}
                     onMapReady={reloadPreviewMap}
                 >
-                    <Marker
-                        coordinate={{
-                            latitude: initialPosition.coords.latitude,
-                            longitude: initialPosition.coords.longitude,
-                        }}
-                        title="Você está aqui"
-                        description="Posição inicial"
-                        pinColor="green"
-                    />
+                   <Marker
+          coordinate={{ latitude: latitudeEvento, longitude: longitudeEvento }}
+          title={nomeEvento}
+          description={`${dataEvento} - ${descricaoEvento}`}
+        />
                     <MapViewDirections
                         origin={initialPosition.coords}
                         destination={{
-                            latitude: latitudeEvento,
-                            longitude: longitudeEvento,
+                            latitude: eventLocation.latitude,
+                            longitude: eventLocation.longitude,
                         }}
                         strokeWidth={5}
                         strokeColor="#496BBA"
@@ -153,7 +170,6 @@ export const Map = ({ route, navigation }) => {
                 </>
             )}
             <View style={styles.buttonContainer}>
-                {/* Botão do Google Maps */}
                 <TouchableOpacity
                     style={styles.button}
                     onPress={openGoogleMaps}
@@ -163,7 +179,6 @@ export const Map = ({ route, navigation }) => {
                         style={styles.icon}
                     />
                 </TouchableOpacity>
-                {/* Botão do Waze */}
                 <TouchableOpacity style={styles.button} onPress={openWaze}>
                     <Image
                         source={require("../../../assets/Waze-icon-google-play-store.png")}
