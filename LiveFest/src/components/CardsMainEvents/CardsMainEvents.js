@@ -1,5 +1,5 @@
 import { Image, View } from "react-native"
-import { CardMainContianer } from "./Style"
+import { CardMainContianer } from "./style"
 import { TextDate, TextTitleCardMain } from "../Texts/Texts"
 
 import { AntDesign } from '@expo/vector-icons';

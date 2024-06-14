@@ -96,11 +96,11 @@ export const Main = () => {
         },
       })}
     >
-      <BottomTab.Screen name="Home" component={Home} />
-      <BottomTab.Screen name="MapNearby" component={MapNearby} />
-      <BottomTab.Screen name="Categories" component={Categories} />
-      <BottomTab.Screen name="Login" component={Login} />
-      <BottomTab.Screen name="Favorites" component={Favorites} />
+    <BottomTab.Screen name="Home" component={Home} />
+    <BottomTab.Screen name="MapNearby" component={MapNearby} />
+    <BottomTab.Screen name="Categories" component={Categories} />
+    <BottomTab.Screen name="Login" component={Login} />
+    <BottomTab.Screen name="Favorites" component={Favorites} />
     </BottomTab.Navigator>
   );
 };

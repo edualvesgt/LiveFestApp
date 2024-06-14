@@ -56,19 +56,20 @@ export default function App() {
     return null;
   }
 
-  return (
+ 
+   return (
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator
         initialRouteName="Home" // Define a tela inicial do navegador de pilha.
-        screenOptions={{
-          headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
-          animation: 'slide_from_right',
-          animationTypeForReplace: 'push',
-          // gestureEnabled: false
-        }}
+      //   screenOptions={{
+      //     headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
+      //     animation: 'slide_from_right',
+      //     animationTypeForReplace: 'push',
+      //     // gestureEnabled: false
+      //   }}
       // screenOptions={{ headerShown: false, animation: 'fade', animationTypeForReplace: 'push'}} // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
-      >
+      > 
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
@@ -88,13 +89,13 @@ export default function App() {
           name="Onboarding3"
           component={Onboarding3}
           options={{ headerShown: false }}
-        />
+        /> 
         <Stack.Screen
           name="Home"
           component={Main}
           options={{ headerShown: false }}
-        />
-         <Stack.Screen
+        /> 
+        <Stack.Screen
           name="Main"
           component={Main}
           options={{ headerShown: false }}
@@ -208,10 +209,10 @@ export default function App() {
           component={PasswordResetSuccessful}
           //titulo da tela
           options={{ title: 'PasswordResetSuccessful' }}
-        /> 
+        />
 
 
-      </Stack.Navigator>
+       </Stack.Navigator>
     </NavigationContainer>
   );
 }
