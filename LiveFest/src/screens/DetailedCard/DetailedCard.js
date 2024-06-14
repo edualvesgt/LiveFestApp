@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -28,10 +29,10 @@ const mapApiDataToEventData = (apiData) => {
     }),
     description: apiData.description || "Descrição não fornecida.",
     organizer: {
-      name: apiData.organizer || "Organizador não fornecido",
+      name: apiData.organizer || "Organizador não fornecida",
       contact: apiData.phoneNumber,
     },
-    location: "Localização não fornecida",
+    location: apiData.address || "Localização não fornecida",
     attendees: [
       "https://randomuser.me/api/portraits/men/1.jpg",
       "https://randomuser.me/api/portraits/women/2.jpg",
@@ -48,7 +49,6 @@ const mapApiDataToEventData = (apiData) => {
       phone: apiData.phoneNumber,
       email: apiData.email,
     },
-    
   };
 };
 
@@ -56,8 +56,7 @@ export const DetailedCard = () => {
   const [eventData, setEventData] = useState(null);
   const route = useRoute();
   const navigation = useNavigation();
-  // const { eventId } = route.params; 
-  const eventId = route.params.eventData?.id; 
+  const eventId = route.params.eventData?.id;
 
   useEffect(() => {
     if (eventId) {
@@ -67,98 +66,62 @@ export const DetailedCard = () => {
 
   const fetchEventData = async (eventId) => {
     try {
-      console.log("Fetching event data for ID:", eventId);
-
       const response = await api.get(`/Events/GetById?id=${eventId}`);
-      console.log("API response:", response.data); 
       const data = response.data;
-      
-      const eventData = mapApiDataToEventData(data);
-      console.log(eventData)
-      setEventData(eventData);
+      console.log("Dados do evento da API:", data);
 
+      const location = await fetchEventLocation(data.addressID);
+      console.log("Dados de localização:", location);
+
+      const eventData = {
+        ...mapApiDataToEventData(data),
+        ...location,
+      };
+      console.log("Dados do evento mapeados:", eventData);
+
+      setEventData(eventData);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
-      if (error.response) {
-        console.error("Server responded with a status:", error.response.status);
-      } else if (error.request) {
-        console.error("Request was made but no response received:", error.request);
-      } else {
-        console.error("Something went wrong while setting up the request:", error.message);
-      }
+      Alert.alert("Erro", "Ocorreu um erro ao carregar os dados do evento.");
     }
   };
 
-  const saveEventToApi = async () => {
+  const fetchEventLocation = async (addressID) => {
     try {
-      const userId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"; // Substitua pelo ID do usuário logado
-      const eventToSave = {
-        userID: userId,
-        eventID: eventId,
+      const response = await api.get(`/Address/GetById?id=${addressID}`);
+      const locationData = response.data;
+      return {
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
       };
-      const response = await api.post(
-        "/SaveEvents/EventosDoUsuario",
-        eventToSave
-      );
-      console.log("Evento salvo com sucesso na API:", response.data);
-
-      // Exibir feedback ao usuário
-      Alert.alert(
-        "Sucesso",
-        "Evento salvo com sucesso nos favoritos!",
-        [{ text: "OK", onPress: () => navigation.navigate("Favorites") }]
-      );
     } catch (error) {
-      console.error("Erro ao salvar evento na API:", error);
-      Alert.alert(
-        "Erro",
-        "Ocorreu um erro ao salvar o evento. Por favor, tente novamente."
-      );
+      console.error("Erro ao carregar dados de localização:", error);
+      return { latitude: null, longitude: null };
     }
   };
 
-  const navigateToFavorites = () => {
+  const openMaps = () => {
+    console.log("Dados do evento no openMaps:", eventData);
+    if (eventData.latitude && eventData.longitude) {
+      navigation.navigate("Map", {
+        latitudeEvento: eventData.latitude,
+        longitudeEvento: eventData.longitude,
+        nomeEvento: eventData.event_name,
+        dataEvento: eventData.event_date,
+        descricaoEvento: eventData.description,
+      });
+    } else {
+      Alert.alert("Erro", "A localização do evento não está disponível.");
+    }
+  };
+
+  const navigateHome = () => {
     navigation.navigate("Favorites", { event: eventData });
   };
 
   if (!eventData) {
     return <Text>Carregando...</Text>;
   }
-
-  // const openMaps = () => {
-  //   navigation.navigate("Map", {
-  //     latitudeEvento: -23.448563,
-  //     longitudeEvento: -46.534352,
-  //     nomeEvento: eventData.event_name,
-  //     dataEvento: eventData.event_date,
-  //     descricaoEvento: eventData.description,
-  //   });
-  // };
-
-  const openMaps = async () => {
-    try {
-      
-      const response = await api.get('http://192.168.21.118:5190/api/Address');
-      const locationData = response.data;
-  
-      
-      navigation.navigate("Map", {
-        latitudeEvento: locationData.latitude,
-        longitudeEvento: locationData.longitude,
-        nomeEvento: eventData.event_name,
-        dataEvento: eventData.event_date,
-        descricaoEvento: eventData.description,
-      });
-    } catch (error) {
-      console.error("Erro ao buscar localização do evento:", error);
-      Alert.alert("Erro", "Não foi possível encontrar a localização do evento.");
-    }
-  };
-  
-
-  const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData });
-  };
 
   return (
     <View style={styles.container}>
@@ -175,14 +138,18 @@ export const DetailedCard = () => {
       </View>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>{eventData.event_name}</Text>
-        <Text style={styles.date}>{`${eventData.event_date}, ${eventData.event_time}`}</Text>
+        <Text
+          style={styles.date}
+        >{`${eventData.event_date}, ${eventData.event_time}`}</Text>
         <Text style={styles.description}>{eventData.description}</Text>
 
         {eventData.organizer && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Organizado por</Text>
             <View style={styles.organizerInfo}>
-              <Text style={styles.organizerName}>{eventData.organizer.name}</Text>
+              <Text style={styles.organizerName}>
+                {eventData.organizer.name}
+              </Text>
             </View>
             <Text style={styles.contact}>{eventData.organizer.contact}</Text>
           </View>
@@ -199,6 +166,8 @@ export const DetailedCard = () => {
               />
             </Text>
           </TouchableOpacity>
+          <Text>Latitude: {eventData.latitude}</Text>
+          <Text>Longitude: {eventData.longitude}</Text>
         </View>
 
         <View style={styles.section}>
@@ -336,44 +305,35 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   moreAttendees: {
-    marginTop: 8,
+    fontSize: 16,
     color: "#007BFF",
   },
   nearbyEvents: {
-    marginTop: 16,
+    paddingLeft: 16,
   },
   eventCard: {
-    width: "90%",
-    height: 180,
-    alignSelf: "center",
-    backgroundColor: "#8A2BE2",
+    backgroundColor: "#f8f8f8",
     padding: 16,
     borderRadius: 8,
     marginBottom: 16,
   },
   eventCardText: {
     fontSize: 16,
-    color: "white",
-    marginBottom: 4,
+    fontWeight: "bold",
   },
   eventCardDate: {
     fontSize: 14,
-    color: "white",
+    color: "gray",
+  },
+  buttonParticipar: {
+    backgroundColor: "#007BFF",
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    margin: 16,
   },
   icon: {
     width: 30,
     height: 30,
-  },
-  buttonParticipar: {
-    width: "90%",
-    height: 60,
-    marginTop: 20,
-    borderRadius: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: "#4090fe",
-    padding: 18,
-    marginBottom: 20,
   },
 });
