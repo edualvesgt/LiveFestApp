@@ -58,6 +58,7 @@ const mapApiDataToEventData = (apiData) => {
 
 export const DetailedCard = ({ route }) => {
   const [eventData, setEventData] = useState(null);
+  const [evaluation, setEvaluation] = useState("")
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -92,30 +93,30 @@ export const DetailedCard = ({ route }) => {
     }
   };
 
-  const getMockEventData = async () => {
-    return new Promise((resolve) => {
-      resolve({
-        event_name: "Metallica Concert",
-        event_date: "Seg, 25 de Março",
-        event_time: "09:59PM",
-        description:
-          "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-        organizer: {
-          name: "John Wells",
-          contact: "702-323-3322",
-        },
-        location: "05 Frami Mills Apt. 295",
-        attendees: [
-          "https://randomuser.me/api/portraits/men/1.jpg",
-          "https://randomuser.me/api/portraits/women/2.jpg",
-        ],
-        contact: {
-          phone: "473-465-1548",
-          email: "lakin_gavin@yahoo.com",
-        },
-      });
-    });
-  };
+  // const getMockEventData = async () => {
+  //   return new Promise((resolve) => {
+  //     resolve({
+  //       event_name: "Metallica Concert",
+  //       event_date: "Seg, 25 de Março",
+  //       event_time: "09:59PM",
+  //       description:
+  //         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+  //       organizer: {
+  //         name: "John Wells",
+  //         contact: "702-323-3322",
+  //       },
+  //       location: "05 Frami Mills Apt. 295",
+  //       attendees: [
+  //         "https://randomuser.me/api/portraits/men/1.jpg",
+  //         "https://randomuser.me/api/portraits/women/2.jpg",
+  //       ],
+  //       contact: {
+  //         phone: "473-465-1548",
+  //         email: "lakin_gavin@yahoo.com",
+  //       },
+  //     });
+  //   });
+  // };
 
   if (!eventData) {
     return <Text>Carregando...</Text>;
@@ -134,6 +135,23 @@ export const DetailedCard = ({ route }) => {
   const navigateHome = () => {
     navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
   };
+
+  async function GetByEvent() {
+    try {
+      const response = await api.get(`/Evaluations/GetByEvent?id=${id}`);
+
+      setEvaluation(response.description);
+    } catch (error) {
+      console.log("deu ruim na requição de comentário");
+      console.log(error.request);
+    }
+  }
+
+  useEffect(() => {
+    if (EventsID) {
+      GetByEvent();
+    }
+  }, [EventsID]);
 
   return (
     <View style={styles.container}>
@@ -209,7 +227,7 @@ export const DetailedCard = ({ route }) => {
               </View>
               <Text style={styles.sectionTitle3}>Leandro Gonçalves</Text>
             </View>
-            <Text style={styles.eventEText}>Evento muito bakana, incrivel mto daora msm, nunk vou esquecer algo assim, me apaixonei pelo evento, genial
+            <Text style={styles.eventEText}>{evaluation}
             </Text>
           </View>
         </View>
