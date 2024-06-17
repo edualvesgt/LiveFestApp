@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import EmailIcon from '../../components/Icons/Email';
 import PasswordIcon from '../../components/Icons/Password';
 import ShowIcon from '../../components/Icons/Show';
 import HideIcon from '../../components/Icons/Hide';
 import { Button, ButtonTitle, Container, ContentAccount, IconWrapper, Input, LinkBold, LinkMedium, Logo, StyledInput, TextContentAccount, Title, PasswordInputContainer, ShowHideButton } from '../../screens/Login/Styles';
 import ConfirmationIcon from '../../components/Icons/Confirmation';
+import api from '../../service/service';
 
 export const Login = ({ navigation }) => {
     const [isSecureEntry, setIsSecureEntry] = useState(true);
-
-    async function  RedirectRegister() {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    async function RedirectRegister() {
         navigation.replace("CreateAccount")
     }
     async function  RedirectPasswordRecover() {
         navigation.replace("PasswordRecover")
+    }
+
+
+    async function Login() {
+        try {
+            const response = await api.post('/login', {
+                "email": email,
+                "password": password,
+            });
+
+            console.log(response.data);
+            if (response.status == 200) {
+                // Sucesso no login, redirecionar ou armazenar o token
+                Alert.alert('Login bem-sucedido');
+                navigation.replace('Home')
+                // navegação ou armazenamento de token aqui
+            } else {
+                Alert.alert('Erro', 'Credenciais inválidas');
+            }
+        } catch (error) {
+            Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login');
+            console.error(error);
+        }
     }
 
     return (
@@ -27,7 +52,10 @@ export const Login = ({ navigation }) => {
                 <IconWrapper>
                     <EmailIcon color={"#4090FE"} size={17} />
                 </IconWrapper>
-                <StyledInput placeholder="E-mail" />
+                <StyledInput
+                    value={email}
+                    onChanceText={txt => setEmail(txt)}
+                    placeholder="E-mail" />
             </Input>
 
             <Input>
@@ -35,8 +63,10 @@ export const Login = ({ navigation }) => {
                     <PasswordIcon color={"#4090FE"} size={20} />
                 </IconWrapper>
                 <PasswordInputContainer>
-                    <StyledInput 
-                        placeholder="Senha" 
+                    <StyledInput
+                        value={password}
+                        onChanceText={txt => setEmail(txt)}
+                        placeholder="Senha"
                         secureTextEntry={isSecureEntry}
                     />
                     <TouchableOpacity
@@ -49,7 +79,7 @@ export const Login = ({ navigation }) => {
             
             <LinkMedium onPress={RedirectPasswordRecover}>Esqueceu sua senha?</LinkMedium>
 
-            <Button>
+            <Button onPress={()=> Login()}>
                 <ButtonTitle>Entrar</ButtonTitle>
             </Button>
 

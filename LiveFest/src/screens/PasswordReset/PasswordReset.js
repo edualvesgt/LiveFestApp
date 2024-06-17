@@ -1,13 +1,14 @@
-
 import React, { useState } from 'react';
 import { Button, ButtonTitle, Container, Input, InputConfirmPassword, InputPassword, Label, PasswordInputContainer, StyledInput, Title } from './Styles';
 import { TouchableOpacity } from 'react-native';
 import ShowIcon from '../../components/Icons/Show';
 import HideIcon from '../../components/Icons/Hide';
+import api from '../../service/service';
 
-export const PasswordReset = ({ navigation }) => {
-
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
+export const PasswordReset = ({ navigation, route }) => {
+    // Estados para controlar a visibilidade de cada campo de senha
+    const [isSecureEntryPassword, setIsSecureEntryPassword] = useState(true);
+    const [isSecureEntryPasswordConfirm, setIsSecureEntryPasswordConfirm] = useState(true);
 
     // Estados para armazenar os valores dos campos de input
     const [input, setInput] = useState({
@@ -21,7 +22,7 @@ export const PasswordReset = ({ navigation }) => {
         passwordConfirm: ''   // Erro na confirmação de senha
     });
 
-
+    const { userEmail } = route.params;
     // Função para atualizar o estado de input ao alterar os valores dos campos
     const onInputChange = (name, value) => {
         setInput(prev => ({
@@ -30,7 +31,7 @@ export const PasswordReset = ({ navigation }) => {
         }));
     };
 
-    // Função de validação para dos inputs
+    // Função de validação para os inputs
     const validateInput = (name, value) => {
         setError(prev => {
             const stateObj = { ...prev, [name]: "" }; // Inicializa um objeto de erro para o campo
@@ -62,7 +63,22 @@ export const PasswordReset = ({ navigation }) => {
         });
     };
 
+    async function UpdatePassword() {
+        try {
+            if (input.password === input.passwordConfirm) {
+                const response = await api.put(`/Users/UpdatePassword?email=${userEmail}`, {
+                    "newPassword": input.password
+                })
+                console.log(response.data);
+                if (response.status == 200) {
+                    navigation.replace("PasswordResetSuccessful")
+                }
 
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Container>
@@ -73,7 +89,7 @@ export const PasswordReset = ({ navigation }) => {
                 <PasswordInputContainer>
                     <StyledInput
                         placeholder="Crie uma senha"
-                        secureTextEntry={isSecureEntry}
+                        secureTextEntry={isSecureEntryPassword} 
                         autoCompleteType='password'
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -83,9 +99,9 @@ export const PasswordReset = ({ navigation }) => {
                     />
                     {error.password && <Label style={{ color: 'red', fontSize: 14, marginTop: 38, marginLeft: -20 }}>{error.password}</Label>}
                     <TouchableOpacity
-                        onPress={() => setIsSecureEntry((prev) => !prev)}
+                        onPress={() => setIsSecureEntryPassword((prev) => !prev)}
                     >
-                        {isSecureEntry ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
+                        {isSecureEntryPassword ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
                     </TouchableOpacity>
                 </PasswordInputContainer>
             </InputPassword>
@@ -93,10 +109,9 @@ export const PasswordReset = ({ navigation }) => {
             <InputConfirmPassword>
                 <Label>Confirmar senha</Label>
                 <PasswordInputContainer>
-
                     <StyledInput
                         placeholder="Confirme sua senha"
-                        secureTextEntry={true}
+                        secureTextEntry={isSecureEntryPasswordConfirm} 
                         autoCompleteType='password'
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -106,17 +121,16 @@ export const PasswordReset = ({ navigation }) => {
                     />
                     {error.passwordConfirm && <Label style={{ color: 'red', fontSize: 14, marginTop: 38, marginLeft: -20 }}>{error.passwordConfirm}</Label>}
                     <TouchableOpacity
-                        onPress={() => setIsSecureEntry((prev) => !prev)}
+                        onPress={() => setIsSecureEntryPasswordConfirm((prev) => !prev)}
                     >
-                        {isSecureEntry ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
+                        {isSecureEntryPasswordConfirm ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
                     </TouchableOpacity>
                 </PasswordInputContainer>
             </InputConfirmPassword>
 
-            <Button>
+            <Button onPress={() => UpdatePassword()}>
                 <ButtonTitle>Redefinir senha</ButtonTitle>
             </Button>
-
         </Container>
     );
 };

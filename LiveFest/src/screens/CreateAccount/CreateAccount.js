@@ -1,6 +1,7 @@
 // Importações necessárias para o componente e estilização
 import React, { useState } from 'react';
 import { Button, ButtonTitle, Container, ContentAccount, Input, Label, LinkBold, StyledInput, TextContentAccount, Title } from './Styles';
+import api from '../../service/service';
 
 // Definição do componente de criação de conta
 export const CreateAccount = ({ navigation }) => {
@@ -110,7 +111,7 @@ export const CreateAccount = ({ navigation }) => {
         }
     };
 
-          // const handleCreateUser = () => {
+    // const handleCreateUser = () => {
     //     if (input.name && input.email && cpfValid && input.password !== '' && input.password === input.passwordConfirm && !Object.values(error).some(err => err !== "")) {
     //         alert('Cadastro criado com sucesso');
     //         navigation.navigate('login');
@@ -119,7 +120,7 @@ export const CreateAccount = ({ navigation }) => {
     //     }
     // }
 
-    
+
     // Função de validação do CPF
     function validateCPF(cpf) {
         cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
@@ -180,19 +181,47 @@ export const CreateAccount = ({ navigation }) => {
         setError(prev => ({ ...prev, email: errorMsg })); // Atualiza o estado de erro para o campo de email
     };
 
+
+
+    async function CreateAccount() {
+        console.log(input.cpf.replace(/[^\d]/g, ''));
+        try {
+            const response = await api.post('/Users', {
+                "userName": input.name,
+                "email": input.email,
+                "password": input.password,
+                "code": null,
+                "cpf": input.cpf.replace(/[^\d]/g, ''),
+            })
+
+            console.log(response.data);
+
+            if (response.status === 201) {
+                navigation.replace("RegistrationSuccessful", { userEmail: input.email });
+
+            }
+        } catch (error) {
+            console.log(error.response.status);
+            console.log(error.response.data)
+        }
+    }
+
+
+
+
     return (
         <Container>
             <Title>Cadastre-se</Title>
 
             <Input>
                 <Label>Nome completo</Label>
-                <StyledInput 
-                    placeholder="Digite seu nome completo" 
-                    keyboardType="default" 
-                    autoCapitalize='none' 
-                    autoCorrect={false} 
+                <StyledInput
+                    placeholder="Digite seu nome completo"
+                    keyboardType="default"
+                    autoCapitalize='none'
+                    autoCorrect={false}
                     value={input.name}
-                    onChangeText={(value) => onInputChange('name', value)} 
+                    onChangeText={(value) => onInputChange('name', value)}
                     onBlur={() => validateInput('name', input.name)}
                 />
                 {error.name && <Label style={{ color: 'red', fontSize: 14, marginTop: 63, marginLeft: -20 }}>{error.name}</Label>}
@@ -200,11 +229,11 @@ export const CreateAccount = ({ navigation }) => {
 
             <Input>
                 <Label>Email</Label>
-                <StyledInput 
-                    placeholder="Digite seu email" 
-                    keyboardType="email-address" 
-                    autoCapitalize='none' 
-                    autoCorrect={false} 
+                <StyledInput
+                    placeholder="Digite seu email"
+                    keyboardType="email-address"
+                    autoCapitalize='none'
+                    autoCorrect={false}
                     value={input.email}
                     onChangeText={(value) => onInputChange('email', value)}
                     onBlur={handleEmailBlur} // Valida ao sair do campo de email
@@ -214,19 +243,19 @@ export const CreateAccount = ({ navigation }) => {
 
             <Input>
                 <Label>CPF</Label>
-                <StyledInput 
-                    placeholder="Digite seu CPF" 
-                    keyboardType="numeric" 
-                    autoCapitalize='none' 
-                    autoCorrect={false} 
-                    value={input.cpf} 
+                <StyledInput
+                    placeholder="Digite seu CPF"
+                    keyboardType="numeric"
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    value={input.cpf}
                     onChangeText={(value) => {
                         const maskedCpf = maskCpf(value);
                         onInputChange('cpf', maskedCpf);     // Aplica a máscara de CPF
                         const isComplete = maskedCpf.length === 14;
                         setCpfInputComplete(isComplete); // Verifica se o CPF está completo
                         setCpfValid(validateCPF(maskedCpf)); // Valida o CPF e atualiza o estado
-                    }} 
+                    }}
                     onBlur={() => validateInput('cpf', input.cpf)} // Valida ao sair do campo de CPF
                 />
                 {error.cpf && <Label style={{ color: 'red', fontSize: 14, marginTop: 63, marginLeft: -20 }}>{error.cpf}</Label>}
@@ -234,14 +263,14 @@ export const CreateAccount = ({ navigation }) => {
 
             <Input>
                 <Label>Senha</Label>
-                <StyledInput 
-                    placeholder="Crie uma senha" 
-                    secureTextEntry={true} 
-                    autoCompleteType='password' 
-                    autoCapitalize='none' 
-                    autoCorrect={false} 
+                <StyledInput
+                    placeholder="Crie uma senha"
+                    secureTextEntry={true}
+                    autoCompleteType='password'
+                    autoCapitalize='none'
+                    autoCorrect={false}
                     value={input.password}
-                    onChangeText={(value) => onInputChange('password', value)} 
+                    onChangeText={(value) => onInputChange('password', value)}
                     onBlur={() => validateInput('password', input.password)} // Valida ao sair do campo de senha
                 />
                 {error.password && <Label style={{ color: 'red', fontSize: 14, marginTop: 63, marginLeft: -20 }}>{error.password}</Label>}
@@ -249,20 +278,20 @@ export const CreateAccount = ({ navigation }) => {
 
             <Input>
                 <Label>Confirmar senha</Label>
-                <StyledInput 
-                    placeholder="Confirme sua senha" 
-                    secureTextEntry={true} 
-                    autoCompleteType='password' 
-                    autoCapitalize='none' 
-                    autoCorrect={false} 
+                <StyledInput
+                    placeholder="Confirme sua senha"
+                    secureTextEntry={true}
+                    autoCompleteType='password'
+                    autoCapitalize='none'
+                    autoCorrect={false}
                     value={input.passwordConfirm}
-                    onChangeText={(value) => onInputChange('passwordConfirm', value)} 
+                    onChangeText={(value) => onInputChange('passwordConfirm', value)}
                     onBlur={() => validateInput('passwordConfirm', input.passwordConfirm)} // Valida ao sair do campo de confirmação de senha
                 />
                 {error.passwordConfirm && <Label style={{ color: 'red', fontSize: 14, marginTop: 63, marginLeft: -20 }}>{error.passwordConfirm}</Label>}
             </Input>
 
-            <Button onPress={handleCreateUser} >
+            <Button onPress={() => CreateAccount()} >
                 <ButtonTitle>Cadastrar</ButtonTitle>
             </Button>
 

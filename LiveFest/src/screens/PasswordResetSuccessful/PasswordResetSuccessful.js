@@ -8,7 +8,7 @@ export const PasswordResetSuccessful = ({ navigation }) => {
    
     // Função para redirecionar para a tela de login
     async function RedirectToSignUp() {
-        navigation.replace("Login");
+        navigation.replace("Home");
     }
     return (
         <Container>

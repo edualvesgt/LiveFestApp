@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 //import components
 import splashjson from "./SplashFest.json";
-import { Logo } from "../../components/Logo/Logo";
 
-//import bibliotecas
 import {
   View,
   Text,
@@ -14,23 +12,23 @@ import {
   ProgressBarAndroid,
 } from "react-native";
 
+
 export const SplashScreen = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // Define isLoading como false após 3 segundos (3000 milissegundos)
-      navigation.navigate("Home");
-    }, 5000);
+      navigation.navigate("Onboarding1");
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
       <View style={styles.container}>
-          <Logo/>
+          {/* <Logo/> */}
 
           {/* Exibe a animação de splash */}
           <LottieView

@@ -1,50 +1,37 @@
-import { SafeAreaView, StatusBar, StyleSheet, TextInput } from "react-native"
-import ButtonDefault from "../../components/ButtonDefault/ButtonDefault"
-import { TextTitle } from "../../components/Titles/Titles"
-import InputSearch from "../../components/InputSearch/InputSearch"
-import InputSearchTest from "../../components/InputSearchTest/InputSearchTest"
-import { useState } from "react"
-import { ModalTeste } from "../../components/Modal/ModalTeste"
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import InputSearch from "../../components/InputSearch/InputSearch";
+import {
+  Container,
+  ContainerMarginStatusBar,
+} from "../../components/Container/Style";
+import { StatusBar } from "expo-status-bar";
+import { TextTitle } from "../../components/Texts/Texts";
+
 
 export const Home = ({ navigation }) => {
+  return (
+    <>
+      <ContainerMarginStatusBar justifyContent={"start"}>
+        <StatusBar style="auto" />
 
-  const [text, onChangeText] = useState('Useless Text');
-  const [number, onChangeNumber] = useState('');
-    return(
-    <SafeAreaView>
-      <StatusBar barStyle={"dark-content"}/>
-      <TextTitle>Fixou uma data para o evento</TextTitle>
-      <ButtonDefault text={"Iniciar"}/>
-      <InputSearchTest />
+        <View style={styles.ContainerImput}>
+          <TextTitle>Home</TextTitle>
+          <InputSearch></InputSearch>
+        </View>
+        <TextTitle>Eventos perto de você</TextTitle>
+        
 
-      
-
-      <TextInput placeholder="dsadsad"></TextInput>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      />
-      {/* <InputSearch/> */}
-
-
-      <ModalTeste />
-    </SafeAreaView>
-    )
-}
+        <TextTitle>Próximos eventos</TextTitle>
+      </ContainerMarginStatusBar>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  ContainerImput: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 30,
   },
 });
