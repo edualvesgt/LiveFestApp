@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+  ImageBackground,
 } from "react-native";
 import { ContainerMarginStatusBar } from "../../components/Container/Style";
 import { StatusBar } from "expo-status-bar";
@@ -49,74 +50,80 @@ const mockFavorites = [
 ];
 
 const FavoriteItem = ({ title, date, color, onPress }) => (
-    <View style={[styles.cardContainer, { backgroundColor: color }]}>
-        <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{title}</Text>
-            <Text style={styles.cardDate}>{date}</Text>
-        </View>
-        <Ionicons name="star" size={24} color="yellow" />
+  <View style={[styles.cardContainer, { backgroundColor: color }]}>
+    <View style={styles.cardContent}>
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDate}>{date}</Text>
     </View>
+    <Ionicons name="star" size={24} color="yellow" />
+  </View>
 );
 
 export const Favorites = () => {
-    const navigation = useNavigation();
-    //   const [favorites, setFavorites] = useState([]);
-    const [favorites, setFavorites] = useState(mockFavorites); // Usando dados mock
-    const [search, setSearch] = useState("");
+  const navigation = useNavigation();
+  //   const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(mockFavorites); // Usando dados mock
+  const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        //chamada à API para obter os dados dos eventos favoritos
+  useEffect(() => {
 
-        const fetchFavorites = async () => {
-            const response = await fetch("URL_DA_API");
-            const data = await response.json();
-            setFavorites(data);
-        };
-
-        fetchFavorites();
-    }, []);
-
-    const handleDelete = (title) => {
-        setFavorites(favorites.filter((item) => item.title !== title));
+    const fetchFavorites = async () => {
+      const response = await fetch("URL_DA_API");
+      const data = await response.json();
+      setFavorites(data);
     };
 
-    return (
-        <>
-            <ContainerMarginStatusBar justifyContent={"start"}>
-                <StatusBar style="auto" />
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Ionicons name="arrow-back" size={30} color="#4090FE" />
-                    </TouchableOpacity>
-                    <View style={styles.headerTitleContainer}>
-                        <TextTitle>Favoritos</TextTitle>
-                    </View>
-                </View>
+    fetchFavorites();
+  }, []);
 
-                <InputSearch></InputSearch>
+  const handleDelete = (title) => {
+    setFavorites(favorites.filter((item) => item.title !== title));
+  };
 
-                <FlatList
-                    data={favorites.filter((item) =>
-                        item.title.toLowerCase().includes(search.toLowerCase())
-                    )}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item, index }) => (
-                        <FavoriteCards
-                            title={item.title}
-                            date={item.date}
-                            color={colors[index % colors.length]}
-                            onPress={() =>
-                              navigation.navigate("DetailedCard", {
-                                eventData: item, 
-                              })
-                            }
-                            onDelete={() => handleDelete(item.title)}
-                        />
-                    )}
-                />
-            </ContainerMarginStatusBar>
-        </>
-    );
+  return (
+    <View style={styles.container}>
+      <ContainerMarginStatusBar justifyContent={"start"}>
+        <StatusBar style="auto" />
+        <View style={styles.stickyHeader}>
+          <ImageBackground
+            source={require("../../../assets/Header Rota do Evento.png")}
+            style={styles.header}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Home")}
+              style={styles.backButton}
+            >
+              <Ionicons name="arrow-back" size={30} color="#fff" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Favoritos</Text>
+          </ImageBackground>
+        </View>
+
+        <InputSearch></InputSearch>
+
+        <FlatList
+         contentContainerStyle={styles.flatListContent}
+          data={favorites.filter((item) =>
+            item.title.toLowerCase().includes(search.toLowerCase())
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => (
+            <FavoriteCards
+              title={item.title}
+              date={item.date}
+              color={colors[index % colors.length]}
+              onPress={() =>
+                navigation.navigate("DetailedCard", {
+                  eventData: item,
+                })
+              }
+              onDelete={() => handleDelete(item.title)}
+            />
+          )}
+        />
+      </ContainerMarginStatusBar>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -126,15 +133,19 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
   },
+  container: {
+    flex: 1,
+  },
   headerTitleContainer: {
     flex: 1,
     alignItems: "center",
     marginRight: 28,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     marginLeft: 10,
+    color:"#fff"
   },
   searchContainer: {
     flexDirection: "row",
@@ -164,5 +175,26 @@ const styles = StyleSheet.create({
   cardDate: {
     fontSize: 16,
     color: "#fff",
+  },
+  header: {
+    height: 120,
+    padding: 16,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  stickyHeader: {
+    position: "absolute",
+    width: "100%",
+    zIndex: 1,
+  },
+  backButton: {
+    position: "absolute",
+    left: 16,
+    top: 38,
+  },
+  flatListContent: {
+    paddingTop: 55,
+    paddingBottom: 15, 
   },
 });

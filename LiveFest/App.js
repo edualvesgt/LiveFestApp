@@ -48,7 +48,7 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Favorites">
+            <Stack.Navigator initialRouteName="DetailedCard">
                 <Stack.Screen
                     name="SplashScreen"
                     component={SplashScreen}

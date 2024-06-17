@@ -244,6 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "white",
+    
   },
   stickyHeader: {
     position: "absolute",
@@ -252,6 +253,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 115,
+    paddingRight: 12,
   },
   header: {
     padding: 16,
