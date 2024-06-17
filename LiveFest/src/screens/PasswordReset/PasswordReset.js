@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button, ButtonTitle, Container, Input, InputConfirmPassword, InputPassword, Label, PasswordInputContainer, StyledInput, Title } from './Styles';
 import { TouchableOpacity } from 'react-native';
@@ -7,8 +6,9 @@ import HideIcon from '../../components/Icons/Hide';
 import api from '../../service/service';
 
 export const PasswordReset = ({ navigation, route }) => {
-
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
+    // Estados para controlar a visibilidade de cada campo de senha
+    const [isSecureEntryPassword, setIsSecureEntryPassword] = useState(true);
+    const [isSecureEntryPasswordConfirm, setIsSecureEntryPasswordConfirm] = useState(true);
 
     // Estados para armazenar os valores dos campos de input
     const [input, setInput] = useState({
@@ -31,7 +31,7 @@ export const PasswordReset = ({ navigation, route }) => {
         }));
     };
 
-    // Função de validação para dos inputs
+    // Função de validação para os inputs
     const validateInput = (name, value) => {
         setError(prev => {
             const stateObj = { ...prev, [name]: "" }; // Inicializa um objeto de erro para o campo
@@ -89,7 +89,7 @@ export const PasswordReset = ({ navigation, route }) => {
                 <PasswordInputContainer>
                     <StyledInput
                         placeholder="Crie uma senha"
-                        secureTextEntry={isSecureEntry}
+                        secureTextEntry={isSecureEntryPassword} 
                         autoCompleteType='password'
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -99,9 +99,9 @@ export const PasswordReset = ({ navigation, route }) => {
                     />
                     {error.password && <Label style={{ color: 'red', fontSize: 14, marginTop: 38, marginLeft: -20 }}>{error.password}</Label>}
                     <TouchableOpacity
-                        onPress={() => setIsSecureEntry((prev) => !prev)}
+                        onPress={() => setIsSecureEntryPassword((prev) => !prev)}
                     >
-                        {isSecureEntry ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
+                        {isSecureEntryPassword ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
                     </TouchableOpacity>
                 </PasswordInputContainer>
             </InputPassword>
@@ -109,10 +109,9 @@ export const PasswordReset = ({ navigation, route }) => {
             <InputConfirmPassword>
                 <Label>Confirmar senha</Label>
                 <PasswordInputContainer>
-
                     <StyledInput
                         placeholder="Confirme sua senha"
-                        secureTextEntry={true}
+                        secureTextEntry={isSecureEntryPasswordConfirm} 
                         autoCompleteType='password'
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -122,18 +121,16 @@ export const PasswordReset = ({ navigation, route }) => {
                     />
                     {error.passwordConfirm && <Label style={{ color: 'red', fontSize: 14, marginTop: 38, marginLeft: -20 }}>{error.passwordConfirm}</Label>}
                     <TouchableOpacity
-                        onPress={() => setIsSecureEntry((prev) => !prev)}
+                        onPress={() => setIsSecureEntryPasswordConfirm((prev) => !prev)}
                     >
-                        {isSecureEntry ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
+                        {isSecureEntryPasswordConfirm ? <HideIcon color={"#3E3E40"} size={23} /> : <ShowIcon color={"#3E3E40"} size={23} />}
                     </TouchableOpacity>
                 </PasswordInputContainer>
             </InputConfirmPassword>
 
-
             <Button onPress={() => UpdatePassword()}>
                 <ButtonTitle>Redefinir senha</ButtonTitle>
             </Button>
-
         </Container>
     );
 };

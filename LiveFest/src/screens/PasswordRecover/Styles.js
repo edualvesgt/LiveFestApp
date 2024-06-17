@@ -81,6 +81,7 @@ export const ButtonTitle = styled.Text`
   font-family: "MontserratAlternates_700Bold";
 `;
 
+
 export const ContentAccount = styled.View`
   width: 90%;
   margin-top: 30px;
