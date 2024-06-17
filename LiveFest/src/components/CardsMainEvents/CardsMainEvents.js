@@ -1,14 +1,20 @@
-import { Image, View } from "react-native"
+import { Image, TouchableOpacity, View } from "react-native"
 import { CardMainContianer } from "./style"
 import { TextDate, TextTitleCardMain } from "../Texts/Texts"
 import moment from "moment"
 import { AntDesign } from '@expo/vector-icons';
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 export const CardsMainEvents = ({
   title,
   date,
-  urifoto
+  urifoto,
+  onPress,
 }) => {
+
+  const [favorite, setFavorite] = useState(false);
+
   return (
     <CardMainContianer>
       <Image source={{ uri: urifoto }} style={{ width: "100%", height: "100%", resizeMode: "cover", borderRadius: 6 }} />
@@ -33,7 +39,20 @@ export const CardsMainEvents = ({
           </TextTitleCardMain>
           <TextDate>{moment(date).format("DD-MM-YYYY") }</TextDate>
         </View>
-        <AntDesign name="staro" size={24} color="white" />
+        <TouchableOpacity 
+          onPress={()=> setFavorite(!favorite)}
+        >
+        {
+          favorite? 
+          <Ionicons
+            name="star"
+            size={24}
+            color={"yellow"}
+          />
+          :
+          <AntDesign name="staro" size={24} color="white"/>
+        }
+        </TouchableOpacity>
       </View>
     </CardMainContianer>
   )

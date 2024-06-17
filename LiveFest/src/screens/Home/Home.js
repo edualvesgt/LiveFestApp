@@ -24,10 +24,10 @@ export const Home = ({ navigation }) => {
     try {
       const response = await api.get("/Events");
       const events = response.data;
-  
+
       // Sort the events by date in ascending order
       const sortedEvents = events.sort((a, b) => new Date(a.date) - new Date(b.date));
-  
+
       // Update the state with the sorted events
       setDataEvents(sortedEvents);
     } catch (error) {
@@ -46,10 +46,10 @@ export const Home = ({ navigation }) => {
       removeAccents(event.address.city.toLowerCase()).includes(normalizedText) ||
       removeAccents(moment(event.date).format("DD/MM/YYYY").toLowerCase()).includes(normalizedText)
     );
-  
+
     // Sort the filtered events by date in ascending order
     const sortedEvents = filteredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
-  
+
     setListEvent(sortedEvents);
     setValue(text);
   };
@@ -64,24 +64,28 @@ export const Home = ({ navigation }) => {
   // };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={()=>{}}
-    >
-      <CardEvents
-        description={item.description}
-        titleEvent={item.eventName}
-        time={moment(item.date).format("DD/MM/YYYY")}
-      />
-    </TouchableOpacity>
+    <View style={{width:"100%", alignItems:"center"}}>
+
+      <TouchableOpacity
+        onPress={() => { }}
+        style={{ width: "100%" }}
+      >
+        <CardEvents
+          description={item.description}
+          titleEvent={item.eventName}
+          time={moment(item.date).format("DD/MM/YYYY")}
+        />
+      </TouchableOpacity>
+    </View>
   );
 
   useEffect(() => { getEvents() }, [])
 
   return (
     <>
-      <ContainerMarginStatusBar justifyContent={"start"} style={{backgroundColor:"#F7F8FA"}}>
+      <ContainerMarginStatusBar style={{ backgroundColor: "#F7F8FA", alignItems: "center" }}>
         <StatusBar style="auto" />
-        <View style={{}}>
+        <View style={{ width: "90%" }}>
           <TextTitle>Home</TextTitle>
           <TextInput
             style={[styles.input, isFocus && { borderColor: '#956ADF' }]}
@@ -93,22 +97,31 @@ export const Home = ({ navigation }) => {
           />
           {/* <InputSearch dataEvents={dataEvents}/> */}
         </View>
+        <View style={{ width: "90%" }}>
+          <TextTitle>Eventos principais</TextTitle>
 
-        <TextTitle>Eventos perto de você</TextTitle>
+          {
+            dataEvents !== null ?
+              <Carrossel events={dataEvents} />
+              : <></>
+          }
 
-        {
-           dataEvents!==null ?
-        <Carrossel events={dataEvents}/>
-: <></>
-        }
+        </View>
 
-        <TextTitle>Próximos eventos</TextTitle>
+        <View style={{ width: "90%" }}>
 
-        <FlatList
-          data={value === "" ? dataEvents : listEvent}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-        />
+          <TextTitle>Próximos eventos</TextTitle>
+
+        </View>
+        <View style={{ width: "90%", flex: 1 }}>
+          <FlatList
+            data={value === "" ? dataEvents : listEvent}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.flatListContent}
+          />
+        </View>
 
       </ContainerMarginStatusBar>
     </>
