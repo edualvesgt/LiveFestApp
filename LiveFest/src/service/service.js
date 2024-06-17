@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// const portaAPI = '5190';
 const portaAPI = '5190';
 
 const ip = "192.168.21.85";
@@ -7,6 +8,7 @@ const ip = "192.168.21.85";
 //172.16.39.100:4466
 
 const apiUrlLocal = `http://${ip}:${portaAPI}/api`
+// const apiUrlLocal = `http://192.168.21.92:4466/api`
 
 const api = axios.create({
     baseURL: apiUrlLocal

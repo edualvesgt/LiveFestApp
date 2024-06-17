@@ -66,7 +66,7 @@ export const Map = ({ route, navigation }) => {
 
   const fetchEventLocation = async () => {
     try {
-      const response = await axios.get("http://172.16.20.218:5190/api/Address");
+      const response = await axios.get("http://192.168.21.85:5190/api/Address");
       setEventLocation(response.data);
     } catch (error) {
       console.error("Erro ao buscar localização do evento:", error);

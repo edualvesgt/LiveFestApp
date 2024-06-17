@@ -57,8 +57,12 @@ const mapApiDataToEventData = (apiData) => {
   };
 };
 
-export const DetailedCard = () => {
-  const [eventData, setEventData] = useState(null);
+export const DetailedCard = ({
+  route
+}) => {
+
+
+  const [eventData, setEventData] = useState(route.params.dataCard);
   const route = useRoute();
   const navigation = useNavigation();
   const eventId = route.params.eventData?.id;

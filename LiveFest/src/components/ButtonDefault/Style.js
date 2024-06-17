@@ -16,4 +16,7 @@ export const ButtonDefaultStyle = styled.TouchableOpacity`
   border-radius: 6px;
   justify-content:center;
   align-items: center;
+  padding-top: 18px;
+  padding-bottom: 18px;
+
 `

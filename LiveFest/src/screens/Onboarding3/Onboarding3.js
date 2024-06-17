@@ -20,7 +20,7 @@ export const Onboarding3 = ({ navigation }) => {
             Conheça novas pessoas.
             </Text>
           
-           <ButtonDefault text="Iniciar" onPress={() => navigation.navigate('Home')}/>
+           <ButtonDefault text="Iniciar" onPress={() => navigation.navigate('Main')}/>
         </View>
         
     );
