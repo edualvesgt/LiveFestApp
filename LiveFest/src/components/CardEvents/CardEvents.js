@@ -8,7 +8,7 @@ export const CardEvents = ({
   description
 }) => {
   return (
-    <ContainerCardEvents >
+    <ContainerCardEvents style={{backgroundColor:"#FFFFFF"}}>
       <View
         style={{
           flexDirection: "row",

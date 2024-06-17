@@ -17,11 +17,11 @@ import {
   Raleway_600SemiBold,
   Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
-import { Home } from "./src/screens/Home/Home";
+
+
 import { Onboarding1 } from "./src/screens/Onboarding1/Onboarding1";
 import { Onboarding2 } from "./src/screens/Onboarding2/Onboarding2";
 import { Onboarding3 } from "./src/screens/Onboarding3/Onboarding3";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screens/Main/Main";
 import { Categories } from "./src/screens/Categories/Categories";
@@ -38,6 +38,7 @@ import { PasswordReset } from "./src/screens/PasswordReset/PasswordReset";
 import { Login } from "./src/screens/Login/Login";
 import { SelectedCategory } from "./src/screens/SelectedCategory/SelectedCategory";
 import { MapNearby } from "./src/screens/MapNearby/MapNearby";
+import { Home } from "./src/screens/Home/Home";
 
 
 const Stack = createNativeStackNavigator();
@@ -61,7 +62,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator
-        initialRouteName="Home" // Define a tela inicial do navegador de pilha.
+        initialRouteName="Main" // Define a tela inicial do navegador de pilha.
       //   screenOptions={{
       //     headerShown: false,             // Oculta o cabeçalho padrão de todas as telas dentro do navegador de pilha.
       //     animation: 'slide_from_right',
@@ -92,7 +93,7 @@ export default function App() {
         /> 
         <Stack.Screen
           name="Home"
-          component={Main}
+          component={Home}
           options={{ headerShown: false }}
         /> 
         <Stack.Screen

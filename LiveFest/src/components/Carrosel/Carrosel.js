@@ -14,7 +14,7 @@ function Carrossel({
 }) {
   // const ref = useRef<ICarouselInstance>(null);
   const width = Dimensions.get('window').width
-  const [carouselKey, setCarouselKey] = useState(events.length);
+  const [carouselKey, setCarouselKey] = useState(0);
 
   useEffect(() => {
     // Update the key whenever events change

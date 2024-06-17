@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputSearchStyle } from "./Style";
 import { useState } from "react";
 import moment from "moment";
@@ -8,54 +8,78 @@ import moment from "moment";
 export default function InputSearch({
   dataEvents
 }) {
-  // dataSelect = [
-  //   { label: 'Raça Negra, 08 de Junho de 2024, Vibra São Paulo ', value: '1' },
-  //   { label: 'Roupa Nova,  08 de Junho de 2024, Espaço Unimed', value: '2' },
-  //   { label: 'Item 3', value: '3' },
-  //   { label: 'Item 4', value: '4' },
-  //   { label: 'Item 5', value: '5' },
-  //   { label: 'Item 6', value: '6' },
-  //   { label: 'Item 7', value: '7' },
-  //   { label: 'Item 8', value: '8' },
-  // ]
+
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [listEvent, setListEvent] = useState(dataEvents);
-  console.log("data eventos input",dataEvents)
-  const dataSelectInput = () =>{    
-    if(listEvent!== undefined && listEvent !== null){
-      return listEvent.map(data =>{
-        return {
-          label: `${data.eventName}, ${moment(data.date).format("DD-MM-YYYY")}, ${data.address.city}`,
-          value: data.id
-        };
-      })
-    }
-  }
+  // console.log("data eventos input",dataEvents)
+  
+  // const dataSelectInput = () =>{    
+  //   if(listEvent!== undefined && listEvent !== null){
+  //     return listEvent.map(data =>{
+  //       return {
+  //         label: `${data.eventName}, ${moment(data.date).format("DD/MM/YYYY")}, ${data.address.city}`,
+  //         value: data.id
+  //       };
+  //     })
+  //   }
+  // }
 
-  const renderLabel = ({ value, isFocus }) => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: '#956ADF' }]}>
-          Eventos e locais
-        </Text>
-      );
-    }
-    return null;
+  // const renderLabel = ({ value, isFocus }) => {
+  //   if (value || isFocus) {
+  //     return (
+  //       <Text style={[styles.label, isFocus && { color: '#956ADF' }]}>
+  //         Eventos e locais
+  //       </Text>
+  //     );
+  //   }
+  //   return null;
+  // };
+
+  const filterEvents = (text) => {
+    const filteredEvents = dataEvents.filter(event => 
+      event.eventName.toLowerCase().includes(text.toLowerCase()) ||
+      event.address.city.toLowerCase().includes(text.toLowerCase())
+    );
+    setListEvent(filteredEvents);
+    setValue(text);
   };
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity>
+      <Text style={styles.item}>
+        {`${item.eventName}, ${moment(item.date).format("DD/MM/YYYY")}, ${item.address.city}`}
+      </Text>
+    </TouchableOpacity>
+  );
   return (
-    <View style={styles.container}>
-      {renderLabel({ value, isFocus })}
-      <InputSearchStyle
-        isFocus={isFocus}
+    <>
+      {/* {renderLabel()} */}
+      <TextInput
+        style={[styles.input, isFocus && { borderColor: '#956ADF' }]}
+        placeholder="Buscar eventos ou cidades"
         value={value}
-        setIsFocus={setIsFocus}
-        setValue={setValue}
-        data={dataSelectInput()}
-        style={[styles.dropdown, isFocus && { borderColor: '#956ADF' }]}
+        onChangeText={(text) => filterEvents(text)}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
       />
-    </View>
+      <FlatList
+        data={listEvent}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+      />
+    </>
+    // <View style={styles.container}>
+    //   {renderLabel({ value, isFocus })}
+    //   <InputSearchStyle
+    //     isFocus={isFocus}
+    //     value={value}
+    //     setIsFocus={setIsFocus}
+    //     setValue={setValue}
+    //     data={dataSelectInput()}
+    //     style={[styles.dropdown, isFocus && { borderColor: '#956ADF' }]}
+    //   />
+    // </View>
   )
 }
 

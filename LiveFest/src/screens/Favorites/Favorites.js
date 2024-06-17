@@ -82,7 +82,7 @@ export const Favorites = () => {
 
     return (
         <>
-            <ContainerMarginStatusBar justifyContent={"start"}>
+            {/* <ContainerMarginStatusBar justifyContent={"start"}>
                 <StatusBar style="auto" />
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -114,7 +114,7 @@ export const Favorites = () => {
                         />
                     )}
                 />
-            </ContainerMarginStatusBar>
+            </ContainerMarginStatusBar> */}
         </>
     );
 };
