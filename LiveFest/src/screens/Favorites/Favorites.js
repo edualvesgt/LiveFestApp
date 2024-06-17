@@ -86,7 +86,7 @@ export const Favorites = () => {
         <StatusBar style="auto" />
         <View style={styles.stickyHeader}>
           <ImageBackground
-            source={require("../../../assets/Header Rota do Evento.png")}
+            source={require("../../../assets/Group 4 (1).png")}
             style={styles.header}
           >
             <TouchableOpacity

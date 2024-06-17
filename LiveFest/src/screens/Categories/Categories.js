@@ -51,7 +51,7 @@ export const Categories = () => {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <ContainerMarginStatusBar justifyContent={"start"}>
         <StatusBar style="auto" />
         <View style={styles.header}>
@@ -62,6 +62,7 @@ export const Categories = () => {
             <TextTitle>Categorias</TextTitle>
           </View>
         </View>
+        
         <FlatList
           data={categories}
           keyExtractor={(item) => item.id}
@@ -78,7 +79,7 @@ export const Categories = () => {
           )}
         />
       </ContainerMarginStatusBar>
-    </>
+      </View>
   );
 };
 

@@ -23,7 +23,7 @@
     "expo-linking": "~6.3.1",
     "expo-location": "~17.0.1",
     "expo-media-library": "~16.0.3",
-    "expo-notifications": "~0.28.3",
+    "expo-notifications": "~0.28.9",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.14",
     "jwt-decode": "^4.0.0",

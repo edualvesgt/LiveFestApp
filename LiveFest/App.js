@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox, StyleSheet, Text, View } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -46,9 +46,11 @@ export default function App() {
         return null;
     }
 
+    LogBox.ignoreAllLogs();
+
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="DetailedCard">
+            <Stack.Navigator initialRouteName="Categories">
                 <Stack.Screen
                     name="SplashScreen"
                     component={SplashScreen}
