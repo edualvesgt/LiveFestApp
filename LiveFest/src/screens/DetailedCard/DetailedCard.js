@@ -143,7 +143,7 @@ export const DetailedCard = () => {
   };
 
   const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData });
+    navigation.navigate("Home", { event: eventData });
   };
 
   if (!eventData) {
