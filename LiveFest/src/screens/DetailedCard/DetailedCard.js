@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Linking,
   TextInput,
   Alert,
 } from "react-native";
@@ -33,22 +34,22 @@ const mapApiDataToEventData = (apiData) => {
     }),
     description: apiData.description || "Descrição não fornecida.",
     organizer: {
-      name: apiData.organizer || "Organizador não fornecida",
+        name: apiData.organizer || "Organizador não fornecido",
       contact: apiData.phoneNumber,
     },
-    location: apiData.address || "Localização não fornecida",
+    location: "Localização não fornecida", 
     attendees: [
-      "https://randomuser.me/api/portraits/men/1.jpg",
-      "https://randomuser.me/api/portraits/women/2.jpg",
-      "https://randomuser.me/api/portraits/men/3.jpg",
-      "https://randomuser.me/api/portraits/women/4.jpg",
-      "https://randomuser.me/api/portraits/men/5.jpg",
-      "https://randomuser.me/api/portraits/women/6.jpg",
-      "https://randomuser.me/api/portraits/men/7.jpg",
-      "https://randomuser.me/api/portraits/women/8.jpg",
-      "https://randomuser.me/api/portraits/men/9.jpg",
-      "https://randomuser.me/api/portraits/women/10.jpg",
-    ],
+        "https://randomuser.me/api/portraits/men/1.jpg",
+        "https://randomuser.me/api/portraits/women/2.jpg",
+        "https://randomuser.me/api/portraits/men/3.jpg",
+        "https://randomuser.me/api/portraits/women/4.jpg",
+        "https://randomuser.me/api/portraits/men/5.jpg",
+        "https://randomuser.me/api/portraits/women/6.jpg",
+        "https://randomuser.me/api/portraits/men/7.jpg",
+        "https://randomuser.me/api/portraits/women/8.jpg",
+        "https://randomuser.me/api/portraits/men/9.jpg",
+        "https://randomuser.me/api/portraits/women/10.jpg",
+    ], 
     contact: {
       phone: apiData.phoneNumber,
       email: apiData.email,
@@ -104,24 +105,6 @@ export const DetailedCard = () => {
     }
   };
 
-  const openMaps = () => {
-    console.log("Dados do evento no openMaps:", eventData);
-    if (eventData.latitude && eventData.longitude) {
-      navigation.navigate("Map", {
-        latitudeEvento: eventData.latitude,
-        longitudeEvento: eventData.longitude,
-        nomeEvento: eventData.event_name,
-        dataEvento: eventData.event_date,
-        descricaoEvento: eventData.description,
-      });
-    } else {
-      Alert.alert("Erro", "A localização do evento não está disponível.");
-    }
-  };
-
-  const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData });
-  };
 
   const handleSaveEvent = async () => {
     try {
@@ -147,6 +130,20 @@ export const DetailedCard = () => {
     return <Text>Carregando...</Text>;
   }
 
+  const openMaps = () => {
+    navigation.navigate("Map", {
+      latitudeEvento: -23.448563,
+      longitudeEvento: -46.534352,
+      nomeEvento: eventData.event_name,
+      dataEvento: eventData.event_date,
+      descricaoEvento: eventData.description,
+    });
+  };
+
+  const navigateHome = () => {
+    navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.stickyHeader}>
@@ -158,6 +155,7 @@ export const DetailedCard = () => {
             <Icon name="arrow-back" size={28} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Agenda de Eventos</Text>
+          <Text style={styles.headerSubtitle}>7 eventos</Text>
         </ImageBackground>
       </View>
       <ScrollView style={styles.scrollView}>
@@ -167,17 +165,13 @@ export const DetailedCard = () => {
         >{`${eventData.event_date}, ${eventData.event_time}`}</Text>
         <Text style={styles.description}>{eventData.description}</Text>
 
-        {eventData.organizer && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Organizado por</Text>
-            <View style={styles.organizerInfo}>
-              <Text style={styles.organizerName}>
-                {eventData.organizer.name}
-              </Text>
-            </View>
-            <Text style={styles.contact}>{eventData.organizer.contact}</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Organizado por</Text>
+          <View style={styles.organizerInfo}>
+            <Text style={styles.organizerName}>{eventData.organizer.name}</Text>
           </View>
-        )}
+          <Text style={styles.contact}>{eventData.organizer.contact}</Text>
+        </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Localização</Text>
@@ -190,8 +184,6 @@ export const DetailedCard = () => {
               />
             </Text>
           </TouchableOpacity>
-          <Text>Latitude: {eventData.latitude}</Text>
-          <Text>Longitude: {eventData.longitude}</Text>
         </View>
 
         <View style={styles.section}>
@@ -216,32 +208,6 @@ export const DetailedCard = () => {
           <Text style={styles.contact}>{eventData.contact.phone}</Text>
           <Text style={styles.contact}>{eventData.contact.email}</Text>
         </View>
-
-        {/* <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Comentários do Evento</Text>
-          <View style={styles.eventEvaluation}>
-            <View style={styles.organizerInfo}>
-              <View style={styles.userIcon}>
-                <FontAwesome name="user" size={24} color="black" />
-              </View>
-              <Text style={styles.sectionTitle3}>Leandro Gonçalves</Text>
-            </View>
-            <Text style={styles.eventEText}>{evaluation}
-            </Text>
-          </View>
-        </View> */}
-
-        {/* <View style={styles.evaluationSection}>
-          <TextInput
-            style={styles.eventE}
-            placeholder="Escreva o seu comentário"
-            keyboardType="text">
-          </TextInput>
-          <TouchableOpacity style={styles.sendEvaluation}>
-            <FontAwesome name="send" size={24} color="white" />
-          </TouchableOpacity>
-        </View> */}
-
         <Text style={styles.sectionTitle2}>Eventos perto de você</Text>
         <View style={styles.nearbyEvents}>
           <TouchableOpacity style={styles.eventCard}>
@@ -260,12 +226,12 @@ export const DetailedCard = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
     backgroundColor: "white",
+    
   },
   stickyHeader: {
     position: "absolute",
@@ -274,6 +240,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 115,
+    paddingRight: 12,
   },
   header: {
     padding: 16,
@@ -321,15 +288,6 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 4,
   },
-  evaluationSection: {
-    paddingLeft: 16,
-    marginBottom: 16,
-    padding: 8,
-    borderRadius: 4,
-    display: "flex",
-    flexDirection: "row",
-    gap: 8,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -341,19 +299,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
   },
-  sectionTitle3: {
-    fontSize: 18,
-    fontWeight: "bold"
-  },
   organizerInfo: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  organizerInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-    gap: 10
   },
   organizerName: {
     fontSize: 16,
@@ -380,48 +328,6 @@ const styles = StyleSheet.create({
   nearbyEvents: {
     paddingLeft: 16,
   },
-  eventEvaluation: {
-    width: "90%",
-    marginRight: 10,
-    height: 180,
-    alignSelf: "center",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-    borderColor: "#4090fe",
-    borderWidth: 2
-  },
-  // sendEvaluation: {
-  //   marginTop: 5,
-  //   width: 50,
-  //   height: 50,
-  //   borderRadius: 100,
-  //   backgroundColor: "#4090fe",
-  //   justifyContent: "center",
-  //   alignItems: "center"
-  // },
-  userIcon: {
-    marginTop: 5,
-    width: 40,
-    height: 40,
-    borderRadius: 100,
-    backgroundColor: "#c6c6c6",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  eventE: {
-    width: "75%",
-    marginLeft: 15,
-    height: 60,
-    alignSelf: "center",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-    borderColor: "#4090fe",
-    borderWidth: 2
-  },
   eventCard: {
     backgroundColor: "#f8f8f8",
     padding: 16,
@@ -431,11 +337,6 @@ const styles = StyleSheet.create({
   eventCardText: {
     fontSize: 16,
     fontWeight: "bold",
-  },
-  eventEText: {
-    fontSize: 16,
-    color: "black",
-    marginBottom: 4,
   },
   eventCardDate: {
     fontSize: 14,
@@ -453,3 +354,5 @@ const styles = StyleSheet.create({
     height: 30,
   },
 });
+
+

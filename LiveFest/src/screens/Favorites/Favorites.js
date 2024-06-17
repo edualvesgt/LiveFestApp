@@ -5,6 +5,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  TextInput,
+  ImageBackground,
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContainerMarginStatusBar } from "../../components/Container/Style";
@@ -108,7 +110,7 @@ export const Favorites = ({ route }) => {
             <FavoriteCards
               title={item.title}
               date={item.date}
-              color={item.color}
+              color={colors[index % colors.length]}
               onPress={() =>
                 navigation.navigate("DetailedCard", {
                   eventData: item,
@@ -130,15 +132,19 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
   },
+  container: {
+    flex: 1,
+  },
   headerTitleContainer: {
     flex: 1,
     alignItems: "center",
     marginRight: 28,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     marginLeft: 10,
+    color:"#fff"
   },
   searchContainer: {
     flexDirection: "row",
@@ -168,5 +174,26 @@ const styles = StyleSheet.create({
   cardDate: {
     fontSize: 16,
     color: "#fff",
+  },
+  header: {
+    height: 120,
+    padding: 16,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  stickyHeader: {
+    position: "absolute",
+    width: "100%",
+    zIndex: 1,
+  },
+  backButton: {
+    position: "absolute",
+    left: 16,
+    top: 38,
+  },
+  flatListContent: {
+    paddingTop: 55,
+    paddingBottom: 15, 
   },
 });
