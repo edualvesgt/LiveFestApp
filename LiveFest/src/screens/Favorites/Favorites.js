@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContainerMarginStatusBar } from "../../components/Container/Style";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
@@ -41,23 +42,23 @@ const FavoriteItem = ({ title, date, color, onPress }) => (
 );
 
 export const Favorites = ({ route }) => {
-  const { userID } = route.params;
   const navigation = useNavigation();
-  const [favorites, setFavorites] = useState([]); // Inicializa como uma lista vazia
+  const [favorites, setFavorites] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     // Chamada à API para obter os dados dos eventos favoritos
     async function GetEventsSaved() {
       try {
-        const response = await api.get(`/SaveEvents/Todos?userID=78B8715F-4966-484D-B680-B973F2C90348`);
+        const userId = await AsyncStorage.getItem('@userId');
+        const response = await api.get(`/SaveEvents/All?userID=${userId}`);
 
         // Mapeia a estrutura de dados recebida para o formato esperado pela FlatList
         const mappedFavorites = response.data.map((item) => ({
           id: item.events.id,
           title: item.events.eventName,
-          date: new Date(item.events.date).toLocaleDateString(), // Formata a data
-          color: colors[Math.floor(Math.random() * colors.length)], // Seleciona uma cor aleatória
+          date: new Date(item.events.date).toLocaleDateString(),
+          color: colors[Math.floor(Math.random() * colors.length)],
         }));
 
         setFavorites(mappedFavorites);
@@ -70,14 +71,18 @@ export const Favorites = ({ route }) => {
     GetEventsSaved();
   }, []);
 
-  const handleDelete = (eventId) => {
-    // setFavorites(favorites.filter((item) => item.title !== title));
-    console.log(route.params.userId, eventId);
-  };
 
-  // useEffect(() => {
-  //   console.log("route", route.params.userId);
-  // }, []);
+
+  const handleDelete = async (eventId) => {
+    try {
+      const userId = await AsyncStorage.getItem('@userId');
+      await api.delete(`/SaveEvents/Delete?userID=${userId}&eventID=${eventId}`);
+      // Atualiza a lista de favoritos após deletar
+      setFavorites(favorites.filter((item) => item.id !== eventId));
+    } catch (error) {
+      console.error('Error deleting favorite event', error);
+    }
+  };
 
   return (
     <>
@@ -109,7 +114,7 @@ export const Favorites = ({ route }) => {
                   eventData: item,
                 })
               }
-              onDelete={() => handleDelete( item.id ) }
+              onDelete={() => handleDelete(item.id)}
             />
           )}
         />

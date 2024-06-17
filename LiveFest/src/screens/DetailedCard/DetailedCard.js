@@ -14,11 +14,13 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { TextButtonDefault } from "../../components/Texts/Texts";
+import AsyncStorage from '@react-native-async-storage/async-storage';  // Import AsyncStorage
 import api from "../../service/service";
 import { FontAwesome } from '@expo/vector-icons';
 
 const mapApiDataToEventData = (apiData) => {
   return {
+    id: apiData.id,  // Ensure the ID is included in the mapped data
     event_name: apiData.eventName,
     event_date: new Date(apiData.date).toLocaleDateString("pt-BR", {
       weekday: "short",
@@ -121,26 +123,29 @@ export const DetailedCard = () => {
     navigation.navigate("Favorites", { event: eventData });
   };
 
+  const handleSaveEvent = async () => {
+    try {
+      const userId = await AsyncStorage.getItem('@userId');
+      if (!userId) {
+        Alert.alert('Erro', 'Usuário não encontrado. Faça login novamente.');
+        return;
+      }
+
+      await api.post('/SaveEvents/Create', {
+        userID: userId,
+        eventID: eventData.id,
+      });
+
+      Alert.alert('Sucesso', 'Evento salvo com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar evento', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao salvar o evento.');
+    }
+  };
+
   if (!eventData) {
     return <Text>Carregando...</Text>;
   }
-
-  // async function GetByEvent() {
-  //   try {
-  //     const response = await api.get(`/Evaluations/GetByEvent?id=${eventId}`);
-
-  //     setEvaluation(response.description);
-  //   } catch (error) {
-  //     console.log("deu ruim na requição de comentário");
-  //     console.log(error.request);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (eventId) {
-  //     GetByEvent();
-  //   }
-  // }, [eventId]);
 
   return (
     <View style={styles.container}>
@@ -247,7 +252,7 @@ export const DetailedCard = () => {
 
         <TouchableOpacity
           style={styles.buttonParticipar}
-          onPress={() => navigation.navigate("Favorites")}
+          onPress={ handleSaveEvent}  // Call the handleSaveEvent function
         >
           <TextButtonDefault>Participar</TextButtonDefault>
         </TouchableOpacity>

@@ -19,7 +19,7 @@ namespace LiveFest.Controllers
             saveEventsRepository = new SaveEventsRepository();
         }
 
-        [HttpGet("Todos")]
+        [HttpGet("All")]
         public IActionResult GetAll(Guid userID)
         {
             try
@@ -33,7 +33,7 @@ namespace LiveFest.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("EventosDoUsuario")]
+        [HttpPost("Create")]
         public IActionResult SaveEvent([FromBody] SaveEventsViewModel saveEventsViewModel)
         {
             if (saveEventsViewModel == null)
@@ -60,7 +60,7 @@ namespace LiveFest.Controllers
                 return BadRequest("Failed to save event.");
             }
         }
-        [HttpDelete("userId/eventId")]
+        [HttpDelete("Delete")]
         public IActionResult DeleteSaveEvent(Guid userID, Guid eventID)
         {
             try
