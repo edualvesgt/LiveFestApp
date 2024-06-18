@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 import { CardsMainEvents } from "../CardsMainEvents/CardsMainEvents";
-import { Dimensions, View } from "react-native";
+import { Dimensions, TouchableOpacity, View } from "react-native";
 
 
 
@@ -30,12 +30,12 @@ function Carrossel({
   }, [events]);
 
   return (
-    <View style={{ height: 180, width: "100%", margin: 10 }} >
+    <View style={{ height: 180, width: "100%", marginVertical: 10 }} >
       <Carousel
         key={carouselKey}
         onSnapToItem={(index) => { if (handleCardSelect) { handleCardSelect(index) } }}
         width={width * 0.90}
-        // height={200}
+        // height={width/2}
         loop={loop}
         // ref={ref}        
         style={{
@@ -49,12 +49,13 @@ function Carrossel({
           <TouchableOpacity
             onPress={
               () => {
-                navigation.replace("DetailedCard", {dataCard: item})
+                navigation.navigate("DetailedCard", {dataCard: item.id})
+                // navigation.navigate("Home")
               }
             }
           >
             <CardsMainEvents
-              navigation={navigation}
+              // navigation={navigation}
               date={item.date}
               title={item.eventName}
               urifoto={item.photo}

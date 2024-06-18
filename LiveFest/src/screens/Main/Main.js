@@ -34,7 +34,7 @@ export const Main = ({route}) => {
                   focused ? "#fff" : "transparent"
                 }
               >
-                <AntDesign name="home" size={32} color={iconColor} />
+                <AntDesign name="home" size={28} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Home</TextIcon>
                 )}
@@ -60,7 +60,7 @@ export const Main = ({route}) => {
                   focused ? "#fff" : "transparent"
                 }
               >
-                <Entypo name="menu" size={38} color={iconColor} />
+                <Entypo name="menu" size={34} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Categoria</TextIcon>
                 )}
@@ -73,7 +73,7 @@ export const Main = ({route}) => {
                   focused ? "#fff" : "transparent"
                 }
               >
-                <Feather name="user" size={32} color={iconColor} />
+                <Feather name="user" size={28} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Login</TextIcon>
                 )}
@@ -86,7 +86,7 @@ export const Main = ({route}) => {
                   focused ? "#fff" : "transparent"
                 }
               >
-                <Feather name="heart" size={32} color={iconColor} />
+                <Feather name="heart" size={28} color={iconColor} />
                 {focused && (
                   <TextIcon style={{ paddingLeft: 3 }}>Favoritos</TextIcon>
                 )}
@@ -97,9 +97,9 @@ export const Main = ({route}) => {
       })}
     >
       <BottomTab.Screen name="Home" component={Home} />
-      <BottomTab.Screen name="Map" component={Map} />
+      <BottomTab.Screen name="MapNearby" component={MapNearby} />
       <BottomTab.Screen name="Categories" component={Categories} />
-      <BottomTab.Screen name="Login" component={Login} />
+      {/* <BottomTab.Screen name="Login" component={Login} /> */}
       <BottomTab.Screen initialParams={ route.params } name="Favorites" component={Favorites} />
     </BottomTab.Navigator>
   );

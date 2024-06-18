@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; // Importe o ícone AntDesign
 import ButtonDefault from '../../components/ButtonDefault/ButtonDefault';
 
@@ -7,6 +7,7 @@ import ButtonDefault from '../../components/ButtonDefault/ButtonDefault';
 export const Onboarding3 = ({ navigation }) => {
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={"transparent"} /><StatusBar translucent={true} barStyle={"dark-content"} />
             <Image
                 source={require('../../../assets/circles.png')}
                 style={[styles.image, styles.backgroundImage]}
@@ -17,12 +18,13 @@ export const Onboarding3 = ({ navigation }) => {
                 resizeMode="contain"
             />
             <Text style={styles.text}>
-            Conheça novas pessoas.
+                Conheça novas pessoas.
             </Text>
-          
-           <ButtonDefault text="Iniciar" onPress={() => navigation.navigate('Main')}/>
+            <View style={{ width: "90%" }}>
+                <ButtonDefault text="Iniciar" onPress={() => navigation.navigate('Login')} />
+            </View>
         </View>
-        
+
     );
 }
 
@@ -38,8 +40,8 @@ const styles = StyleSheet.create({
         width: 300,
         marginTop: 100,
         marginBottom: 100,
-        
-        
+
+
     },
     backgroundImage: {
         position: 'absolute',
@@ -67,5 +69,5 @@ const styles = StyleSheet.create({
         marginRight: 10,
         fontFamily: "Raleway_700Bold",
     },
-  
+
 });

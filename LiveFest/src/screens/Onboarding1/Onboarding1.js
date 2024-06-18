@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; // Importe o ícone AntDesign
 
 export const Onboarding1 = ({ navigation }) => {
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={"transparent"} />
             <Image
                 source={require('../../../assets/circles.png')}
                 style={[styles.image, styles.backgroundImage]}
@@ -14,15 +15,15 @@ export const Onboarding1 = ({ navigation }) => {
                 style={styles.image}
             />
             <Text style={styles.text}>
-            Eventos fáceis de encontrar.
+                Eventos fáceis de encontrar.
             </Text>
             <View style={styles.bottomContainer}>
-               
-                <TouchableOpacity onPress={() => navigation.navigate('Onboarding2')}>
+
+                <TouchableOpacity onPress={() => navigation.navigate('Onboarding2')} style={{ flexDirection: 'row' }}>
                     <Text style={styles.linkText}>Avançar</Text>
+                    <AntDesign name="arrowright" size={24} color="#4090FE" />
                 </TouchableOpacity>
-                <AntDesign name="arrowright" size={24} color="#4090FE" />
-            
+
             </View>
         </View>
     );
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 270,
         marginTop: 90,
+        marginBottom: 50,
     },
     linkText: {
         fontSize: 16,
@@ -66,5 +68,5 @@ const styles = StyleSheet.create({
         marginRight: 10,
         fontFamily: "Raleway_700Bold",
     },
-  
+
 });

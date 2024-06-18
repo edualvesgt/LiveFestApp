@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import MapView, { Circle, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Linking } from "react-native";
 import { Marker } from "react-native-maps";
 import Carrossel from "../Carrosel/Carrosel";
 import MapViewDirections from "react-native-maps-directions";
@@ -17,6 +17,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 const GOOGLE_MAPS_APIKEY = "AIzaSyCP6zqLswfuGOEvMp8ceKnv20g2JsztPSw";
 
 export default function NearbyPoints({
+  navigation,
   events
 }) {
 
@@ -28,6 +29,17 @@ export default function NearbyPoints({
   const [markerFilter, setMarkerFilter] = useState([]);
 
   const [markers] = useState(events);
+
+
+  const openGoogleMaps = () => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${markerFilter[selectedMarkerIndex].address.latitude},${markerFilter[selectedMarkerIndex].address.longitude}`;
+    Linking.openURL(url);
+  };
+
+  const openWaze = () => {
+    const url = `https://www.waze.com/ul?ll=${markerFilter[selectedMarkerIndex].address.latitude},${markerFilter[selectedMarkerIndex].address.longitude}&navigate=yes`;
+    Linking.openURL(url);
+  };
 
   //Função finalizada
   //Função para obter a coordenadas do dispositivo
@@ -128,7 +140,7 @@ export default function NearbyPoints({
 
       {/* MapView = Exibe de fato o map */}
       {initialPosition !== null ?
-        <View style={{ flex: 1 , position:"relative"}}>
+        <View style={{ flex: 1, position: "relative" }}>
           <MapView
             ref={mapReference}
             // initialRegion={getRegionForCoordinates(initialPosition.coords.latitude, initialPosition.coords.longitude, distanceOfDisplay)}
@@ -193,6 +205,9 @@ export default function NearbyPoints({
               strokeColor="rgba(255, 0, 0, 0.8)" // Cor da borda do círculo
             />
           </MapView>
+
+          
+
           <View style={{ position: "absolute", right: 10, bottom: 10, gap: 20, padding: 5, borderRadius: 100, alignItems: "center", backgroundColor: "#FFF" }} >
             <TouchableOpacity
               onPress={() => {
@@ -202,7 +217,7 @@ export default function NearbyPoints({
             >
               <AntDesign name="pluscircle" size={32} color="#956ADF" />
             </TouchableOpacity>
-            <Text style={{ fontWeight: 900 }} >{distanceOfDisplay}</Text>
+            <Text style={{ fontWeight: 900 }} >{distanceOfDisplay} Km</Text>
             <TouchableOpacity
               onPress={() => {
                 if (distanceOfDisplay > 5) {
@@ -212,6 +227,21 @@ export default function NearbyPoints({
               }
             >
               <AntDesign name="minuscircle" size={32} color="#956ADF" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={openGoogleMaps}>
+              <Image
+                source={require("../../../assets/google map.png")}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={openWaze}>
+              <Image
+                source={require("../../../assets/Waze-icon-google-play-store.png")}
+                style={styles.icon}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -230,10 +260,11 @@ export default function NearbyPoints({
             loop={false}
             events={markerFilter}
             handleCardSelect={handleCardSelect}
+            navigation={navigation}
           />
           :
-          <View style={{ height: 180, width: "100%", margin: 10, padding: 20 }} >
-            <Text style={{ fontFamily: "MontserratAlternates_600SemiBold", fontSize: 20 }}>Não há nenhum evento em um raio de {distanceOfDisplay} KM da sua posição</Text>
+          <View style={{ height: 180, width: "100%", margin: 10, padding: 20, justifyContent: "center", alignItems: "center" }} >
+            <Text style={{ fontFamily: "MontserratAlternates_600SemiBold", fontSize: 20, color: "#956ADF" }}>Não há nenhum evento em um raio de {distanceOfDisplay} Km da sua posição</Text>
           </View>
       }
     </View>
@@ -247,6 +278,30 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
+  },
+  buttonContainer: {
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 5,
+    left:0,
+    width:"100%",
+    gap: 20
+
+    // paddingHorizontal: 20,
+  },
+  button: {
+    borderRadius: 25,
+    backgroundColor: "white",
+    padding: 10,
+    elevation: 5,
+    // marginBottom: 160,
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   distanceContainer: {
     position: 'absolute',

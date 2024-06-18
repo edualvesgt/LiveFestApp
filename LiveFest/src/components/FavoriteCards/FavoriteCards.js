@@ -8,7 +8,7 @@ export const FavoriteCards = ({ title, date, color, onPress, onDelete, route }) 
   const [starColor, setStarColor] = useState("yellow");
 
   const handleStarPress = () => {
-    const newColor = starColor === "yellow"? "white" : "yellow";
+    const newColor = starColor === "yellow" ? "white" : "yellow";
     setStarColor(newColor);
   };
 
@@ -19,6 +19,7 @@ export const FavoriteCards = ({ title, date, color, onPress, onDelete, route }) 
     });
 
     return (
+      
       <TouchableOpacity onPress={() => onDelete(title)}>
         <Animated.View
           style={{
@@ -34,59 +35,69 @@ export const FavoriteCards = ({ title, date, color, onPress, onDelete, route }) 
   };
 
   return (
-    <GestureHandlerRootView>
-      <Swipeable
-        renderRightActions={(progress, dragX) =>
-          renderRightActions(progress, dragX, onDelete)
-        }
-      >
-        <TouchableOpacity
-          onPress={onPress}
-          style={[styles.cardContainer, { backgroundColor: color }]}
+    <View style={{width:"100%", marginVertical: 10}}>
+      {/* <GestureHandlerRootView > */}
+        <Swipeable
+          renderRightActions={(progress, dragX) =>
+            renderRightActions(progress, dragX, onDelete)
+          }
         >
-          <View>
-            <Text style={styles.cardTitle}>{title}</Text>
-            <Text style={styles.cardDate}>{date}</Text>
-          </View>
-          <Ionicons
-            name="star"
-            size={24}
-            color={starColor}
-            onPress={handleStarPress}
-          />
-        </TouchableOpacity>
-      </Swipeable>
-    </GestureHandlerRootView>
+        <View style={{width:"100%"}}>
+
+          <TouchableOpacity
+            onPress={onPress}
+            style={[styles.cardContainer, { backgroundColor: color }]}
+          >
+            <View style={{ alignItems: "center"}}>
+              <Text style={styles.cardTitle}>{title}</Text>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+              <Text style={styles.cardDate}>{date}</Text>
+
+              <Ionicons
+                name="star"
+                size={24}
+                color={starColor}
+                onPress={handleStarPress}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        </Swipeable>
+      {/* </GestureHandlerRootView> */}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    cardContainer: {
-        height: 180,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        borderRadius: 10,
-    },
-    cardTitle: {
-        fontSize: 24,
-        color: "#fff",
-        fontFamily: "MontserratAlternates_500Medium",
-    },
-    cardDate: {
-        fontSize: 16,
-        color: "#fff",
-        fontFamily: "MontserratAlternates_500Medium",
-    },
-    deleteButton: {
-        backgroundColor: "#D75353",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 100,
-        height: 187,
-        borderRadius: 10,
-    },
+  cardContainer: {
+    height: 180,
+    width: "100%",
+    // flexDirection: "",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 20,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
+    borderRadius: 10,
+  },
+  cardTitle: {
+    textAlign:"center",
+    fontSize: 24,
+    color: "#fff",
+    fontFamily: "MontserratAlternates_500Medium",
+  },
+  cardDate: {
+    fontSize: 16,
+    color: "#fff",
+    fontFamily: "MontserratAlternates_500Medium",
+  },
+  deleteButton: {
+    backgroundColor: "#D75353",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 180,
+    borderRadius: 10,
+  },
 });

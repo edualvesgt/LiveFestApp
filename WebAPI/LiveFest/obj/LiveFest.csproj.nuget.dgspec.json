@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {}
+    "C:\\Users\\allan\\Desktop\\Projeto Final\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {
+    "C:\\Users\\allan\\Desktop\\Projeto Final\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
+        "projectUniqueName": "C:\\Users\\allan\\Desktop\\Projeto Final\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
         "projectName": "LiveFest",
-        "projectPath": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
-        "packagesPath": "C:\\Users\\53144094889\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\53144094889\\Desktop\\LiveFestApp\\WebAPI\\LiveFest\\obj\\",
+        "projectPath": "C:\\Users\\allan\\Desktop\\Projeto Final\\LiveFestApp\\WebAPI\\LiveFest\\LiveFest.csproj",
+        "packagesPath": "C:\\Users\\allan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\allan\\Desktop\\Projeto Final\\LiveFestApp\\WebAPI\\LiveFest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\53144094889\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\allan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -108,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

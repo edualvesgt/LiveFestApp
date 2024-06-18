@@ -4,7 +4,11 @@ import Carrosel from "../../components/Carrosel/Carrosel"
 import api from "../../service/service"
 import { useEffect, useState } from "react"
 
-export const MapNearby = () => {
+export const MapNearby = (
+  {
+    navigation
+  }
+) => {
   const [dataEvents, setDataEvents] = useState(null)
 
 async function getEvents (){
@@ -22,6 +26,7 @@ useEffect(()=>{ getEvents()},[])
      {
       dataEvents!==null ?
        <NearbyPoints
+       navigation={navigation}
         events={dataEvents}
       /> 
       :

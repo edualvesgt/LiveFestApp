@@ -17,13 +17,13 @@ export const CardsMainEvents = ({
   const [favorite, setFavorite] = useState(false);
 
   return (
-    <TouchableOpacity
-     onPress={
-      ()=>{
-        navigation.replace("DetailedCard")
-      }
-     }
-    >
+    // <TouchableOpacity
+    //  onPress={
+    //   ()=>{
+    //     navigation.replace("DetailedCard")
+    //   }
+    //  }
+    // >
       <CardMainContianer>
         <Image source={{ uri: urifoto }} style={{ width: "100%", height: "100%", resizeMode: "cover", borderRadius: 6 }} />
         <View
@@ -63,6 +63,6 @@ export const CardsMainEvents = ({
         </TouchableOpacity> */}
         </View>
       </CardMainContianer>
-    </TouchableOpacity>
+    // </TouchableOpacity>
   )
 }

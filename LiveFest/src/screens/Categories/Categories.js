@@ -19,9 +19,12 @@ const CategoryItem = ({ id, title, events, color, onPress }) => (
   </TouchableOpacity>
 );
 
-export const Categories = () => {
+export const Categories = ({
+  route,
+  navigation
+}) => {
   const [categories, setCategories] = useState([]);
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   useEffect(() => {
     fetchCategoriesData();
@@ -55,9 +58,9 @@ export const Categories = () => {
       <ContainerMarginStatusBar justifyContent={"start"}>
         <StatusBar style="auto" />
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("Home")}>
             <Ionicons name="close" size={30} color="#D75353" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.headerTitleContainer}>
             <TextTitle>Categorias</TextTitle>
           </View>
@@ -93,14 +96,15 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flex: 1,
     alignItems: "center",
-    marginRight: 28,
+    // marginRight: 28,
   },
   categoryContainer: {
-    padding: 24,
+    // padding: 24,
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 10,
     height: 120,
+    justifyContent:'space-evenly',
     alignItems: "center",
   },
   categoryTitle: {

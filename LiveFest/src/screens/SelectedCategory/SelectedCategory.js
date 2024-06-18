@@ -46,10 +46,13 @@ const EventItem = ({ title, date, description, color, onPress }) => {
   );
 };
 
-export const SelectedCategory = () => {
+export const SelectedCategory = ({
+  route,
+  navigation
+}) => {
   const [events, setEvents] = useState([]);
-  const navigation = useNavigation();
-  const route = useRoute();
+  // const navigation = useNavigation();
+  // const route = useRoute();
   const { categoryId } = route.params;
 
   useEffect(() => {
@@ -98,7 +101,7 @@ export const SelectedCategory = () => {
               date={item.date} 
               description={item.description} 
               color={item.color}
-              onPress={() => navigation.navigate("DetailedCard", { eventData: item })}
+              onPress={() => navigation.navigate("DetailedCard", { dataCard: item.id })}
             />
           )}
         />

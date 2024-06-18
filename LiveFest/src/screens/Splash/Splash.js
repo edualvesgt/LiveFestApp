@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   ProgressBarAndroid,
+  StatusBar,
 } from "react-native";
 
 
@@ -28,6 +29,7 @@ export const SplashScreen = () => {
 
   return (
       <View style={styles.container}>
+          <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={"transparent"} />
           {/* <Logo/> */}
 
           {/* Exibe a animação de splash */}

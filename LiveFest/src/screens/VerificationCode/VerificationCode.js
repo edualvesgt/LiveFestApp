@@ -17,28 +17,32 @@ const pinSize = pinContainerSize / pinLength;
 
 const VerificationCode = ({ navigation, route }) => {
 
-    useEffect(() => {
-        console.log(code);
-    }, [1000]);
     const [code, setCode] = useState([]);
-
+    
     // Extrai a propriedade 'userEmail' do objeto 'route.params' se 'route.params' estiver definido,
     // caso contrário, define 'userEmail' como 'undefined'.
     const { userEmail } = route.params || {}; // Verifica se route.params está definido
-
+    
     // Verifica se o email foi recebido corretamente
     console.log("Email recebido:", userEmail);
-
+    
     // Limpa o código quando a tela é desmontada ou a rota muda
     //   useEffect(() => {
-    //     return () => {
-    //         setCode([]);
-    //     };
-    // }, [navigation, route]);
-
-
-    return (
-        <Container>
+        //     return () => {
+            //         setCode([]);
+            //     };
+            // }, [navigation, route]);
+            
+            useEffect(() => {
+                console.log(code)
+                console.log(code.length)
+                if(code.length == 4){
+                    console.log("Envia requisiçãos")
+                }
+            }, [code]);
+            
+            return (
+                <Container>
             <TextContainer>
                 <PinText>Recuperação de acesso</PinText>
                 <PinSubText>Insira no campo abaixo o código de verificação de 4 dígitos enviado para o email:</PinSubText>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -12,12 +12,13 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { TextButtonDefault } from "../../components/Texts/Texts";
 import AsyncStorage from '@react-native-async-storage/async-storage';  // Import AsyncStorage
 import api from "../../service/service";
 import { FontAwesome } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications'
 
 const mapApiDataToEventData = (apiData) => {
   return {
@@ -34,22 +35,22 @@ const mapApiDataToEventData = (apiData) => {
     }),
     description: apiData.description || "Descrição não fornecida.",
     organizer: {
-        name: apiData.organizer || "Organizador não fornecido",
+      name: apiData.organizer || "Organizador não fornecido",
       contact: apiData.phoneNumber,
     },
-    location: "Localização não fornecida", 
+    location: "Localização não fornecida",
     attendees: [
-        "https://randomuser.me/api/portraits/men/1.jpg",
-        "https://randomuser.me/api/portraits/women/2.jpg",
-        "https://randomuser.me/api/portraits/men/3.jpg",
-        "https://randomuser.me/api/portraits/women/4.jpg",
-        "https://randomuser.me/api/portraits/men/5.jpg",
-        "https://randomuser.me/api/portraits/women/6.jpg",
-        "https://randomuser.me/api/portraits/men/7.jpg",
-        "https://randomuser.me/api/portraits/women/8.jpg",
-        "https://randomuser.me/api/portraits/men/9.jpg",
-        "https://randomuser.me/api/portraits/women/10.jpg",
-    ], 
+      "https://randomuser.me/api/portraits/men/1.jpg",
+      "https://randomuser.me/api/portraits/women/2.jpg",
+      "https://randomuser.me/api/portraits/men/3.jpg",
+      "https://randomuser.me/api/portraits/women/4.jpg",
+      "https://randomuser.me/api/portraits/men/5.jpg",
+      "https://randomuser.me/api/portraits/women/6.jpg",
+      "https://randomuser.me/api/portraits/men/7.jpg",
+      "https://randomuser.me/api/portraits/women/8.jpg",
+      "https://randomuser.me/api/portraits/men/9.jpg",
+      "https://randomuser.me/api/portraits/women/10.jpg",
+    ],
     contact: {
       phone: apiData.phoneNumber,
       email: apiData.email,
@@ -57,38 +58,64 @@ const mapApiDataToEventData = (apiData) => {
   };
 };
 
+Notifications.requestPermissionsAsync();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  })
+})
+
 export const DetailedCard = ({
-  route
+  route,
+  navigation
 }) => {
 
+  const [eventFav, setEventFav] = useState(null)
 
-  const [eventData, setEventData] = useState(route.params.dataCard);
-  const route = useRoute();
-  const navigation = useNavigation();
-  const eventId = route.params.eventData?.id;
-
+  const [eventData, setEventData] = useState(null);
+  // const route = useRoute();
+  // const navigation = useNavigation();
+  const [eventId,setEventId] = useState(null)
+  const [favoriteEvent, setFavoriteEvent] = useState(null)
+  
+  useEffect(()=>{
+    setEventId(route.params?.dataCard)
+  },[]) 
+  
   useEffect(() => {
+    console.log(eventId)
     if (eventId) {
       fetchEventData(eventId);
     }
   }, [eventId]);
 
+  useFocusEffect(
+    useCallback(() => {      
+        fetchEventFav();
+    }, [eventData,eventFav])
+  );
+
   const fetchEventData = async (eventId) => {
+    // console.log(eventId)
     try {
       const response = await api.get(`/Events/GetById?id=${eventId}`);
       const data = response.data;
-      console.log("Dados do evento da API:", data);
+      // console.log("Dados do evento da API:", data);
 
       const location = await fetchEventLocation(data.addressID);
-      console.log("Dados de localização:", location);
+      // console.log("Dados de localização:", location);
 
       const eventData = {
         ...mapApiDataToEventData(data),
         ...location,
       };
-      console.log("Dados do evento mapeados:", eventData);
+      // console.log("Dados do evento mapeados:", eventData);
 
       setEventData(eventData);
+      // console.log("Dados Events : ", eventData)
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       Alert.alert("Erro", "Ocorreu um erro ao carregar os dados do evento.");
@@ -100,8 +127,7 @@ export const DetailedCard = ({
       const response = await api.get(`/Address/GetById?id=${addressID}`);
       const locationData = response.data;
       return {
-        latitude: locationData.latitude,
-        longitude: locationData.longitude,
+        locationData
       };
     } catch (error) {
       console.error("Erro ao carregar dados de localização:", error);
@@ -109,6 +135,74 @@ export const DetailedCard = ({
     }
   };
 
+  const handleDelete = async (eventId) => {
+    try {
+      const userId = await AsyncStorage.getItem('@userId');
+      await api.delete(`/SaveEvents/Delete?userID=${userId}&eventID=${eventId}`);
+      // Atualiza a lista de favoritos após deletar
+      // setFavorites(favorites.filter((item) => item.id !== eventId));
+      setEventFav(false)
+      handleCallNotifications()
+    } catch (error) {
+      console.error('Error deleting favorite event', error);
+    }
+  };
+
+  // const fetchEventFav = async () => {
+  //   console.log("execultou")
+  //   const userId = await AsyncStorage.getItem('@userId');
+  //   if (!userId) {
+  //     Alert.alert('Erro', 'Usuário não encontrado. Faça login novamente.');
+  //     return;
+  //   }
+
+  //   await api.get(`/SaveEvents/All?userID=${userId}`)
+  //   .then( (response) => {
+  //     console.log('Obtendo os Favoritos: ',response.data)
+  //     const eventoEncontrado = favoritos.some(evento => evento.events.id === eventData?.id);
+     
+  //     if (eventoEncontrado) {
+  //       const favorite = favoritos.find(evento => evento.events.id === eventData.id);
+  //       setFavoriteEvent(favorite.eventsID);
+  //       setEventFav(true);
+  //       console.log("setEventFav salvo como true")
+  //     } else {
+  //       console.log("setEventFav salvo como false")
+  //       setEventFav(false);
+  //     }
+  //   }     
+  //   ).catch(
+  //     console.log(erro)
+  //   )
+  // }
+
+  const fetchEventFav = async () => {
+    try {
+      const userId = await AsyncStorage.getItem('@userId');
+      if (!userId) {
+        Alert.alert('Erro', 'Usuário não encontrado. Faça login novamente.');
+        return;
+      }
+
+      const response = await api.get(`/SaveEvents/All?userID=${userId}`);
+      const favoritos = response.data;
+
+      if (eventData) {
+        const eventoEncontrado = favoritos.some(evento => evento.events.id === eventData.id);
+        if (eventoEncontrado) {
+          console.log("Valor encontrado")
+          const favorite = favoritos.find(evento => evento.events.id === eventData.id);
+          setFavoriteEvent(favorite.eventsID);
+          setEventFav(true);
+        } else {
+          console.log("Valor nao encontrado")
+          setEventFav(false);
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao obter favoritos:", error);
+    }
+  };
 
   const handleSaveEvent = async () => {
     try {
@@ -122,8 +216,9 @@ export const DetailedCard = ({
         userID: userId,
         eventID: eventData.id,
       });
-
-      Alert.alert('Sucesso', 'Evento salvo com sucesso!');
+      // Alert.alert('Sucesso', 'Evento salvo com sucesso!');
+      setEventFav(true)
+      handleCallNotificationsOk()
     } catch (error) {
       console.error('Erro ao salvar evento', error);
       Alert.alert('Erro', 'Ocorreu um erro ao salvar o evento.');
@@ -136,8 +231,8 @@ export const DetailedCard = ({
 
   const openMaps = () => {
     navigation.navigate("Map", {
-      latitudeEvento: -23.448563,
-      longitudeEvento: -46.534352,
+      latitudeEvento: eventData.locationData.latitude,
+      longitudeEvento: eventData.locationData.longitude,
       nomeEvento: eventData.event_name,
       dataEvento: eventData.event_date,
       descricaoEvento: eventData.description,
@@ -145,8 +240,53 @@ export const DetailedCard = ({
   };
 
   const navigateHome = () => {
-    navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
+    // navigation.navigate("Favorites", { event: eventData }); // Passando o evento como parâmetro
+    navigation.navigate("Main")
   };
+
+
+
+  const handleCallNotifications = async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+
+    if (status !== 'granted') {
+      alert('Você não habilitou, receber notificação no app.');
+      return;
+    }
+
+    // const token = await Notifications.getExpoPushTokenAsync();
+    // console.log(token)
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Evento Removido dos favoritos',
+        body: `O envento "${eventData.event_name}" foi cancelado com sucesso.`
+      },
+      trigger: null
+    })
+  }
+  const handleCallNotificationsOk = async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+
+    if (status !== 'granted') {
+      alert('Você não habilitou, receber notificação no app.');
+      return;
+    }
+
+    // const token = await Notifications.getExpoPushTokenAsync();
+    // console.log(token)
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Evento registrado',
+        body: `O envento "${eventData.event_name}" foi registrado com sucesso.`
+      },
+      trigger: null
+    })
+  }
+
+
+
 
   return (
     <View style={styles.container}>
@@ -159,7 +299,7 @@ export const DetailedCard = ({
             <Icon name="arrow-back" size={28} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Agenda de Eventos</Text>
-          <Text style={styles.headerSubtitle}>7 eventos</Text>
+          {/* <Text style={styles.headerSubtitle}>7 eventos</Text> */}
         </ImageBackground>
       </View>
       <ScrollView style={styles.scrollView}>
@@ -181,7 +321,7 @@ export const DetailedCard = ({
           <Text style={styles.sectionTitle}>Localização</Text>
           <TouchableOpacity onPress={openMaps}>
             <Text style={styles.location}>
-              {eventData.location}{" "}
+              {eventData.locationData.name} - {eventData.locationData.street}, {eventData.locationData.number}
               <Image
                 source={require("../../../assets/google map.png")}
                 style={styles.icon}
@@ -220,22 +360,40 @@ export const DetailedCard = ({
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          style={styles.buttonParticipar}
-          onPress={ handleSaveEvent}  // Call the handleSaveEvent function
-        >
-          <TextButtonDefault>Participar</TextButtonDefault>
-        </TouchableOpacity>
+        {
+          (eventFav === false) ? 
+            <TouchableOpacity
+              style={styles.buttonParticipar}
+              onPress={()=>{                
+                handleSaveEvent()
+                }}  // Call the handleSaveEvent function
+            >
+              <TextButtonDefault>Favoritar</TextButtonDefault>
+            </TouchableOpacity>            
+          :
+          <TouchableOpacity
+              style={[styles.buttonParticipar, { backgroundColor: "red" }]}
+              onPress={()=>{                
+                handleDelete(favoriteEvent)
+              }}  // Call the handleSaveEvent function
+            >
+              <TextButtonDefault>Remover dos Favoritos</TextButtonDefault>
+            </TouchableOpacity>
+            
+        }
       </ScrollView>
     </View>
   );
 };
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
     backgroundColor: "white",
-    
+
   },
   stickyHeader: {
     position: "absolute",
@@ -354,8 +512,8 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
   },
 });
 

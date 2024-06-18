@@ -18,5 +18,4 @@ export const ButtonDefaultStyle = styled.TouchableOpacity`
   align-items: center;
   padding-top: 18px;
   padding-bottom: 18px;
-
 `

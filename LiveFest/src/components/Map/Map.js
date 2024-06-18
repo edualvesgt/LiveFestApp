@@ -22,6 +22,7 @@ import { mapskey } from "../../utils/mapsApiKey";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import api from "../../service/service";
 
 export const Map = ({ route, navigation }) => {
   if (!route.params) {
@@ -66,7 +67,7 @@ export const Map = ({ route, navigation }) => {
 
   const fetchEventLocation = async () => {
     try {
-      const response = await axios.get("http://192.168.21.85:5190/api/Address");
+      const response = await api.get("/Address");
       setEventLocation(response.data);
     } catch (error) {
       console.error("Erro ao buscar localização do evento:", error);
@@ -74,20 +75,20 @@ export const Map = ({ route, navigation }) => {
   };
 
   function reloadPreviewMap() {
-    if (mapReference.current && initialPosition?.coords && eventLocation) {
+    if (mapReference.current && initialPosition.coords && eventLocation) {
       const coordinates = [
         {
           latitude: initialPosition.coords.latitude,
           longitude: initialPosition.coords.longitude,
         },
         {
-          latitude: eventLocation.latitude,
-          longitude: eventLocation.longitude,
+          latitude: latitudeEvento,
+          longitude: longitudeEvento,
         },
       ];
 
       mapReference.current.fitToCoordinates(coordinates, {
-        edgePadding: { top: 60, right: 60, bottom: 60, left: 60 },
+        edgePadding: { top: 60, right: 60, bottom: 80, left: 60 },
         animated: true,
       });
     }
@@ -116,6 +117,11 @@ export const Map = ({ route, navigation }) => {
     setShowFullDescription(!showFullDescription);
   };
 
+  useEffect(() => {
+    if (mapReference.current && initialPosition && eventLocation) {
+      reloadPreviewMap();
+    }
+  }, [initialPosition, eventLocation]);
   return (
     <View style={styles.container}>
       <View style={styles.stickyHeader}>
@@ -124,7 +130,7 @@ export const Map = ({ route, navigation }) => {
           style={styles.header}
         >
           <TouchableOpacity
-                   onPress={() => navigation.navigate("DetailedCard", { eventData : route.params.eventData })}
+            onPress={() => navigation.navigate("DetailedCard", { eventData: route.params.eventData })}
             style={styles.backButton}
           >
             <Icon name="arrow-back" size={28} color="white" />
@@ -134,10 +140,11 @@ export const Map = ({ route, navigation }) => {
       </View>
 
       {initialPosition !== null && eventLocation !== null ? (
+        <View style={{flex:1, position:"relative"}}>
         <MapView
           ref={mapReference}
           toolbarEnabled={false}
-          region={region}
+          // region={region}
           onRegionChangeComplete={(region) => setRegion(region)}
           initialRegion={{
             latitude: initialPosition.coords.latitude,
@@ -148,7 +155,7 @@ export const Map = ({ route, navigation }) => {
           provider={PROVIDER_GOOGLE}
           customMapStyle={grayMapStyle}
           style={{ flex: 1 }}
-          onMapReady={reloadPreviewMap}
+          onMapReady={()=>{reloadPreviewMap()}}
         >
           <Marker
             coordinate={{
@@ -161,21 +168,24 @@ export const Map = ({ route, navigation }) => {
           <MapViewDirections
             origin={initialPosition.coords}
             destination={{
-              latitude: eventLocation.latitude,
-              longitude: eventLocation.longitude,
+              latitude: latitudeEvento,
+              longitude: longitudeEvento,
             }}
             strokeWidth={5}
             strokeColor="#496BBA"
             apikey={mapskey}
           />
+          <Marker
+            coordinate={{
+              latitude: initialPosition.coords?.latitude,
+              longitude: initialPosition.coords?.longitude,
+            }}
+            title="Você está aqui!"
+            // description={`${dataEvento} - ${descricaoEvento}`}
+            pinColor="green"
+          />
         </MapView>
-      ) : (
-        <>
-          <Text>Localização não encontrada</Text>
-          <ActivityIndicator />
-        </>
-      )}
-      <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={openGoogleMaps}>
           <Image
             source={require("../../../assets/google map.png")}
@@ -189,6 +199,14 @@ export const Map = ({ route, navigation }) => {
           />
         </TouchableOpacity>
       </View>
+        </View>
+      ) : (
+        <>
+          <Text>Localização não encontrada</Text>
+          <ActivityIndicator />
+        </>
+      )}
+      
       <View style={styles.detalhesEvento}>
         <Text style={styles.eventoData}>{dataEvento}</Text>
         <Text style={styles.eventoNome}>{nomeEvento}</Text>
@@ -218,20 +236,20 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 40,
+    bottom: 5,
     left: 0,
-    right: 0,
-    paddingHorizontal: 20,
+    width: "100%",
+    gap: 20
   },
   button: {
     borderRadius: 25,
     backgroundColor: "white",
     padding: 10,
     elevation: 5,
-    marginBottom: 160,
+    // marginBottom: 160,
   },
   icon: {
     width: 50,
@@ -239,9 +257,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   stickyHeader: {
-    position: "absolute",
+    // position: "relative",
     width: "100%",
-    zIndex: 1,
+    // zIndex: 1,
   },
   header: {
     height: 120,

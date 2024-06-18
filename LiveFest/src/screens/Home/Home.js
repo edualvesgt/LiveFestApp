@@ -12,6 +12,8 @@ import Carrossel from "../../components/Carrosel/Carrosel";
 
 import moment from "moment";
 import { CardEvents } from "../../components/CardEvents/CardEvents";
+import { useIsFocused } from "@react-navigation/native";
+import { Entypo } from '@expo/vector-icons';
 
 
 export const Home = ({ navigation }) => {
@@ -19,6 +21,7 @@ export const Home = ({ navigation }) => {
   const [value, setValue] = useState("");
   const [dataEvents, setDataEvents] = useState(null)
   const [listEvent, setListEvent] = useState(dataEvents);
+  const isFocused = useIsFocused();
 
   async function getEvents() {
     try {
@@ -64,10 +67,9 @@ export const Home = ({ navigation }) => {
   // };
 
   const renderItem = ({ item }) => (
-    <View style={{width:"100%", alignItems:"center"}}>
-
+    <View style={{ width: "100%", alignItems: "center" }}>
       <TouchableOpacity
-        onPress={() => { }}
+        onPress={() => { navigation.navigate("DetailedCard", { dataCard: item.id }) }}
         style={{ width: "100%" }}
       >
         <CardEvents
@@ -79,7 +81,11 @@ export const Home = ({ navigation }) => {
     </View>
   );
 
-  useEffect(() => { getEvents() }, [])
+  useEffect(() => {
+    if (isFocused) {
+      getEvents()
+    }
+  }, [isFocused])
 
   return (
     <>
@@ -87,17 +93,32 @@ export const Home = ({ navigation }) => {
         <StatusBar style="auto" />
         <View style={{ width: "90%" }}>
           <TextTitle>Home</TextTitle>
-          <TextInput
-            style={[styles.input, isFocus && { borderColor: '#956ADF' }]}
-            placeholder="Buscar eventos ou cidades"
-            value={value}
-            onChangeText={(text) => filterEvents(text)}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-          />
+          <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }} >
+            <TextInput
+              style={[styles.input, isFocus && { borderColor: '#956ADF' }]}
+              placeholder="Buscar eventos ou cidades"
+              value={value}
+              onChangeText={(text) => filterEvents(text)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+
+            >
+            </TextInput>
+            { value.length > 0 && (
+              <TouchableOpacity onPress={()=> setValue('')}>
+                <Entypo
+                  name="erase"
+                  size={24}
+                  color="#956ADF"
+                  style={{ marginLeft: 20 }}
+                />
+              </TouchableOpacity>
+            )
+            }
+          </View>
           {/* <InputSearch dataEvents={dataEvents}/> */}
         </View>
-        <View style={{ width: "90%" }}>
+        <View style={{ width: "100%" }}>
           <TextTitle>Eventos principais</TextTitle>
 
           {
@@ -135,6 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   input: {
+    flex: 1,
     height: 50,
     borderColor: '#956ADF',
     borderWidth: 2,

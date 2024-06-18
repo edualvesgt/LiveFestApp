@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button, ButtonTitle, Container, ContentAccount, Input, Label, LinkBold, StyledInput, TextContentAccount, Title } from './Styles';
 import api from '../../service/service';
+import { ScrollView, View } from 'react-native';
 
 // Definição do componente de criação de conta
 export const CreateAccount = ({ navigation }) => {
@@ -212,7 +213,9 @@ export const CreateAccount = ({ navigation }) => {
     return (
         <Container>
             <Title>Cadastre-se</Title>
+            <ScrollView style={{width:"100%"}} showsVerticalScrollIndicator={false}>
 
+            <View style={{alignItems:'center'}}>
             <Input>
                 <Label>Nome completo</Label>
                 <StyledInput
@@ -290,7 +293,6 @@ export const CreateAccount = ({ navigation }) => {
                 />
                 {error.passwordConfirm && <Label style={{ color: 'red', fontSize: 14, marginTop: 63, marginLeft: -20 }}>{error.passwordConfirm}</Label>}
             </Input>
-
             <Button onPress={() => CreateAccount()} >
                 <ButtonTitle>Cadastrar</ButtonTitle>
             </Button>
@@ -301,6 +303,9 @@ export const CreateAccount = ({ navigation }) => {
                     <LinkBold onPress={RedirectToSignUp}> Faça o login</LinkBold>
                 </TextContentAccount>
             </ContentAccount>
+            </View>
+            </ScrollView>
+
         </Container>
     );
 };

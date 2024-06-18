@@ -39,6 +39,7 @@ import { Login } from "./src/screens/Login/Login";
 import { SelectedCategory } from "./src/screens/SelectedCategory/SelectedCategory";
 import { MapNearby } from "./src/screens/MapNearby/MapNearby";
 import { Home } from "./src/screens/Home/Home";
+import NearbyPoints from "./src/components/NearbyPoints/NearbyPoints";
 
 
 const Stack = createNativeStackNavigator();
@@ -101,8 +102,7 @@ export default function App() {
           name="MapNearby"
           component={MapNearby}
         />
-
-        <Stack.Screen
+         <Stack.Screen
           name="Categories"
           component={Categories}
           options={{ headerShown: false }}
@@ -122,6 +122,47 @@ export default function App() {
           component={Favorites}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PasswordRecover"
+          component={PasswordRecover}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PasswordReset"
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PasswordResetSuccessful"
+          component={PasswordResetSuccessful}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RegistrationSuccessful"
+          component={RegistrationSuccessful}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreateAccount"
+          component={CreateAccount}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EmailVerification"
+          component={EmailVerification}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VerificationCode"
+          component={VerificationCode}
+          options={{ headerShown: false }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
