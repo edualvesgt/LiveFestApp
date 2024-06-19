@@ -46,6 +46,7 @@ export const Login = ({ navigation }) => {
   }
 
   async function Login() {
+    console.log("Funcao ");
     console.log(email);
     console.log(password);
     try {
